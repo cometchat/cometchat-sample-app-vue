@@ -1,0 +1,6 @@
+.DS_Store
+.vscode/*
+node_modules/
+
+develop.sh
+cometchat-pro-vue-chat-ui-kit

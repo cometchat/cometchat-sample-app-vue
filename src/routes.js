@@ -1,36 +1,30 @@
-// routes.js
+import {
+  CometChatUI,
+  CometChatUserList,
+  CometChatGroupList,
+  CometChatConversationList,
+  CometChatUserListWithMessages,
+  CometChatGroupListWithMessages,
+  CometChatConversationListWithMessages,
+} from "./cometchat-pro-vue-chat-ui-kit/";
 
-import AppHomeComponent from './components/AppHomeComponent';
-import AppNavigationComponent from './components/AppNavigationComponent';
-import ChatContainer from './lib/cometchat-components/components/ChatContainer';
-
-import ConversationScreen from './lib/cometchat-components/components/ConversationScreen';
-import GroupScreen from './lib/cometchat-components/components/GroupScreen';
-import ContactScreen from './lib/cometchat-components/components/ContactScreen';
-
-
-import UserList from './lib/cometchat-components/components/UserList';
-import ChatList from './lib/cometchat-components/components/ChatList';
-import GroupList from './lib/cometchat-components/components/GroupList'
+import { AppHome, AppNavigation } from "./components/";
 
 const routes = [
-    { path: '/', component: AppHomeComponent },
-    { path: '/menu', component: AppNavigationComponent },
-    { path: '/embeded-app', component: ChatContainer },
+  { path: "/", component: AppHome },
+  { path: "/menu", component: AppNavigation },
+  { path: "/embedded-app", component: CometChatUI },
 
-    { path: '/conversation-screen', component: ConversationScreen },
-    { path: '/group-screen', component: GroupScreen },
-    { path: '/contact-screen', component: ContactScreen },
+  {
+    path: "/conversation-screen",
+    component: CometChatConversationListWithMessages,
+  },
+  { path: "/user-screen", component: CometChatUserListWithMessages },
+  { path: "/group-screen", component: CometChatGroupListWithMessages },
 
-
-
-
-    
-    { path: '/contact-list', component: UserList },
-    { path: '/chat-list', component: ChatList },
-    { path: '/group-list', component: GroupList }
-
-    
+  { path: "/conversation-list", component: CometChatConversationList },
+  { path: "/user-list", component: CometChatUserList },
+  { path: "/group-list", component: CometChatGroupList },
 ];
 
 export default routes;
