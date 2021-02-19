@@ -70,7 +70,7 @@ import { Emoji, Picker, EmojiIndex } from "emoji-mart-vue-fast";
 import "emoji-mart-vue-fast/css/emoji-mart.css";
 
 import {
-  STRING_MESSAGES,
+  COMETCHAT_CONSTANTS,
   DEFAULT_OBJECT_PROP,
   DEFAULT_STRING_PROP,
 } from "../../../../resources/constants";
@@ -80,6 +80,11 @@ import * as style from "./style";
 
 import reactIcon from "./resources/add-reaction.svg";
 
+/**
+ * Shows an emoji/reactions picker for a message.
+ *
+ * @displayName CometChatMessageReactions
+ */
 export default {
   name: "CometChatMessageReactions",
   components: {
@@ -87,9 +92,22 @@ export default {
     Picker,
   },
   props: {
+    /**
+     * Theme of the UI.
+     */
     theme: { ...DEFAULT_OBJECT_PROP },
+    /**
+     * The message object.
+     */
     message: { ...DEFAULT_OBJECT_PROP },
+    /**
+     * Message from.
+     * @values sender, receiver
+     */
     messageFrom: { ...DEFAULT_STRING_PROP },
+    /**
+     * Current logged in user.
+     */
     loggedInUser: { ...DEFAULT_OBJECT_PROP },
   },
   data() {
@@ -100,25 +118,37 @@ export default {
     };
   },
   computed: {
+    /**
+     * Computed styles for the component.
+     */
     styles() {
       return {
-        emojiButton: style.emojiButtonStyle(reactIcon),
-        wrapper: style.emojiWrapperStyle(this.messageFrom),
-        reactionCount: style.reactionCountStyle(this.theme),
         emojiPicker: style.emojiPickerStyle(
           this.messageFrom,
           this.bottomPos,
           this.messageReactions.length
         ),
+        emojiButton: style.emojiButtonStyle(reactIcon),
+        wrapper: style.emojiWrapperStyle(this.messageFrom),
+        reactionCount: style.reactionCountStyle(this.theme),
         addReactionStyle: style.messageReactionsStyle(this.theme, {}, {}),
       };
     },
+    /**
+     * Local string constants.
+     */
     STRINGS() {
-      return STRING_MESSAGES;
+      return COMETCHAT_CONSTANTS;
     },
+    /**
+     * Reactions present in the message.
+     */
     reactions() {
       return getExtensionsDataFromMessage(this.message, "reactions");
     },
+    /**
+     * Parsed message reactions.
+     */
     messageReactions() {
       return Object.keys(this.reactions || {}).map((key) => {
         const reactionData = this.reactions[key];
@@ -141,9 +171,9 @@ export default {
         }
 
         return {
+          name: key,
           title: reactionTitle,
           count: reactionCount,
-          name: key.replaceAll(":", ""),
           reactionStyle: style.messageReactionsStyle(
             this.theme,
             reactionData,
@@ -154,6 +184,9 @@ export default {
     },
   },
   watch: {
+    /**
+     * Positions emoji picker correctly when it is displayed.
+     */
     showEmojiPicker(newValue) {
       if (newValue) {
         this.positionPicker();
@@ -163,9 +196,15 @@ export default {
     },
   },
   methods: {
+    /**
+     * Handles emoji/reaction click
+     */
     emojiClicked(emoji) {
       this.sendReaction(emoji);
     },
+    /**
+     * Positions the picker correctly within the chat window.
+     */
     positionPicker() {
       this.$nextTick(() => {
         if (this.$refs && this.$refs.reactionPicker) {
@@ -180,6 +219,9 @@ export default {
         }
       });
     },
+    /**
+     * Toggles emoji/reactions picker.
+     */
     toggleEmojiPicker() {
       if (!this.showEmojiPicker) {
         document.addEventListener("click", this.handleOutsideClick, false);
@@ -189,6 +231,9 @@ export default {
 
       this.showEmojiPicker = !this.showEmojiPicker;
     },
+    /**
+     * Closes picker on outside click.
+     */
     handleOutsideClick(event) {
       this.$nextTick(() => {
         if (this.$refs && this.$refs.emojiPickerRef) {
@@ -206,6 +251,9 @@ export default {
         }
       });
     },
+    /**
+     * Sends the reaction.
+     */
     async sendReaction(emoji) {
       try {
         if (this.showEmojiPicker) {
@@ -217,7 +265,7 @@ export default {
           emoji: emoji.colons,
         });
       } catch (error) {
-        console.log("Message react failed with error:", error);
+        this.logError("Message react failed with error:", error);
       }
     },
   },

@@ -41,6 +41,7 @@ export const modalCloseStyle = (img) => {
 
 export const modalBodyStyle = () => {
   return {
+    overflow: "hidden auto",
     padding: "25px",
     height: "100%",
     width: "100%",
@@ -85,7 +86,8 @@ export const tableCaptionStyle = () => {
 
 export const tableBodyStyle = () => {
   return {
-    height: "calc(100% - 40px)",
+    height: "calc(100% - 64px)",
+    minHeight: "250px",
     overflowY: "auto",
     display: "block",
   };

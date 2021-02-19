@@ -58,7 +58,7 @@
           :logged-in-user="loggedInUser"
         />
         <div :style="styles.messageInfoWrapper">
-          <comet-chat-read-reciept :theme="theme" :message="parsedMessage" />
+          <comet-chat-read-receipt :theme="theme" :message="parsedMessage" />
           <comet-chat-threaded-message-reply-count
             v-bind="commonProps"
             v-if="!parentMessageId"
@@ -80,7 +80,7 @@ import {
 import { polls, cometChatCommon, cometChatBubbles } from "../../../../mixins/";
 
 import { CometChatAvatar } from "../../../Shared";
-import CometChatReadReciept from "../../CometChatReadReciept/CometChatReadReciept";
+import CometChatReadReceipt from "../../CometChatReadReceipt/CometChatReadReceipt";
 import CometChatMessageActions from "../../CometChatMessageActions/CometChatMessageActions";
 import CometChatMessageReactions from "../CometChatMessageReactions/CometChatMessageReactions";
 import CometChatThreadedMessageReplyCount from "../../CometChatThreadedMessageReplyCount/CometChatThreadedMessageReplyCount";
@@ -89,20 +89,37 @@ import * as style from "./style";
 
 import checkIcon from "./resources/check.svg";
 
+/**
+ * Message bubble for received poll messages.
+ *
+ * @displayName CometChatReceiverPollMessageBubble
+ */
 export default {
   name: "CometChatReceiverPollMessageBubble",
   mixins: [polls, cometChatCommon, cometChatBubbles],
   components: {
     CometChatAvatar,
-    CometChatReadReciept,
+    CometChatReadReceipt,
     CometChatMessageActions,
     CometChatMessageReactions,
     CometChatThreadedMessageReplyCount,
   },
   props: {
+    /**
+     * Theme of the UI.
+     */
     theme: { ...DEFAULT_OBJECT_PROP },
+    /**
+     * The message object.
+     */
     message: { ...DEFAULT_OBJECT_PROP },
+    /**
+     * Current logged in user.
+     */
     loggedInUser: { ...DEFAULT_OBJECT_PROP },
+    /**
+     * Id of parent for the message.
+     */
     parentMessageId: { ...DEFAULT_STRING_PROP },
   },
   data() {
@@ -111,6 +128,9 @@ export default {
     };
   },
   computed: {
+    /**
+     * Computed styles for the component.
+     */
     styles() {
       return {
         pollTotal: style.pollTotalStyle(),
@@ -134,6 +154,9 @@ export default {
     },
   },
   methods: {
+    /**
+     * Returns poll percentage
+     */
     getPollPercent(pollOption) {
       let width = "0%";
 
@@ -144,9 +167,15 @@ export default {
       }
       return width;
     },
+    /**
+     * Returns poll style according to percentage
+     */
     getPollPercentStyle(percent) {
       return style.pollPercentStyle(this.theme, percent);
     },
+    /**
+     * Returns answer wrapper style
+     */
     getAnswerWrapperStyle(pollOption) {
       return style.answerWrapperStyle(
         this.theme,
@@ -155,6 +184,9 @@ export default {
         checkIcon
       );
     },
+    /**
+     * Answers the poll
+     */
     async answerPoll(selectedOption) {
       try {
         const message = await CometChat.callExtension(
@@ -169,7 +201,7 @@ export default {
 
         this.emitAction("pollAnswered", { message });
       } catch (error) {
-        console.log("answerPoll error", error);
+        this.logError("answerPoll error", error);
       }
     },
   },

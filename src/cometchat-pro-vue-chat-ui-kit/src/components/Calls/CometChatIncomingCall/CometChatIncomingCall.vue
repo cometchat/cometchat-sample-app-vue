@@ -47,7 +47,7 @@
 import { CometChat } from "@cometchat-pro/chat";
 
 import {
-  STRING_MESSAGES,
+  COMETCHAT_CONSTANTS,
   DEFAULT_OBJECT_PROP,
 } from "../../../resources/constants";
 
@@ -71,12 +71,23 @@ import { incomingCallAlert } from "../../../resources/audio/";
 let incomingAlert;
 let callAlertManager;
 
+/**
+ * Displays the incoming call alert.
+ *
+ * @displayName CometChatIncomingCall
+ */
 export default {
   name: "CometChatIncomingCall",
   mixins: [propertyCheck, cometChatCommon],
   components: { CometChatAvatar },
   props: {
+    /**
+     * Theme of the UI.
+     */
     theme: { ...DEFAULT_OBJECT_PROP },
+    /**
+     * The call object that is in progress.
+     */
     callInProgress: { ...DEFAULT_OBJECT_PROP },
   },
   data() {
@@ -85,13 +96,11 @@ export default {
     };
   },
   computed: {
+    /**
+     * Computed styles for the component.
+     */
     styles() {
       return {
-        incomingCallWrapper: style.incomingCallWrapperStyle(
-          this.theme,
-          {}, // widgetsettings opted out
-          this.hasProperty
-        ),
         name: style.nameStyle(),
         callType: style.callTypeStyle(),
         thumbnail: style.thumbnailStyle(),
@@ -101,48 +110,80 @@ export default {
         headerWrapper: style.headerWrapperStyle(),
         acceptButton: style.buttonStyle(this.theme, true),
         declineButton: style.buttonStyle(this.theme, false),
+        incomingCallWrapper: style.incomingCallWrapperStyle(this.theme),
       };
     },
+    /**
+     * Imported icon images.
+     */
     icons() {
       return {
         audio: audioCallIcon,
         video: videoCallIcon,
       };
     },
+    /**
+     * Local string constants.
+     */
     STRINGS() {
-      return STRING_MESSAGES;
+      return COMETCHAT_CONSTANTS;
     },
   },
   methods: {
+    /**
+     * Plays the incoming alert tone
+     */
     playIncomingAlert() {
-      incomingAlert.currentTime = 0;
-      if (typeof incomingAlert.loop == "boolean") {
-        incomingAlert.loop = true;
-      } else {
-        incomingAlert.addEventListener(
-          "ended",
-          function () {
-            this.currentTime = 0;
-            this.play();
-          },
-          false
-        );
+      try {
+        incomingAlert.currentTime = 0;
+        if (typeof incomingAlert.loop == "boolean") {
+          incomingAlert.loop = true;
+        } else {
+          incomingAlert.addEventListener(
+            "ended",
+            function () {
+              this.currentTime = 0;
+              this.play();
+            },
+            false
+          );
+        }
+        incomingAlert.play();
+      } catch (error) {
+        this.logError("Error playing incoming alert", error);
       }
-      incomingAlert.play();
     },
-
+    /**
+     * Pauses the incoming call alert
+     */
     pauseIncomingAlert() {
-      incomingAlert.pause();
-    },
-    markMessageAsRead(message) {
-      const receiverType = message.receiverType;
-      const receiverId =
-        receiverType === "user" ? message.sender.uid : message.receiverId;
-
-      if (this.hasProperty(message, "readAt") === false) {
-        CometChat.markAsRead(message.id, receiverId, receiverType);
+      try {
+        incomingAlert.pause();
+      } catch (error) {
+        this.logError("Error pausing incoming alert", error);
       }
     },
+    /**
+     * Marks a message as read
+     */
+    markMessageAsRead(message) {
+      try {
+        const receiverType = message.receiverType;
+        const receiverId =
+          receiverType === CometChat.RECEIVER_TYPE.USER
+            ? message.sender.uid
+            : message.receiverId;
+
+        if (this.hasProperty(message, "readAt") === false) {
+          CometChat.markAsRead(message.id, receiverId, receiverType);
+        }
+      } catch (error) {
+        this.logError("Error marking message as read", error);
+      }
+    },
+    /**
+     * Function to recieve incoming call
+     */
     async incomingCallReceived(incomingCall) {
       const activeCall = CometChat.getActiveCall();
 
@@ -160,25 +201,39 @@ export default {
           });
         } catch (error) {
           this.emitAction("callError", { error });
-          console.log("Call rejection failed with error:", error);
+          this.logError("Call rejection failed with error:", error);
         }
       } else if (this.incomingCall === null) {
-        this.playIncomingAlert();
+        try {
+          this.playIncomingAlert();
 
-        if (incomingCall.sender.avatar === false) {
-          const uid = incomingCall.sender.uid;
-          const char = incomingCall.sender.name.charAt(0).toUpperCase();
+          if (incomingCall.sender.avatar === false) {
+            const uid = incomingCall.sender.uid;
+            const char = incomingCall.sender.name.charAt(0).toUpperCase();
 
-          incomingCall.sender.avatar = SvgAvatar.getAvatar(uid, char);
+            incomingCall.sender.avatar = SvgAvatar.getAvatar(uid, char);
+          }
+
+          this.incomingCall = incomingCall;
+        } catch (error) {
+          this.logError("Call rejection failed with error:", error);
         }
-
-        this.incomingCall = incomingCall;
       }
     },
+    /**
+     * Function to cancel incoming call
+     */
     incomingCallCancelled() {
-      this.pauseIncomingAlert();
-      this.incomingCall = null;
+      try {
+        this.pauseIncomingAlert();
+        this.incomingCall = null;
+      } catch (error) {
+        this.logError("Call cancel failed with error:", error);
+      }
     },
+    /**
+     * Function to reject incoming call
+     */
     async rejectCall() {
       this.pauseIncomingAlert();
 
@@ -198,16 +253,26 @@ export default {
         this.incomingCall = null;
       }
     },
+    /**
+     * Function to accept call
+     */
     acceptCall() {
-      this.pauseIncomingAlert();
-      this.emitAction("acceptIncomingCall", {
-        incomingCall: this.incomingCall,
-      });
+      try {
+        this.pauseIncomingAlert();
+        this.emitAction("acceptIncomingCall", {
+          incomingCall: this.incomingCall,
+        });
 
-      setTimeout(() => {
-        this.incomingCall = null;
-      }, 100);
+        setTimeout(() => {
+          this.incomingCall = null;
+        }, 100);
+      } catch (error) {
+        this.logError("Call accept failed with error:", error);
+      }
     },
+    /**
+     * This function handles the call listeners
+     */
     callScreenUpdateHandler(key, call) {
       switch (key) {
         case enums.INCOMING_CALL_RECEIVED:

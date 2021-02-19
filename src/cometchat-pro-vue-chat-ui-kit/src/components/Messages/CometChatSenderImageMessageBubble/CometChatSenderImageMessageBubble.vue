@@ -36,7 +36,7 @@
         v-if="!parentMessageId"
         @action="actionHandler"
       />
-      <comet-chat-read-reciept :theme="theme" :message="parsedMessage" />
+      <comet-chat-read-receipt :theme="theme" :message="parsedMessage" />
     </div>
   </div>
 </template>
@@ -52,7 +52,7 @@ import {
   thumbnailGeneration,
 } from "../../../mixins/";
 
-import CometChatReadReciept from "../CometChatReadReciept/CometChatReadReciept";
+import CometChatReadReceipt from "../CometChatReadReceipt/CometChatReadReceipt";
 import CometChatMessageActions from "../CometChatMessageActions/CometChatMessageActions";
 import CometChatMessageReactions from "../Extensions/CometChatMessageReactions/CometChatMessageReactions";
 import CometChatThreadedMessageReplyCount from "../CometChatThreadedMessageReplyCount/CometChatThreadedMessageReplyCount";
@@ -61,21 +61,40 @@ import * as style from "./style";
 
 import srcIcon from "./resources/1px.png";
 
+/**
+ * Message bubble for sent image messages.
+ *
+ * @displayName CometChatSenderImageMessageBubble
+ */
 export default {
   name: "CometChatSenderImageMessageBubble",
   mixins: [cometChatCommon, cometChatBubbles, thumbnailGeneration],
   components: {
-    CometChatReadReciept,
+    CometChatReadReceipt,
     CometChatMessageActions,
     CometChatMessageReactions,
     CometChatThreadedMessageReplyCount,
   },
   props: {
+    /**
+     * The selected chat item object.
+     */
     item: { ...DEFAULT_OBJECT_PROP },
+    /**
+     * Theme of the UI.
+     */
     theme: { ...DEFAULT_OBJECT_PROP },
+    /**
+     * The message object.
+     */
     message: { ...DEFAULT_OBJECT_PROP },
+    /**
+     * Current logged in user.
+     */
     loggedInUser: { ...DEFAULT_OBJECT_PROP },
-    widgetconfig: { ...DEFAULT_OBJECT_PROP },
+    /**
+     * Id of parent for the message.
+     */
     parentMessageId: { ...DEFAULT_STRING_PROP },
   },
   data() {
@@ -86,6 +105,9 @@ export default {
     };
   },
   computed: {
+    /**
+     * Computed styles for the component.
+     */
     styles() {
       return {
         img: style.messageImg(),

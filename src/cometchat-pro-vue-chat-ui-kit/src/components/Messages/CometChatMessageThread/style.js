@@ -62,7 +62,7 @@ export const headerNameStyle = () => {
 export const headerCloseStyle = (img) => {
   return {
     cursor: "pointer",
-    background: `url(${img}) center center no-repeat`,
+    background: `url(${img}) center center / 18px no-repeat`,
     width: "24px",
     height: "24px",
   };
@@ -80,14 +80,6 @@ export const messageContainerStyle = () => {
     zIndex: "100",
     minHeight: "calc(100% - 68px)",
     order: "2",
-    // ".chat__list": {
-    //   minHeight: "250px",
-    //   ".list__wrapper": {
-    //     "::-webkit-scrollbar": {
-    //       display: "none",
-    //     },
-    //   },
-    // },
   };
 };
 

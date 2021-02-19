@@ -2,6 +2,14 @@ import { CometChat } from "@cometchat-pro/chat";
 
 import * as enums from "../../../util/enums.js";
 
+/**
+ * ConversationListManager class encapsulates the following functionality:
+ * - fetching of conversation list
+ * - attaching Call listeners
+ * - attaching User listeners
+ * - attaching Group listeners
+ * - attaching Message listeners
+ */
 export class ConversationListManager {
   conversationRequest = null;
 

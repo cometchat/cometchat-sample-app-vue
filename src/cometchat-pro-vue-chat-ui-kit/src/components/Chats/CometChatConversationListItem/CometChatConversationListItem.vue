@@ -52,7 +52,7 @@ import dateFormat from "dateformat";
 import { CometChat } from "@cometchat-pro/chat";
 
 import {
-  STRING_MESSAGES,
+  COMETCHAT_CONSTANTS,
   DEFAULT_OBJECT_PROP,
 } from "../../../resources/constants";
 
@@ -67,6 +67,11 @@ import {
 
 import * as style from "./style";
 
+/**
+ * The conversation item for conversation list.
+ *
+ * @displayName CometChatConversationListItem
+ */
 export default {
   name: "CometChatConversationListItem",
   mixins: [tooltip, propertyCheck, cometChatCommon],
@@ -76,13 +81,31 @@ export default {
     CometChatUserPresence,
   },
   props: {
+    /**
+     * Theme of the UI.
+     */
     theme: { ...DEFAULT_OBJECT_PROP },
+    /**
+     * @ignore
+     */
     config: { ...DEFAULT_OBJECT_PROP },
+    /**
+     * Current logged in user.
+     */
     loggedInUser: { ...DEFAULT_OBJECT_PROP },
+    /**
+     * Current conversation object.
+     */
     conversation: { ...DEFAULT_OBJECT_PROP },
+    /**
+     * Selected conversation object.
+     */
     selectedConversation: { ...DEFAULT_OBJECT_PROP },
   },
   computed: {
+    /**
+     * Computed styles for the component.
+     */
     styles() {
       return {
         list: style.listItem(
@@ -100,12 +123,18 @@ export default {
     },
   },
   methods: {
+    /**
+     * Handles item click
+     */
     itemClickHandler() {
       this.emitEvent("click", {
         item: this.conversation.conversationWith,
         type: this.conversation.conversationType,
       });
     },
+    /**
+     * Gets SVG avatar
+     */
     getAvatar() {
       let avatar;
       if (this.conversation.conversationType === "user") {
@@ -115,6 +144,9 @@ export default {
       }
       return avatar;
     },
+    /**
+     * Gets last message time
+     */
     getLastMessageTime() {
       if (!this.conversation) {
         return false;
@@ -140,7 +172,7 @@ export default {
       if (diffTimestamp < 24 * 60 * 60 * 1000) {
         timestamp = dateFormat(messageTimestamp, "shortTime");
       } else if (diffTimestamp < 48 * 60 * 60 * 1000) {
-        timestamp = STRING_MESSAGES.YESTERDAY;
+        timestamp = COMETCHAT_CONSTANTS.YESTERDAY;
       } else if (diffTimestamp < 7 * 24 * 60 * 60 * 1000) {
         timestamp = dateFormat(messageTimestamp, "dddd");
       } else {
@@ -158,8 +190,8 @@ export default {
       if (this.hasProperty(lastMessage, "deletedAt")) {
         message =
           this.loggedInUser.uid === lastMessage.sender.uid
-            ? STRING_MESSAGES.YOU_DELETED_THIS_MESSAGE
-            : STRING_MESSAGES.THIS_MESSAGE_DELETED;
+            ? COMETCHAT_CONSTANTS.YOU_DELETED_THIS_MESSAGE
+            : COMETCHAT_CONSTANTS.THIS_MESSAGE_DELETED;
       } else {
         switch (lastMessage.category) {
           case "message":
@@ -187,22 +219,22 @@ export default {
           message = lastMessage.text;
           break;
         case CometChat.MESSAGE_TYPE.MEDIA:
-          message = STRING_MESSAGES.MEDIA_MESSAGE;
+          message = COMETCHAT_CONSTANTS.MEDIA_MESSAGE;
           break;
         case CometChat.MESSAGE_TYPE.IMAGE:
-          message = STRING_MESSAGES.MESSAGE_IMAGE;
+          message = COMETCHAT_CONSTANTS.MESSAGE_IMAGE;
           break;
         case CometChat.MESSAGE_TYPE.FILE:
-          message = STRING_MESSAGES.MESSAGE_FILE;
+          message = COMETCHAT_CONSTANTS.MESSAGE_FILE;
           break;
         case CometChat.MESSAGE_TYPE.VIDEO:
-          message = STRING_MESSAGES.MESSAGE_VIDEO;
+          message = COMETCHAT_CONSTANTS.MESSAGE_VIDEO;
           break;
         case CometChat.MESSAGE_TYPE.AUDIO:
-          message = STRING_MESSAGES.MESSAGE_AUDIO;
+          message = COMETCHAT_CONSTANTS.MESSAGE_AUDIO;
           break;
         case CometChat.MESSAGE_TYPE.CUSTOM:
-          message = STRING_MESSAGES.CUSTOM_MESSAGE;
+          message = COMETCHAT_CONSTANTS.CUSTOM_MESSAGE;
           break;
         default:
           break;
@@ -216,10 +248,10 @@ export default {
 
       switch (type) {
         case CometChat.MESSAGE_TYPE.VIDEO:
-          message = STRING_MESSAGES.VIDEO_CALL;
+          message = COMETCHAT_CONSTANTS.VIDEO_CALL;
           break;
         case CometChat.MESSAGE_TYPE.AUDIO:
-          message = STRING_MESSAGES.AUDIO_CALL;
+          message = COMETCHAT_CONSTANTS.AUDIO_CALL;
           break;
         default:
           break;
@@ -231,13 +263,13 @@ export default {
       let message = "";
       switch (lastMessage.type) {
         case enums.CUSTOM_TYPE_POLL:
-          message = STRING_MESSAGES.CUSTOM_MESSAGE_POLL;
+          message = COMETCHAT_CONSTANTS.CUSTOM_MESSAGE_POLL;
           break;
         case enums.CUSTOM_TYPE_STICKER:
-          message = STRING_MESSAGES.CUSTOM_MESSAGE_STICKER;
+          message = COMETCHAT_CONSTANTS.CUSTOM_MESSAGE_STICKER;
           break;
         case enums.CUSTOM_TYPE_DOCUMENT:
-          message = STRING_MESSAGES.CUSTOM_MESSAGE_DOCUMENT;
+          message = COMETCHAT_CONSTANTS.CUSTOM_MESSAGE_DOCUMENT;
           break;
         default:
           break;

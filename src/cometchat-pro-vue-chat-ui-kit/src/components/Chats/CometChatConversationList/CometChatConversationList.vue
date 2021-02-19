@@ -43,7 +43,7 @@ import { ConversationListManager } from "./controller";
 import { SvgAvatar } from "../../../util/svgavatar";
 
 import {
-  STRING_MESSAGES,
+  COMETCHAT_CONSTANTS,
   DEFAULT_OBJECT_PROP,
   DEFAULT_STRING_PROP,
   DEFAULT_BOOLEAN_PROP,
@@ -63,6 +63,11 @@ import * as style from "./style";
 
 let conversationListManager;
 
+/**
+ * Displays a list of conversation.
+ *
+ * @displayName CometChatConversationList
+ */
 export default {
   name: "CometChatConversationList",
   mixins: [propertyCheck, cometChatCommon],
@@ -70,25 +75,58 @@ export default {
     CometChatConversationListItem,
   },
   props: {
+    /**
+     * The selected chat item object.
+     */
     item: { ...DEFAULT_OBJECT_PROP },
+    /**
+     * Type of chat item.
+     */
     type: { ...DEFAULT_STRING_PROP },
+    /**
+     * Theme of the UI.
+     */
     theme: { ...DEFAULT_OBJECT_PROP },
+    /**
+     * @ignore
+     */
     config: { ...DEFAULT_OBJECT_PROP },
+    /**
+     * The last message object in conversation.
+     */
     lastMessage: { ...DEFAULT_OBJECT_PROP },
+    /**
+     * The group selected to leave.
+     */
     groupToLeave: { ...DEFAULT_OBJECT_PROP },
+    /**
+     * The group selected to update.
+     */
     groupToUpdate: { ...DEFAULT_OBJECT_PROP },
+    /**
+     * The group selected to delete.
+     */
     groupToDelete: { ...DEFAULT_OBJECT_PROP },
+    /**
+     * Shows/hides the close menu button.
+     */
     enableCloseMenu: { ...DEFAULT_BOOLEAN_PROP },
+    /**
+     * The message marked to be read.
+     */
     messageToMarkRead: { ...DEFAULT_OBJECT_PROP },
   },
   data() {
     return {
       conversationList: [],
       selectedConversation: null,
-      decoratorMessage: STRING_MESSAGES.LOADING_MESSSAGE,
+      decoratorMessage: COMETCHAT_CONSTANTS.LOADING_MESSSAGE,
     };
   },
   watch: {
+    /**
+     * One true watcher that updates state on props update.
+     */
     propsWatcher: {
       handler(_, prevProps) {
         const previousItem = JSON.stringify(prevProps.item);
@@ -264,10 +302,7 @@ export default {
               this.conversationList = conversationList;
             }
           } catch (error) {
-            console.log(
-              "This is an error in converting message to conversation",
-              error
-            );
+            this.logError("Error in converting message to conversation", error);
           }
         }
 
@@ -296,9 +331,15 @@ export default {
     },
   },
   computed: {
+    /**
+     * Theme computed using default theme and theme coming from prop.
+     */
     themeValue() {
       return Object.assign({}, theme, this.theme || {});
     },
+    /**
+     * Computed styles for the component.
+     */
     styles() {
       return {
         msg: style.chatsMsgStyle(),
@@ -310,6 +351,9 @@ export default {
         headerTitle: style.chatsHeaderTitleStyle(this.enableCloseMenu),
       };
     },
+    /**
+     * Computed object, made of props, for watcher.
+     */
     propsWatcher() {
       return {
         item: this.item,
@@ -320,25 +364,47 @@ export default {
         messageToMarkRead: this.messageToMarkRead,
       };
     },
+    /**
+     * Local string constants.
+     */
     STRINGS() {
-      return STRING_MESSAGES;
+      return COMETCHAT_CONSTANTS;
     },
   },
   methods: {
+    /**
+     * Handles menu close click
+     */
     menuCloseHandler() {
       this.emitAction("closeMenuClicked");
     },
+    /**
+     * Handles conversation item click
+     */
     conversationClickHandler({ item, type }) {
       this.emitAction("item-click", { item, type });
     },
+    /**
+     * Handles conversation list scroll
+     */
     conversationScrollHandler(elem) {
-      if (
-        elem.target.offsetHeight + elem.target.scrollTop >=
-        elem.target.scrollHeight - 20
-      ) {
-        this.getConversations();
+      try {
+        if (
+          elem.target.offsetHeight + elem.target.scrollTop >=
+          elem.target.scrollHeight - 20
+        ) {
+          this.getConversations();
+        }
+      } catch (error) {
+        this.logError(
+          "[CometChatConversationList] conversations scroll error",
+          error
+        );
       }
     },
+    /**
+     * Gets all conversations
+     */
     async getConversations(clear = false) {
       try {
         const user = await new CometChatManager().getLoggedInUser();
@@ -352,7 +418,7 @@ export default {
         const conversations = await conversationListManager.fetchNextConversation();
 
         if (conversations.length === 0) {
-          this.decoratorMessage = STRING_MESSAGES.NO_CHATS_FOUND;
+          this.decoratorMessage = COMETCHAT_CONSTANTS.NO_CHATS_FOUND;
         }
 
         conversations.forEach((conversation) => {
@@ -390,14 +456,16 @@ export default {
           this.conversationList = [...this.conversationList, ...conversations];
         }
       } catch (error) {
-        this.decoratorMessage = STRING_MESSAGES.ERROR_LOADING_CHATS;
-        console.log(
+        this.decoratorMessage = COMETCHAT_CONSTANTS.ERROR_LOADING_CHATS;
+        this.logError(
           "[CometChatConversationList] getConversations error",
           error
         );
       }
     },
-
+    /**
+     * Creates a message for conversation
+     */
     makeConversation(message) {
       return new Promise((resolve, reject) => {
         CometChat.CometChatHelper.getConversationFromMessage(message)
@@ -422,42 +490,61 @@ export default {
           .catch((error) => reject(error));
       });
     },
+    /**
+     * Makes unread message count
+     */
     makeUnreadMessageCount(conversation = {}, operator) {
-      if (Object.keys(conversation).length === 0) {
-        return 1;
-      }
-
-      let unreadMessageCount = parseInt(conversation.unreadMessageCount);
-
-      if (
-        this.selectedConversation &&
-        this.selectedConversation.conversationId === conversation.conversationId
-      ) {
-        unreadMessageCount = 0;
-      } else if (
-        (this.item &&
-          this.hasProperty(this.item, "guid") &&
-          this.hasProperty(conversation.conversationWith, "guid") &&
-          this.item.guid === conversation.conversationWith.guid) ||
-        (this.item &&
-          this.hasProperty(this.item, "uid") &&
-          this.hasProperty(conversation.conversationWith, "uid") &&
-          this.item.uid === conversation.conversationWith.uid)
-      ) {
-        unreadMessageCount = 0;
-      } else {
-        if (operator && operator === "decrement") {
-          unreadMessageCount = unreadMessageCount ? unreadMessageCount - 1 : 0;
-        } else {
-          unreadMessageCount = unreadMessageCount + 1;
+      try {
+        if (Object.keys(conversation).length === 0) {
+          return 1;
         }
-      }
 
-      return unreadMessageCount;
+        let unreadMessageCount = parseInt(conversation.unreadMessageCount);
+
+        if (
+          this.selectedConversation &&
+          this.selectedConversation.conversationId ===
+            conversation.conversationId
+        ) {
+          unreadMessageCount = 0;
+        } else if (
+          (this.item &&
+            this.hasProperty(this.item, "guid") &&
+            this.hasProperty(conversation.conversationWith, "guid") &&
+            this.item.guid === conversation.conversationWith.guid) ||
+          (this.item &&
+            this.hasProperty(this.item, "uid") &&
+            this.hasProperty(conversation.conversationWith, "uid") &&
+            this.item.uid === conversation.conversationWith.uid)
+        ) {
+          unreadMessageCount = 0;
+        } else {
+          if (operator && operator === "decrement") {
+            unreadMessageCount = unreadMessageCount
+              ? unreadMessageCount - 1
+              : 0;
+          } else {
+            unreadMessageCount = unreadMessageCount + 1;
+          }
+        }
+
+        return unreadMessageCount;
+      } catch (error) {
+        this.logError(
+          "[CometChatConversationList] unreadMessageCount error",
+          error
+        );
+      }
     },
+    /**
+     * Makes last message
+     */
     makeLastMessage(message) {
       return Object.assign({}, message);
     },
+    /**
+     * Sets SVG avatar
+     */
     setAvatar(conversation) {
       if (
         conversation.conversationType === "user" &&
@@ -477,30 +564,40 @@ export default {
         return SvgAvatar.getAvatar(guid, char);
       }
     },
+    /**
+     * Handles update of user online/offline
+     */
     updateUser(user) {
-      const conversations = [...this.conversationList];
+      try {
+        const conversations = [...this.conversationList];
 
-      const conversationKey = conversations.findIndex(
-        (conversation) =>
-          conversation.conversationType === "user" &&
-          conversation.conversationWith.uid === user.uid
-      );
+        const conversationKey = conversations.findIndex(
+          (conversation) =>
+            conversation.conversationType === "user" &&
+            conversation.conversationWith.uid === user.uid
+        );
 
-      if (conversationKey > -1) {
-        let conversation = { ...conversations[conversationKey] };
-        let conversationWith = {
-          ...conversation.conversationWith,
-          status: user.getStatus(),
-        };
+        if (conversationKey > -1) {
+          let conversation = { ...conversations[conversationKey] };
+          let conversationWith = {
+            ...conversation.conversationWith,
+            status: user.getStatus(),
+          };
 
-        let newConversation = {
-          ...conversation,
-          conversationWith: conversationWith,
-        };
-        conversations.splice(conversationKey, 1, newConversation);
-        this.conversationList = conversations;
+          let newConversation = {
+            ...conversation,
+            conversationWith: conversationWith,
+          };
+          conversations.splice(conversationKey, 1, newConversation);
+          this.conversationList = conversations;
+        }
+      } catch (error) {
+        this.logError("[CometChatConversationList] updateUser error", error);
       }
     },
+    /**
+     * Updates conversation on message/call receive
+     */
     async updateConversation(message, notification = true) {
       try {
         const {
@@ -538,12 +635,12 @@ export default {
           this.playAudio(message);
         }
       } catch (error) {
-        console.log(
-          "This is an error in converting message to conversation",
-          error
-        );
+        this.logError("Error in converting message to conversation", error);
       }
     },
+    /**
+     * Handles message edit/delete
+     */
     async conversationEditedDeleted(message) {
       try {
         const {
@@ -569,12 +666,12 @@ export default {
           }
         }
       } catch (error) {
-        console.log(
-          "This is an error in converting message to conversation",
-          error
-        );
+        this.logError("Error in converting message to conversation", error);
       }
     },
+    /**
+     * Handles group member add
+     */
     async updateGroupMemberAdded(message, options) {
       try {
         const {
@@ -638,12 +735,12 @@ export default {
           this.playAudio(message);
         }
       } catch (error) {
-        console.log(
-          "This is an error in converting message to conversation",
-          error
-        );
+        this.logError("Error in converting message to conversation", error);
       }
     },
+    /**
+     * Handles group member remove
+     */
     async updateGroupMemberRemoved(message, options) {
       try {
         const {
@@ -684,13 +781,12 @@ export default {
           }
         }
       } catch (error) {
-        console.log(
-          "This is an error in converting message to conversation",
-          error
-        );
+        this.logError("Error in converting message to conversation", error);
       }
     },
-
+    /**
+     * Handles group member scope change
+     */
     async updateGroupMemberScopeChanged(message, options) {
       try {
         const {
@@ -730,13 +826,12 @@ export default {
           this.playAudio(message);
         }
       } catch (error) {
-        console.log(
-          "This is an error in converting message to conversation",
-          error
-        );
+        this.logError("Error in converting message to conversation", error);
       }
     },
-
+    /**
+     * Handles group memer add/unban
+     */
     async updateGroupMemberChanged(message, options, operator) {
       try {
         const {
@@ -777,14 +872,14 @@ export default {
           }
         }
       } catch (error) {
-        console.log(
-          "This is an error in converting message to conversation",
-          error
-        );
+        this.logError("Error in converting message to conversation", error);
       }
     },
+    /**
+     * Handles listeners for conversation
+     */
     conversationsUpdateHandler(key, item, message, options) {
-      console.log("CometChatConversationList: conversationsUpdateHandler", {
+      this.logInfo("CometChatConversationList: conversationsUpdateHandler", {
         key,
         item,
         message,
@@ -829,16 +924,23 @@ export default {
           break;
       }
     },
+    /**
+     * Plays incoming message alert
+     */
     playAudio(message) {
-      if (
-        message.category === enums.CATEGORY_ACTION &&
-        message.type === enums.ACTION_TYPE_GROUPMEMBER
-      ) {
-        return false;
-      }
+      try {
+        if (
+          message.category === enums.CATEGORY_ACTION &&
+          message.type === enums.ACTION_TYPE_GROUPMEMBER
+        ) {
+          return false;
+        }
 
-      this.audio.currentTime = 0;
-      this.audio.play();
+        this.audio.currentTime = 0;
+        this.audio.play();
+      } catch (error) {
+        this.logError("Error playing audio", error);
+      }
     },
     createManager() {
       conversationListManager = new ConversationListManager();

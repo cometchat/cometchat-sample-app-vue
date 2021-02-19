@@ -1,7 +1,7 @@
 <div style="width:100%">
     <div style="width:50%;">
         <div align="center">
-       <a> <img align="center" width="180" height="180" alt="CometChat" src="./images/logo.png"> </a>  
+       <a> <img align="center" width="180" height="180" alt="CometChat" src="./Screenshots/logo.png"> </a>  
         </div>    
     </div>    
 </div>
@@ -21,7 +21,7 @@
 <div style="width:100%">
     <div style="width:50%; display:inline-block">
         <div align="center">
-          <img align="left" alt="Main" src="./images/main.png">    
+          <img align="left" alt="Main" src="./Screenshots/main.png">    
         </div>    
     </div>    
 </div>
@@ -63,7 +63,7 @@ Simply clone/ download this project.
 
 # Setting up the sample app
 
-- Obtain your `APP_ID`, `AUTH_KEY` and `REGION` from [CometChat-Pro Dashboard](https://app.cometchat.io/)
+- Obtain your `APP_ID`, `AUTH_KEY` and `REGION` from [CometChat Dashboard](https://app.cometchat.com/)
   
 - Navigate to root directory and replace `APP_ID`, `AUTH_KEY` and `REGION` in `src/CONSTS.js`
 
@@ -81,7 +81,7 @@ Simply clone/ download this project.
    ``` 
   
 
-# Learn more about UI-Kit
+# Learn more about UI Kit
 
 Learn more about how to integrate [UI Kit](https://github.com/cometchat-pro/vue-chat-ui-kit) inside your app.
 
@@ -90,10 +90,9 @@ Learn more about how to integrate [UI Kit](https://github.com/cometchat-pro/vue-
 
 # Troubleshooting
 
-- To read the full dcoumentation on UI Kit integration visit our [Documentation](https://prodocs.cometchat.com/docs/vue-ui-kit) .
+- To read the full dcoumentation on UI Kit integration visit our [Documentation](https://prodocs.cometchat.com/docs/vue-ui-kit).
 
-- Facing any issues while integrating or installing the UI Kit please <a href="https://app.cometchat.io/"> connect with us via real time support present in CometChat Dashboard.</a>.
-
+- Facing any issues while integrating or installing the UI Kit please connect with us via real time support present in <a href="https://app.cometchat.com/">CometChat Dashboard.</a>
 
 
 # Contact 📪

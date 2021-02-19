@@ -1,9 +1,22 @@
 import { CometChat } from "@cometchat-pro/chat";
+import { logger } from "../util/common";
 
+/**
+ * CometChatManager class encapsulates the following functionality:
+ * - getting logged in user
+ * - blocks a list of users
+ * - unblocks a list of users
+ * - initiate a call
+ * - accept a call
+ * - reject a call
+ */
 export class CometChatManager {
   loggedInUser;
   isUserLoggedIn;
 
+  /**
+   * Gets the current logged in user
+   */
   getLoggedInUser() {
     let timerCounter = 10000;
     let timer = 0;
@@ -23,7 +36,7 @@ export class CometChatManager {
             resolve(user);
           },
           (error) => {
-            console.log(error);
+            logger("error", error);
             reject(error);
           }
         );
@@ -33,6 +46,10 @@ export class CometChatManager {
     });
   }
 
+  /**
+   * Blocks a list of users
+   * @param {*} userList
+   */
   static blockUsers = (userList) => {
     return new Promise((resolve, reject) => {
       CometChat.blockUsers(userList).then(
@@ -42,6 +59,10 @@ export class CometChatManager {
     });
   };
 
+  /**
+   * Unblocks a list of users
+   * @param {*} userList
+   */
   static unblockUsers = (userList) => {
     return new Promise((resolve, reject) => {
       CometChat.unblockUsers(userList).then(
@@ -51,6 +72,12 @@ export class CometChatManager {
     });
   };
 
+  /**
+   * Initiates a call
+   * @param {*} receiverID
+   * @param {*} receiverType
+   * @param {*} callType
+   */
   static call = (receiverID, receiverType, callType) => {
     return new Promise((resolve, reject) => {
       const call = new CometChat.Call(receiverID, callType, receiverType);
@@ -61,6 +88,12 @@ export class CometChatManager {
     });
   };
 
+  /**
+   * Initiates an audio call
+   * @param {*} receiverID
+   * @param {*} receiverType
+   * @param {*} callType
+   */
   static audioCall = (receiverID, receiverType, callType) => {
     return new Promise((resolve, reject) => {
       const call = new CometChat.Call(receiverID, callType, receiverType);
@@ -71,16 +104,10 @@ export class CometChatManager {
     });
   };
 
-  static videoCall = (receiverID, receiverType, callType) => {
-    return new Promise((resolve, reject) => {
-      const call = new CometChat.Call(receiverID, callType, receiverType);
-      CometChat.initiateCall(call).then(
-        (call) => resolve(call),
-        (error) => reject(error)
-      );
-    });
-  };
-
+  /**
+   * Accept a call
+   * @param {*} sessionId
+   */
   static acceptCall = (sessionId) => {
     return new Promise((resolve, reject) => {
       CometChat.acceptCall(sessionId).then(
@@ -90,6 +117,11 @@ export class CometChatManager {
     });
   };
 
+  /**
+   * Reject a call
+   * @param {*} sessionId
+   * @param {*} rejectStatus
+   */
   static rejectCall = (sessionId, rejectStatus) => {
     return new Promise((resolve, reject) => {
       CometChat.rejectCall(sessionId, rejectStatus).then(

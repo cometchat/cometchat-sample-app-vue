@@ -28,14 +28,28 @@ import * as style from "./style";
 
 import closeIcon from "./resources/clear.png";
 
+/**
+ * Displays a preview of available smart replies.
+ *
+ * @displayName CometChatSmartReplyPreview
+ */
 export default {
   name: "CometChatSmartReplyPreview",
   mixins: [cometChatCommon],
   props: {
+    /**
+     * Theme of the UI.
+     */
     theme: { ...DEFAULT_OBJECT_PROP },
+    /**
+     * An array of smart reply options.
+     */
     options: { ...DEFAULT_ARRAY_PROP },
   },
   computed: {
+    /**
+     * Computed styles for the component.
+     */
     styles() {
       return {
         previewHeading: style.previewHeadingStyle(),

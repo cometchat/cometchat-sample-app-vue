@@ -79,7 +79,7 @@
           :logged-in-user="loggedInUser"
         />
         <div :style="styles.messageInfoWrapper">
-          <comet-chat-read-reciept :theme="theme" :message="parsedMessage" />
+          <comet-chat-read-receipt :theme="theme" :message="parsedMessage" />
           <comet-chat-threaded-message-reply-count
             v-bind="commonProps"
             v-if="!parentMessageId"
@@ -106,30 +106,52 @@ import {
 import { linkify } from "../../../util/common";
 
 import { CometChatAvatar } from "../../Shared";
-import CometChatReadReciept from "../CometChatReadReciept/CometChatReadReciept";
+import CometChatReadReceipt from "../CometChatReadReceipt/CometChatReadReceipt";
 import CometChatMessageActions from "../CometChatMessageActions/CometChatMessageActions";
 import CometChatMessageReactions from "../Extensions/CometChatMessageReactions/CometChatMessageReactions";
 import CometChatThreadedMessageReplyCount from "../CometChatThreadedMessageReplyCount/CometChatThreadedMessageReplyCount";
 
 import * as style from "./style";
 
+/**
+ * Message bubble for received text messages.
+ *
+ * @displayName CometChatReceiverTextMessageBubble
+ */
 export default {
   name: "CometChatReceiverTextMessageBubble",
   mixins: [cometChatCommon, cometChatMessage, cometChatBubbles],
   components: {
     CometChatAvatar,
-    CometChatReadReciept,
+    CometChatReadReceipt,
     CometChatMessageActions,
     CometChatMessageReactions,
     CometChatThreadedMessageReplyCount,
   },
   props: {
+    /**
+     * The selected chat item object.
+     */
     item: { ...DEFAULT_OBJECT_PROP },
+    /**
+     * Type of chat item.
+     */
     type: { ...DEFAULT_STRING_PROP },
+    /**
+     * Theme of the UI.
+     */
     theme: { ...DEFAULT_OBJECT_PROP },
+    /**
+     * The message object.
+     */
     message: { ...DEFAULT_OBJECT_PROP },
+    /**
+     * Current logged in user.
+     */
     loggedInUser: { ...DEFAULT_OBJECT_PROP },
-    widgetconfig: { ...DEFAULT_OBJECT_PROP },
+    /**
+     * Id of parent for the message.
+     */
     parentMessageId: { ...DEFAULT_STRING_PROP },
   },
   data() {
@@ -138,6 +160,9 @@ export default {
     };
   },
   computed: {
+    /**
+     * Computed styles for the component.
+     */
     styles() {
       return {
         messageText: style.messageTextStyle(
@@ -171,6 +196,9 @@ export default {
     },
   },
   methods: {
+    /**
+     * Returns parsed message text.
+     */
     getMessageText() {
       return twemoji.parse(linkify(this.parsedMessage.text), {
         folder: "svg",

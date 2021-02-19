@@ -32,14 +32,14 @@ export class MessageListManager {
   groupListenerId = "group_" + new Date().getTime();
   callListenerId = "call_" + new Date().getTime();
 
-  constructor(widgetSettings, item, type, parentMessageId) {
+  constructor(item, type, parentMessageId) {
     this.item = item;
     this.type = type;
     this.parentMessageId = parentMessageId;
 
     const messageFilterManager = new MessageFilter();
-    const categories = messageFilterManager.getCategories(widgetSettings);
-    const types = messageFilterManager.getTypes(widgetSettings);
+    const categories = messageFilterManager.getCategories();
+    const types = messageFilterManager.getTypes();
 
     if (type === "user") {
       if (this.parentMessageId) {

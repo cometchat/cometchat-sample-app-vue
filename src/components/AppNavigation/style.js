@@ -5,6 +5,7 @@ export const wrapperStyle = () => {
     alignItems: "center",
     justifyContent: "center",
     width: "100%",
+    wordBreak: "break-word",
   };
 };
 
@@ -63,7 +64,7 @@ export const boxStyle = () => {
     flex: "1",
     height: "100%",
     minWidth: "300px",
-    maxWidth: "500px"
+    maxWidth: "500px",
   };
 };
 
@@ -85,9 +86,9 @@ export const thumbnailWrapperStyle = () => {
 
 export const componentTitleStyle = () => {
   return {
-    width: "calc(100%)",
+    width: "calc(100% - 40px)",
     fontWeight: "700",
-    padding: "10px 0",
+    padding: "10px",
     margin: "0",
   };
 };

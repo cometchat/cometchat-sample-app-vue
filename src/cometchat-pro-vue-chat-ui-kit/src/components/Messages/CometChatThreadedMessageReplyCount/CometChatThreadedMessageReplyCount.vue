@@ -1,7 +1,7 @@
 <template>
   <span
+    :style="styles"
     v-if="canShowReply"
-    :style="countStyle"
     class="cometchat__replycount"
     @click="emitAction('viewMessageThread', { message })"
   >
@@ -15,34 +15,45 @@ import { cometChatCommon, propertyCheck } from "../../../mixins/";
 
 import { replyCountStyle } from "./style";
 
+/**
+ * Shows number of reply count for a given message.
+ *
+ * @displayName CometChatThreadedMessageReplyCount
+ */
 export default {
   name: "CometChatThreadedMessageReplyCount",
   mixins: [propertyCheck, cometChatCommon],
   props: {
+    /**
+     * Theme of the UI.
+     */
     theme: { ...DEFAULT_OBJECT_PROP },
+    /**
+     * The message object.
+     */
     message: { ...DEFAULT_OBJECT_PROP },
-    widgetconfig: { ...DEFAULT_OBJECT_PROP },
   },
   computed: {
-    countStyle() {
+    /**
+     * Computed styles for the component.
+     */
+    styles() {
       return replyCountStyle(this.theme);
     },
+    /**
+     * Computed reply text.
+     */
     replyText() {
       const count = this.message.replyCount;
       return `${count || "0"} ${count === 1 ? "reply" : "replies"}`;
     },
+    /**
+     * Wether reply count can be shown.
+     */
     canShowReply() {
       let replies = true;
 
       if (!this.hasProperty(this.message, "replyCount")) {
-        replies = false;
-      }
-
-      if (
-        this.widgetconfig &&
-        this.hasProperty(this.widgetconfig, "threaded-chats") &&
-        this.widgetconfig["threaded-chats"] === false
-      ) {
         replies = false;
       }
 

@@ -10,7 +10,7 @@ export { default as CometChatMessageHeader } from "./CometChatMessageHeader/Come
 export { default as CometChatMessageList } from "./CometChatMessageList/CometChatMessageList";
 export { default as CometChatMessageThread } from "./CometChatMessageThread/CometChatMessageThread";
 export { default as CometChatMessages } from "./CometChatMessages/CometChatMessages";
-export { default as CometChatReadReciept } from "./CometChatReadReciept/CometChatReadReciept";
+export { default as CometChatReadReceipt } from "./CometChatReadReceipt/CometChatReadReceipt";
 export { default as CometChatReceiverAudioMessageBubble } from "./CometChatReceiverAudioMessageBubble/CometChatReceiverAudioMessageBubble";
 export { default as CometChatReceiverFileMessageBubble } from "./CometChatReceiverFileMessageBubble/CometChatReceiverFileMessageBubble";
 export { default as CometChatReceiverImageMessageBubble } from "./CometChatReceiverImageMessageBubble/CometChatReceiverImageMessageBubble";

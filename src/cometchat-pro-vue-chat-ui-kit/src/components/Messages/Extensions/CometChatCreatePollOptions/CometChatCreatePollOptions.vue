@@ -30,15 +30,32 @@ import removeIcon from "./resources/remove.png";
 
 import * as style from "./style";
 
+/**
+ * Option view used to create polls.
+ *
+ * @displayName CometChatCreatePollOptions
+ */
 export default {
   name: "CometChatCreatePollOptions",
   mixins: [cometChatCommon],
   props: {
+    /**
+     * Option value.
+     */
     option: { ...DEFAULT_OBJECT_PROP },
+    /**
+     * Wrapper styles.
+     */
     styles: { ...DEFAULT_OBJECT_PROP },
+    /**
+     * Input styles.
+     */
     inputStyles: { ...DEFAULT_OBJECT_PROP },
   },
   computed: {
+    /**
+     * Computed styles for the component.
+     */
     pollViewStyle() {
       return {
         iconWrapper: style.iconWrapperStyle(),

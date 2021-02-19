@@ -32,13 +32,13 @@
         v-if="!parentMessageId"
         @action="actionHandler"
       />
-      <comet-chat-read-reciept :theme="theme" :message="parsedMessage" />
+      <comet-chat-read-receipt :theme="theme" :message="parsedMessage" />
     </div>
   </div>
 </template>
 <script>
 import {
-  STRING_MESSAGES,
+  COMETCHAT_CONSTANTS,
   DEFAULT_STRING_PROP,
   DEFAULT_OBJECT_PROP,
 } from "../../../../resources/constants";
@@ -49,29 +49,51 @@ import {
   cometChatBubbles,
 } from "../../../../mixins/";
 
-import CometChatReadReciept from "../../CometChatReadReciept/CometChatReadReciept";
+import CometChatReadReceipt from "../../CometChatReadReceipt/CometChatReadReceipt";
 import CometChatMessageActions from "../../CometChatMessageActions/CometChatMessageActions";
 import CometChatMessageReactions from "../CometChatMessageReactions/CometChatMessageReactions";
 import CometChatThreadedMessageReplyCount from "../../CometChatThreadedMessageReplyCount/CometChatThreadedMessageReplyCount";
 
 import * as style from "./style";
 
+/**
+ * Message bubble for sent sticker messages.
+ *
+ * @displayName CometChatSenderStickerMessageBubble
+ */
 export default {
   name: "CometChatSenderStickerMessageBubble",
   mixins: [cometChatCommon, cometChatBubbles, cometChatMessage],
   components: {
-    CometChatReadReciept,
+    CometChatReadReceipt,
     CometChatMessageActions,
     CometChatMessageReactions,
     CometChatThreadedMessageReplyCount,
   },
   props: {
+    /**
+     * The selected chat item object.
+     */
     item: { ...DEFAULT_OBJECT_PROP },
+    /**
+     * Type of chat item.
+     */
     type: { ...DEFAULT_STRING_PROP },
+    /**
+     * Theme of the UI.
+     */
     theme: { ...DEFAULT_OBJECT_PROP },
+    /**
+     * The message object.
+     */
     message: { ...DEFAULT_OBJECT_PROP },
+    /**
+     * Current logged in user.
+     */
     loggedInUser: { ...DEFAULT_OBJECT_PROP },
-    widgetconfig: { ...DEFAULT_OBJECT_PROP },
+    /**
+     * Id of parent for the message.
+     */
     parentMessageId: { ...DEFAULT_STRING_PROP },
   },
   data() {
@@ -80,6 +102,9 @@ export default {
     };
   },
   computed: {
+    /**
+     * Computed styles for the component.
+     */
     styles() {
       return {
         messageWrapper: style.messageWrapperStyle(),
@@ -92,6 +117,9 @@ export default {
         ),
       };
     },
+    /**
+     * Parses the sticker data from message.
+     */
     stickerData() {
       let data = null;
 
@@ -100,9 +128,12 @@ export default {
       }
 
       return data;
-    },
+    }
+    /**
+     * Local string constants.
+     */,
     STRINGS() {
-      return STRING_MESSAGES;
+      return COMETCHAT_CONSTANTS;
     },
   },
 };

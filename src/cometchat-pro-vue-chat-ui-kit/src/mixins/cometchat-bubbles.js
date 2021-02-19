@@ -1,7 +1,7 @@
 import dateFormat from "dateformat";
 
 import { SvgAvatar } from "../util/svgavatar";
-import { STRING_MESSAGES } from "../resources/constants";
+import { COMETCHAT_CONSTANTS } from "../resources/constants";
 
 export default {
   computed: {
@@ -9,8 +9,6 @@ export default {
       return {
         theme: this.theme,
         message: this.parsedMessage,
-        widgetconfig: this.widgetconfig,
-        widgetsettings: this.widgetsettings,
       };
     },
     parsedMessage() {
@@ -36,10 +34,14 @@ export default {
       return this.message.receiverType === "group";
     },
     STRINGS() {
-      return STRING_MESSAGES;
+      return COMETCHAT_CONSTANTS;
     },
   },
   methods: {
+    /**
+     * Handles emitted action events
+     * @param {*} event
+     */
     actionHandler(event) {
       switch (event.action) {
         case "reactToMessage":
@@ -55,35 +57,42 @@ export default {
 
       this.emitAction(event.action, { message: event.message });
     },
+    /**
+     * Positions tooltip accurately by reading DOM
+     */
     positionTooltip() {
-      this.$nextTick(() => {
-        const elem = this.$refs.messageBubbleWrapperRef;
+      try {
+        this.$nextTick(() => {
+          const elem = this.$refs.messageBubbleWrapperRef;
 
-        if (elem && elem.children) {
-          const [ul, message] = elem.children;
+          if (elem && elem.children) {
+            const [ul, message] = elem.children;
 
-          if (ul && message) {
-            const { width: ulWidth } = ul.getBoundingClientRect();
-            const { width: messageWidth } = message.getBoundingClientRect();
+            if (ul && message) {
+              const { width: ulWidth } = ul.getBoundingClientRect();
+              const { width: messageWidth } = message.getBoundingClientRect();
 
-            const setPosition = (left, right) => {
-              ul.style.left = left;
-              ul.style.right = right;
-            };
+              const setPosition = (left, right) => {
+                ul.style.left = left;
+                ul.style.right = right;
+              };
 
-            const isMessageBigger = messageWidth > ulWidth;
-            const isSender = this.messageFrom === "sender";
+              const isMessageBigger = messageWidth > ulWidth;
+              const isSender = this.messageFrom === "sender";
 
-            if (isMessageBigger) {
-              isSender ? setPosition("16px", "") : setPosition("", "16px");
-            } else {
-              isSender
-                ? setPosition("", "16px")
-                : setPosition(this.isGroup ? "62px" : "16px", "");
+              if (isMessageBigger) {
+                isSender ? setPosition("16px", "") : setPosition("", "16px");
+              } else {
+                isSender
+                  ? setPosition("", "16px")
+                  : setPosition(this.isGroup ? "62px" : "16px", "");
+              }
             }
           }
-        }
-      });
+        });
+      } catch (error) {
+        console.log("tooltip positioning failed with exception:", error);
+      }
     },
   },
   mounted() {

@@ -18,12 +18,18 @@
         v-for="(type, i) in Object.keys(components)"
       >
         <div
+          :key="i"
           :style="styles.box"
           class="kitchen-sink__box"
-          :key="i"
-          v-for="({ title, desc, href }, i) in components[type]"
+          v-for="({ title, image, desc, href }, i) in components[type]"
         >
-          <div :style="styles.titleWrapper">            
+          <div :style="styles.titleWrapper">
+            <div :style="styles.thumbnailWrapper">
+              <comet-chat-avatar
+                border-width="0px"
+                :image="`images/${image}.png`"
+              />
+            </div>
             <h2 :style="styles.componentTitle">{{ title }}</h2>
           </div>
           <div :style="styles.descWrapper">
@@ -49,12 +55,13 @@
 
 <script>
 import { CometChat } from "@cometchat-pro/chat";
-
+import { CometChatAvatar } from "../../cometchat-pro-vue-chat-ui-kit/";
 
 import * as style from "./style";
 
 export default {
-  name: "AppNavigation",  
+  name: "AppNavigation",
+  components: { CometChatAvatar },
   data() {
     return {
       components: {
@@ -62,6 +69,7 @@ export default {
           {
             title: "CometChatUI",
             href: "#/embedded-app",
+            image: "rocket",
             desc:
               "The <code>CometChatUI</code> component launches a fully working chat application.",
           },
@@ -70,18 +78,21 @@ export default {
           {
             title: "Conversations",
             href: "#/conversation-screen",
+            image: "components",
             desc:
               "The <code>CometChatConversationListWithMessages</code> component launches Conversation list with messaging.",
           },
           {
             title: "Groups",
             href: "#/group-screen",
+            image: "components",
             desc:
               "The <code>CometChatGroupListWithMessages</code> component launches Group list with messaging.",
           },
           {
             title: "Users",
             href: "#/user-screen",
+            image: "components",
             desc:
               "The <code>CometChatUserListWithMessages</code> component launches User list with messaging.",
           },
@@ -90,18 +101,21 @@ export default {
           {
             title: "Conversation List",
             href: "#/conversation-list",
+            image: "bricks",
             desc:
               "The <code>CometChatConversationList</code> component launches Conversation list.",
           },
           {
             title: "Group List",
             href: "#/group-list",
+            image: "bricks",
             desc:
               "The <code>CometChatGroupList</code> component launches Group list.",
           },
           {
             title: "User List",
             href: "#/user-list",
+            image: "bricks",
             desc:
               "The <code>CometChatUserList</code> component launches User list.",
           },
@@ -162,7 +176,6 @@ code {
 </style>
 
 <style scoped>
-
 li {
   list-style-type: none;
 }

@@ -36,7 +36,7 @@ Before you begin, ensure you have met the following requirements:
 
 - [npm](https://www.npmjs.com/get-npm)
 
-- [Vue](https://vuejs.org/)  `npm install vue@2.6.11`
+- [Vue](https://vuejs.org/)  `npm install vue@2.6.12`
 
 ___
 
@@ -56,7 +56,7 @@ ___
 ### iii. Add the CometChat dependency 📦
 
 ```javascript
-  npm install @cometchat-pro/chat@2.1.5 --save
+  npm install @cometchat-pro/chat@2.1.6 --save
 ```
 
 <br/>

@@ -27,7 +27,7 @@ export const chatSideBarBtnStyle = (img, sidebar) => {
   return {
     cursor: "pointer",
     display: "none",
-    background: `url(${img}) center center no-repeat`,
+    background: `url(${img}) 4px no-repeat`,
     padding: "20px",
     width: "24px",
     height: "24px",

@@ -70,16 +70,39 @@ import { outgoingCallAlert } from "../../../resources/audio/";
 let outgoingAlert;
 let callScreenManager;
 
+/**
+ * Displays the outgoing call window.
+ *
+ * @displayName CometChatOutgoingCall
+ */
 export default {
   name: "CometChatOutgoingCall",
   mixins: [cometChatCommon, propertyCheck],
   components: { CometChatAvatar },
   props: {
+    /**
+     * The selected chat item object.
+     */
     item: { ...DEFAULT_OBJECT_PROP },
+    /**
+     * Type of chat item.
+     */
     type: { ...DEFAULT_STRING_PROP },
+    /**
+     * Theme of the UI.
+     */
     theme: { ...DEFAULT_OBJECT_PROP },
+    /**
+     * Incoming call message object.
+     */
     incomingCall: { ...DEFAULT_OBJECT_PROP },
+    /**
+     * Outgoing call message object.
+     */
     outgoingCall: { ...DEFAULT_OBJECT_PROP },
+    /**
+     * Current logged in user.
+     */
     loggedInUser: { ...DEFAULT_OBJECT_PROP },
   },
   data() {
@@ -91,6 +114,9 @@ export default {
     };
   },
   watch: {
+    /**
+     * Updates state on outgoing call chnage.
+     */
     outgoingCall: {
       handler(newValue, oldValue) {
         if (oldValue !== newValue && newValue) {
@@ -99,7 +125,7 @@ export default {
           let call = newValue;
 
           if (
-            call.receiverType === "group" &&
+            call.receiverType === CometChat.RECEIVER_TYPE.GROUP &&
             this.hasProperty(call.receiver, "icon") === false
           ) {
             const uid = call.receiver.guid;
@@ -107,7 +133,7 @@ export default {
 
             call.receiver.icon = SvgAvatar.getAvatar(uid, char);
           } else if (
-            call.receiverType === "user" &&
+            call.receiverType === CometChat.RECEIVER_TYPE.USER &&
             this.hasProperty(call.receiver, "avatar") === false
           ) {
             const uid = call.receiver.uid;
@@ -124,6 +150,9 @@ export default {
       },
       deep: true,
     },
+    /**
+     * Accepts call when change in incoming call is detected.
+     */
     incomingCall: {
       handler(newValue, oldValue) {
         if (oldValue !== newValue && newValue) {
@@ -134,6 +163,9 @@ export default {
     },
   },
   computed: {
+    /**
+     * Computed styles for the component.
+     */
     styles() {
       return {
         header: style.headerStyle(),
@@ -151,6 +183,9 @@ export default {
     },
   },
   methods: {
+    /**
+     * Function that handles the call listeners
+     */
     callScreenUpdateHandler(key, call) {
       switch (key) {
         case enums.INCOMING_CALL_CANCELLED:
@@ -183,6 +218,9 @@ export default {
           break;
       }
     },
+    /**
+     * Function to accept call
+     */
     async acceptCall() {
       try {
         const call = await CometChatManager.acceptCall(
@@ -216,11 +254,13 @@ export default {
 
         this.startCall(call);
       } catch (error) {
-        console.log("[CometChatOutgoingCall] acceptCall -- error", error);
+        this.logError("[CometChatOutgoingCall] acceptCall -- error", error);
         this.emitAction("callError", { error });
       }
     },
-
+    /**
+     * Function to cancel call
+     */
     async cancelCall() {
       this.pauseOutgoingAlert();
 
@@ -238,6 +278,9 @@ export default {
         this.callInProgress = null;
       }
     },
+    /**
+     * Function to start call
+     */
     startCall(call) {
       this.$nextTick(() => {
         const el = this.$refs.callScreenFrame;
@@ -246,13 +289,22 @@ export default {
           el.firstChild.remove();
         }
 
+        const sessionId = call.getSessionId();
+        const audioOnly = call.type === CometChat.CALL_TYPE.AUDIO;
+
+        const callSettings = new CometChat.CallSettingsBuilder()
+          .setSessionID(sessionId)
+          .enableDefaultLayout(true)
+          .setMode(CometChat.CALL_MODE.DEFAULT)
+          .setIsAudioOnlyCall(audioOnly)
+          .build();
+
         CometChat.startCall(
-          call.getSessionId(),
+          callSettings,
           el,
           new CometChat.OngoingCallListener({
             onUserJoined: (user) => {
               /* Notification received here if another user joins the call. */
-              //console.log("User joined call:", enums.USER_JOINED, user);
               /* this method can be use to display message or perform any actions if someone joining the call */
 
               //call initiator gets the same info in outgoingcallaccpeted event
@@ -280,7 +332,6 @@ export default {
             },
             onUserLeft: (user) => {
               /* Notification received here if another user left the call. */
-              //console.log("User left call:", enums.USER_LEFT, user);
               /* this method can be use to display message or perform any actions if someone leaving the call */
 
               //call initiator gets the same info in outgoingcallaccpeted event
@@ -308,7 +359,6 @@ export default {
             },
             onCallEnded: (endedCall) => {
               /* Notification received here if current ongoing call is ended. */
-              //console.log("call ended:", enums.CALL_ENDED, call);
 
               this.showOutgoingScreen = false;
               this.callInProgress = null;
@@ -322,33 +372,56 @@ export default {
         );
       });
     },
+    /**
+     * Marks a message as read
+     */
     markMessageAsRead(message) {
-      const type = message.receiverType;
-      const id = type === "user" ? message.sender.uid : message.receiverId;
+      try {
+        const type = message.receiverType;
+        const id =
+          type === CometChat.RECEIVER_TYPE.USER
+            ? message.sender.uid
+            : message.receiverId;
 
-      if (this.hasProperty(message, "readAt") === false) {
-        CometChat.markAsRead(message.id, id, type);
+        if (this.hasProperty(message, "readAt") === false) {
+          CometChat.markAsRead(message.id, id, type);
+        }
+      } catch (error) {
+        this.logError("Error marking message as read", error);
       }
     },
+    /**
+     * Plays the outgoing call alert
+     */
     playOutgoingAlert() {
-      outgoingAlert.currentTime = 0;
-      if (typeof outgoingAlert.loop == "boolean") {
-        outgoingAlert.loop = true;
-      } else {
-        outgoingAlert.addEventListener(
-          "ended",
-          function () {
-            this.currentTime = 0;
-            this.play();
-          },
-          false
-        );
+      try {
+        outgoingAlert.currentTime = 0;
+        if (typeof outgoingAlert.loop == "boolean") {
+          outgoingAlert.loop = true;
+        } else {
+          outgoingAlert.addEventListener(
+            "ended",
+            function () {
+              this.currentTime = 0;
+              this.play();
+            },
+            false
+          );
+        }
+        outgoingAlert.play();
+      } catch (error) {
+        this.logError("Alert play failed with error:", error);
       }
-      outgoingAlert.play();
     },
-
+    /**
+     * Pauses the outgoing call alert
+     */
     pauseOutgoingAlert() {
-      outgoingAlert.pause();
+      try {
+        outgoingAlert.pause();
+      } catch (error) {
+        this.logError("Alert pause failed with error:", error);
+      }
     },
   },
   beforeMount() {

@@ -1,75 +1,10 @@
-export const incomingCallWrapperStyle = (
-  theme,
-  widgetsettings,
-  hasProperty
-) => {
+export const incomingCallWrapperStyle = (theme) => {
   let positionValue = "absolute";
   let leftPos = "0";
   let rightPos = "0";
   let topPos = "0";
   let bottomPos = "unset";
   let zIndexValue = "999";
-
-  if (widgetsettings) {
-    if (
-      hasProperty(widgetsettings, "dockedview") &&
-      widgetsettings.dockedview
-    ) {
-      //if chat window is open
-      if (hasProperty(widgetsettings, "launched") && widgetsettings.launched) {
-        zIndexValue = "2147483000";
-        positionValue = "fixed";
-        topPos = "unset";
-        bottomPos = "100px";
-
-        if (
-          hasProperty(widgetsettings, "alignment") &&
-          widgetsettings.alignment === "left"
-        ) {
-          rightPos = "unset";
-          leftPos = "20px";
-
-          if (hasProperty(widgetsettings, "width")) {
-            if (widgetsettings.width.includes("px")) {
-              const widgetWidth = widgetsettings.width.replace("px", "");
-              rightPos = parseInt(widgetWidth) - 250 - 15;
-              rightPos = rightPos + "px";
-            }
-          }
-
-          if (hasProperty(widgetsettings, "height")) {
-            if (widgetsettings.height.includes("px")) {
-              const widgetHeight = widgetsettings.height.replace("px", "");
-              bottomPos = parseInt(widgetHeight) - 140 + 100;
-              bottomPos = bottomPos + "px";
-            }
-          }
-        } else {
-          leftPos = "unset";
-          rightPos = "20px";
-
-          if (hasProperty(widgetsettings, "width")) {
-            if (widgetsettings.width.includes("px")) {
-              const widgetWidth = widgetsettings.width.replace("px", "");
-              rightPos = parseInt(widgetWidth) - 250 - 15;
-              rightPos = rightPos + "px";
-            }
-          }
-
-          if (hasProperty(widgetsettings, "height")) {
-            if (widgetsettings.height.includes("px")) {
-              const widgetHeight = widgetsettings.height.replace("px", "");
-              bottomPos = parseInt(widgetHeight) - 140 + 100;
-              bottomPos = bottomPos + "px";
-            }
-          }
-        }
-      } else {
-        leftPos = "unset";
-        positionValue = "fixed";
-      }
-    }
-  }
 
   return {
     position: positionValue,

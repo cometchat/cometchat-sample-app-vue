@@ -13,7 +13,7 @@
 </template>
 <script>
 import {
-  STRING_MESSAGES,
+  COMETCHAT_CONSTANTS,
   DEFAULT_OBJECT_PROP,
   DEFAULT_BOOLEAN_PROP,
 } from "../../../resources/constants";
@@ -27,12 +27,23 @@ import srcIcon from "./resources/1px.png";
 
 import * as style from "./style";
 
+/**
+ * Displays fullscreen image.
+ *
+ * @displayName CometChatImageViewer
+ */
 export default {
   name: "CometChatImageViewer",
   mixins: [cometChatCommon],
   components: { CometChatBackdrop },
   props: {
+    /**
+     * Opens image viewer.
+     */
     open: { ...DEFAULT_BOOLEAN_PROP },
+    /**
+     * The message object.
+     */
     message: { ...DEFAULT_OBJECT_PROP },
   },
   data() {
@@ -41,17 +52,26 @@ export default {
     };
   },
   computed: {
+    /**
+     * Computed styles for the component.
+     */
     styles() {
       return {
         image: style.imageStyle(),
         imageWrapper: style.imageWrapperStyle(closeIcon),
       };
     },
+    /**
+     * Computed image based on error state.
+     */
     computedImage() {
       return this.error ? srcIcon : this.message.data.url;
     },
+    /**
+     * Local string constants.
+     */
     STRINGS() {
-      return STRING_MESSAGES;
+      return COMETCHAT_CONSTANTS;
     },
   },
 };

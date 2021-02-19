@@ -103,6 +103,11 @@ import { theme } from "../../../resources/theme";
 
 import * as style from "./style";
 
+/**
+ * Displays a list of conversation with messages.
+ *
+ * @displayName CometChatConversationListItem
+ */
 export default {
   name: "CometChatConversationListWithMessages",
   mixins: [cometChatScreens],
@@ -117,6 +122,9 @@ export default {
     CometChatMessages,
   },
   props: {
+    /**
+     * Theme of the UI.
+     */
     theme: { ...DEFAULT_OBJECT_PROP },
   },
   data() {
@@ -147,6 +155,9 @@ export default {
     };
   },
   computed: {
+    /**
+     * Computed styles for the component.
+     */
     styles() {
       return {
         root: style.chatScreenStyle(this.themeValue),
@@ -158,14 +169,23 @@ export default {
           this.themeValue,
           this.viewSidebar
         ),
-        secondary: style.chatScreenSecondaryStyle(this.themeValue),
+        secondary: style.chatScreenSecondaryStyle(
+          this.themeValue,
+          this.viewThreadMessage
+        ),
       };
     },
+    /**
+     * Theme computed using default theme and theme coming from prop.
+     */
     themeValue() {
       return Object.assign({}, theme, this.theme);
     },
   },
   methods: {
+    /**
+     * Handler for emitted action events
+     */
     actionHandler({
       action,
       key,
@@ -291,7 +311,7 @@ export default {
       try {
         this.loggedInUser = await new CometChatManager().getLoggedInUser();
       } catch (error) {
-        console.log(
+        this.logError(
           "[CometChatConversationScreen] getLoggedInUser error",
           error
         );

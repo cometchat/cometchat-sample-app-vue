@@ -2,6 +2,11 @@ import { CometChat } from "@cometchat-pro/chat";
 
 import * as enums from "../../../util/enums.js";
 
+/**
+ * GroupListManager class encapsulates the following functionality:
+ * - fetching the group list
+ * - attaching Group listener
+ */
 export class GroupListManager {
   groupRequest = null;
   groupListenerId = "grouplist_" + new Date().getTime();

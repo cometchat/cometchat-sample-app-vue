@@ -37,12 +37,15 @@ export const unifiedSidebarStyle = (theme, viewSidebar) => {
 };
 
 export const unifiedMainStyle = (threadmessageview, detailview) => {
-  const secondaryView =
-    threadmessageview || detailview
-      ? {
-          width: "calc(100% - 680px)",
-        }
-      : {};
+  const secondaryView = threadmessageview
+    ? {
+        width: "calc(100% - 680px)",
+      }
+    : detailview
+    ? {
+        width: "calc(100% - 580px)",
+      }
+    : {};
 
   return {
     width: "calc(100% - 280px)",
@@ -52,12 +55,12 @@ export const unifiedMainStyle = (threadmessageview, detailview) => {
   };
 };
 
-export const unifiedSecondaryStyle = (theme) => {
+export const unifiedSecondaryStyle = (theme, threadmessageview) => {
   return {
     float: "right",
     borderLeft: `1px solid ${theme.borderColor.primary}`,
     height: "100%",
-    width: "400px",
+    width: threadmessageview ? "400px" : "300px",
     display: "flex",
     flexDirection: "column",
     order: "3",

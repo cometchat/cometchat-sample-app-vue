@@ -3,6 +3,7 @@
     <div :style="styles.header">
       <div
         class="header__close"
+        v-if="enableCloseMenu"
         :style="styles.headerClose"
         @click="emitAction('closeMenuClicked')"
       ></div>
@@ -45,7 +46,7 @@
 
 <script>
 import {
-  STRING_MESSAGES,
+  COMETCHAT_CONSTANTS,
   DEFAULT_OBJECT_PROP,
   DEFAULT_BOOLEAN_PROP,
 } from "../../../resources/constants";
@@ -59,7 +60,7 @@ import { theme } from "../../../resources/theme";
 import { propertyCheck, cometChatCommon } from "../../../mixins/";
 
 import searchIcon from "./resources/search-grey-icon.svg";
-import navigateIcon from "./resources/navigate_before.svg";
+import navigateIcon from "./resources/navigate.png";
 
 import CometChatUserListItem from "../CometChatUserListItem/CometChatUserListItem";
 
@@ -70,6 +71,11 @@ let friendsOnly;
 let userListManager;
 let currentLetter = "";
 
+/**
+ * Displays list of users.
+ *
+ * @displayName CometChatUserList
+ */
 export default {
   name: "CometChatUserList",
   mixins: [propertyCheck, cometChatCommon],
@@ -77,9 +83,21 @@ export default {
     CometChatUserListItem,
   },
   props: {
+    /**
+     * The selected chat item object.
+     */
     item: { ...DEFAULT_OBJECT_PROP },
+    /**
+     * Theme of the UI.
+     */
     theme: { ...DEFAULT_OBJECT_PROP },
+    /**
+     * Flag for friends only filter.
+     */
     friendsOnly: { ...DEFAULT_BOOLEAN_PROP },
+    /**
+     * Shows/hides the close menu button.
+     */
     enableCloseMenu: { ...DEFAULT_BOOLEAN_PROP },
   },
   data() {
@@ -87,16 +105,26 @@ export default {
       userList: [],
       usersRequest: "",
       selectedUser: {},
-      decoratorMessage: STRING_MESSAGES.LOADING_MESSSAGE,
+      decoratorMessage: COMETCHAT_CONSTANTS.LOADING_MESSSAGE,
     };
   },
   computed: {
+    /**
+     * Theme computed using default theme and theme coming from prop.
+     */
     themeValue() {
       return Object.assign({}, theme, this.theme || {});
     },
+    /**
+     * Local string constants.
+     */
     STRINGS() {
-      return STRING_MESSAGES;
+      return COMETCHAT_CONSTANTS;
     },
+    /**
+     * Computed styles for the component.
+     */
+
     styles() {
       return {
         msg: style.contactMsgStyle(),
@@ -113,6 +141,9 @@ export default {
     },
   },
   watch: {
+    /**
+     * Updates local state on change of item.
+     */
     item: {
       handler(newItem, oldItem) {
         const previousItem = JSON.stringify(oldItem);
@@ -161,6 +192,9 @@ export default {
     },
   },
   methods: {
+    /**
+     * Handles user search
+     */
     userSearchHandler(e) {
       if (timeout) {
         clearTimeout(timeout);
@@ -172,9 +206,15 @@ export default {
         this.getUsers(true);
       }, 500);
     },
+    /**
+     * Handles click on user
+     */
     userClickHandler(user) {
       this.emitAction("item-click", { item: user, type: "user" });
     },
+    /**
+     * Parses and return alphabet for list
+     */
     getAlphabet(user) {
       const chr = user.name[0].toUpperCase();
       if (chr !== currentLetter) {
@@ -184,6 +224,9 @@ export default {
         return null;
       }
     },
+    /**
+     * Handles user list scroll
+     */
     userScrollHandler(elem) {
       if (
         elem.target.offsetHeight + elem.target.scrollTop >=
@@ -192,6 +235,9 @@ export default {
         this.getUsers();
       }
     },
+    /**
+     * Gets list of users
+     */
     async getUsers(clear = false) {
       const cometChatManager = new CometChatManager();
 
@@ -205,7 +251,7 @@ export default {
         const users = await userListManager.fetchNextUsers();
 
         if (users.length === 0) {
-          this.decoratorMessage = STRING_MESSAGES.ERROR_NO_USERS_FOUND;
+          this.decoratorMessage = COMETCHAT_CONSTANTS.ERROR_NO_USERS_FOUND;
         }
 
         users.forEach((user) => (user = this.setAvatar(user)));
@@ -216,10 +262,13 @@ export default {
           this.userList = [...this.userList, ...users];
         }
       } catch (error) {
-        this.decoratorMessage = STRING_MESSAGES.ERROR_LOADING_USERS;
+        this.decoratorMessage = COMETCHAT_CONSTANTS.ERROR_LOADING_USERS;
         console.error("[CometChatUserList] getUsers fetchNext error", error);
       }
     },
+    /**
+     * Sets SVG avatar
+     */
     setAvatar(user) {
       if (!user.getAvatar()) {
         const uid = user.getUid();
@@ -227,8 +276,11 @@ export default {
         user.setAvatar(SvgAvatar.getAvatar(uid, char));
       }
     },
+    /**
+     * Handles listener events
+     */
     usersUpdateHandler(user) {
-      console.log("CometChatUserList :usersUpdateHandler", { user });
+      this.logInfo("CometChatUserList :usersUpdateHandler", { user });
       let users = [...this.userlist];
 
       let userKey = users.findIndex((u) => u.uid === user.uid);

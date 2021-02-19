@@ -49,6 +49,11 @@ import * as style from "./style";
 import inactiveIcon from "./resources/checkbox-inactive.svg";
 import activeIcon from "./resources/checkbox-blue-active.svg";
 
+/**
+ * List item for add group members list.
+ *
+ * @displayName CometChatAddGroupMemberListItem
+ */
 export default {
   name: "CometChatAddGroupMemberListItem",
   mixins: [tooltip, cometChatCommon],
@@ -57,8 +62,17 @@ export default {
     CometChatUserPresence,
   },
   props: {
+    /**
+     * User object.
+     */
     user: { ...DEFAULT_OBJECT_PROP },
+    /**
+     * Theme of the UI.
+     */
     theme: { ...DEFAULT_OBJECT_PROP },
+    /**
+     * List of all members.
+     */
     members: { ...DEFAULT_ARRAY_PROP },
   },
   data() {
@@ -67,6 +81,9 @@ export default {
     };
   },
   computed: {
+    /**
+     * Computed styles for the component.
+     */
     styles() {
       return {
         name: style.nameStyle(),
@@ -79,6 +96,9 @@ export default {
     },
   },
   methods: {
+    /**
+     * Handles checkbox input
+     */
     checkHandler() {
       this.checked = !this.checked;
 

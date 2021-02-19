@@ -14,7 +14,7 @@
         ></div>
       </div>
     </div>
-    <div :style="styles.messageContainer">
+    <div :style="styles.messageContainer" class="cometchat__thread__container">
       <div :style="styles.parentMessage">
         <template v-if="loggedInUser.uid === parentMessage.sender.uid">
           <template
@@ -184,7 +184,6 @@
         :type="type"
         :theme="theme"
         :messages="messageList"
-        :widgetconfig="widgetconfig"
         :logged-in-user="loggedInUser"
         :messageconfig="messageconfig"
         :scroll-to-bottom="scrollToBottom"
@@ -207,7 +206,7 @@
 import { CometChat } from "@cometchat-pro/chat";
 
 import {
-  STRING_MESSAGES,
+  COMETCHAT_CONSTANTS,
   DEFAULT_OBJECT_PROP,
   DEFAULT_STRING_PROP,
 } from "../../../resources/constants";
@@ -236,8 +235,13 @@ import CometChatReceiverStickerMessageBubble from "../Extensions/CometChatReceiv
 
 import * as style from "./style";
 
-import clearIcon from "./resources/clear.svg";
+import clearIcon from "./resources/close.png";
 
+/**
+ * Displays message thread.
+ *
+ * @displayName CometChatMessageThread
+ */
 export default {
   name: "CometChatMessageThread",
   mixins: [cometChatCommon, cometChatMessage],
@@ -260,12 +264,29 @@ export default {
     CometChatReceiverStickerMessageBubble,
   },
   props: {
+    /**
+     * The selected chat item object.
+     */
     item: { ...DEFAULT_OBJECT_PROP },
+    /**
+     * Type of chat item.
+     */
     type: { ...DEFAULT_STRING_PROP },
+    /**
+     * Theme of the UI.
+     */
     theme: { ...DEFAULT_OBJECT_PROP },
+    /**
+     * Current logged in user.
+     */
     loggedInUser: { ...DEFAULT_OBJECT_PROP },
-    widgetconfig: { ...DEFAULT_OBJECT_PROP },
+    /**
+     * Parent message object.
+     */
     parentMessage: { ...DEFAULT_OBJECT_PROP },
+    /**
+     * @ignore
+     */
     messageconfig: { ...DEFAULT_OBJECT_PROP },
   },
   data() {
@@ -278,6 +299,9 @@ export default {
     };
   },
   watch: {
+    /**
+     * Updates state on parent message change.
+     */
     parentMessage: {
       handler(newValue, oldValue) {
         if (oldValue.id !== newValue.id) {
@@ -295,15 +319,27 @@ export default {
     deep: true,
   },
   computed: {
+    /**
+     * Instance of "enums" to use in Vue html template.
+     */
     ENUMS() {
       return enums;
     },
+    /**
+     * Instance of "CometChat" to use in Vue html template.
+     */
     COMET_CHAT() {
       return CometChat;
     },
+    /**
+     * Local string constants.
+     */
     STRINGS() {
-      return STRING_MESSAGES;
+      return COMETCHAT_CONSTANTS;
     },
+    /**
+     * Computed styles for the component.
+     */
     styles() {
       return {
         headerName: style.headerNameStyle(),
@@ -319,21 +355,30 @@ export default {
         parentMessage: style.parentMessageStyle(this.parentMessage),
       };
     },
+    /**
+     * Parsed reply text
+     */
     replyText() {
       const count = this.replyCount;
       return `${count || "0"} ${count === 1 ? "reply" : "replies"}`;
     },
+    /**
+     * Computed object, made of props, for watcher.
+     */
     senderRecieverMessageCommonProps() {
       return {
         item: this.item,
         type: this.type,
         theme: this.theme,
-        widgetconfig: this.widgetconfig,
+        loggedInUser: this.loggedInUser,
         parentMessageId: this.parentMessage.id,
       };
     },
   },
   methods: {
+    /**
+     * Handles emitted action events
+     */
     actionHandler({ action, message, messages = [] }) {
       switch (action) {
         case "messageReceived":
@@ -391,6 +436,9 @@ export default {
           break;
       }
     },
+    /**
+     * Sends listener data to parent component
+     */
     sendListenerDataAbove(action, messages) {
       const hasParent = messages.length
         ? !!(messages[0] || {}).parentMessageId
@@ -408,6 +456,11 @@ export default {
   },
 };
 </script>
+<style>
+.cometchat__thread__container > .chat__list {
+  min-height: 250px;
+}
+</style>
 <style scoped>
 .cometchat__thread__wrapper * {
   box-sizing: border-box;

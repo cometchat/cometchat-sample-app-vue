@@ -1,3 +1,6 @@
+/**
+ * SvgAvatar class exports a static function "getAvatar" that converts a given image to SVG
+ */
 export class SvgAvatar {
   static getAvatar = (generator, data) => {
     const svg1 = document.createElementNS("http://www.w3.org/2000/svg", "svg");

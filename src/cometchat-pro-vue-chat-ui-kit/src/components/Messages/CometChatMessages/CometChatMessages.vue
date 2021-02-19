@@ -14,7 +14,6 @@
       :theme="themeValue"
       ref="messageListRef"
       :messages="messageList"
-      :widgetconfig="widgetconfig"
       :logged-in-user="loggedInUser"
       :messageconfig="messageconfig"
       :scroll-to-bottom="scrollToBottom"
@@ -60,6 +59,11 @@ import * as style from "./style";
 
 import { incomingMessageAlert } from "../../../resources/audio/";
 
+/**
+ * Displays message list with message composer and header.
+ *
+ * @displayName CometChatMessages
+ */
 export default {
   name: "CometChatMessages",
   mixins: [propertyCheck, cometChatCommon, cometChatMessage],
@@ -70,18 +74,49 @@ export default {
     CometChatMessageComposer,
   },
   props: {
-    tab: { ...DEFAULT_STRING_PROP },
+    /**
+     * The selected chat item object.
+     */
     item: { ...DEFAULT_OBJECT_PROP },
+    /**
+     * Type of chat item.
+     */
     type: { ...DEFAULT_STRING_PROP },
+    /**
+     * Theme of the UI.
+     */
     theme: { ...DEFAULT_OBJECT_PROP },
+    /**
+     * Wheter to show sidebar.
+     */
     sidebar: { ...DEFAULT_BOOLEAN_PROP },
+    /**
+     * The current call message.
+     */
     callMessage: { ...DEFAULT_OBJECT_PROP },
+    /**
+     * List of group messages.
+     */
     groupMessages: { ...DEFAULT_ARRAY_PROP },
+    /**
+     * Current logged in user.
+     */
     loggedInUser: { ...DEFAULT_OBJECT_PROP },
-    widgetconfig: { ...DEFAULT_OBJECT_PROP },
+    /**
+     * @ignore
+     */
     messageconfig: { ...DEFAULT_OBJECT_PROP },
+    /**
+     * Action data from listener.
+     */
     actionFromListener: { ...DEFAULT_OBJECT_PROP },
+    /**
+     * The composed thread message.
+     */
     composedThreadMessage: { ...DEFAULT_OBJECT_PROP },
+    /**
+     * The type of reaction.
+     */
     reaction: { ...DEFAULT_STRING_PROP, default: "heart" },
   },
   data() {
@@ -95,6 +130,9 @@ export default {
     };
   },
   watch: {
+    /**
+     * One true watcher that updates state on props update.
+     */
     propsForWatcher: {
       handler(_, prevProps) {
         const idKey = this.type === "user" ? "uid" : "guid";
@@ -119,7 +157,6 @@ export default {
         } else if (prevProps.actionFromListener !== this.actionFromListener) {
           this.actionHandler({ ...this.actionFromListener });
         } else if (prevProps.groupMessages !== this.groupMessages) {
-          console.log("group messages changed");
           this.appendMessage(this.groupMessages);
         }
       },
@@ -127,18 +164,29 @@ export default {
     deep: true,
   },
   computed: {
+    /**
+     * Theme computed using default theme and theme coming from prop.
+     */
     themeValue() {
       return Object.assign({}, theme, this.theme);
     },
-    styles() {
+    /**
+     * Computed styles for the component.
+     */ styles() {
       return {
         reactionsWrapper: style.reactionsWrapperStyle(),
         chatWrapper: style.chatWrapperStyle(this.themeValue),
       };
     },
+    /**
+     * Whether it can show live reactions.
+     */
     canShowLiveReaction() {
       return this.item.blockedByMe ? false : this.showLiveReaction;
     },
+    /**
+     * Computed object, made of props, for watcher.
+     */
     propsForWatcher() {
       return {
         item: this.item,
@@ -151,6 +199,9 @@ export default {
     },
   },
   methods: {
+    /**
+     * Handler for action events
+     */
     actionHandler({
       key,
       group,
@@ -249,9 +300,15 @@ export default {
           break;
       }
     },
+    /**
+     * Toggles reaction view
+     */
     toggleReaction(flag) {
       this.showLiveReaction = flag;
     },
+    /**
+     * Shows reaction
+     */
     showReaction(reaction = {}) {
       if (!this.hasProperty(reaction, "metadata")) {
         return;
@@ -273,6 +330,9 @@ export default {
         this.showLiveReaction = true;
       }
     },
+    /**
+     * Updates reply count
+     */
     updateReplyCount(messages) {
       const receivedMessage = messages[0];
       const messageList = [...this.messageList];
@@ -294,6 +354,9 @@ export default {
         this.scrollToBottom = false;
       }
     },
+    /**
+     *
+     */
     callUpdated(message) {
       this.appendMessage([message]);
     },
@@ -302,6 +365,9 @@ export default {
 
       this.emitAction("groupUpdated", { message, key, group, options });
     },
+    /**
+     * Updates poll message
+     */
     updatePollMessage(message) {
       this.findMessage(message, (messageKey, messageList) => {
         const messageObj = messageList[messageKey];
@@ -316,6 +382,9 @@ export default {
         this.updateMessages(messageList);
       });
     },
+    /**
+     * Plays audio
+     */
     playAudio() {
       if (this.canPlayAudio) {
         this.audio.currentTime = 0;

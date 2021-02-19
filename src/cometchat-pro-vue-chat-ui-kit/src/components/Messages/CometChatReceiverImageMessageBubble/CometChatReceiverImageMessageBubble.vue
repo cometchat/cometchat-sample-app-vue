@@ -47,7 +47,7 @@
           :logged-in-user="loggedInUser"
         />
         <div :style="styles.infoWrapper">
-          <comet-chat-read-reciept :theme="theme" :message="parsedMessage" />
+          <comet-chat-read-receipt :theme="theme" :message="parsedMessage" />
           <comet-chat-threaded-message-reply-count
             v-bind="commonProps"
             v-if="!parentMessageId"
@@ -71,7 +71,7 @@ import {
 } from "../../../mixins/";
 
 import { CometChatAvatar } from "../../Shared";
-import CometChatReadReciept from "../CometChatReadReciept/CometChatReadReciept";
+import CometChatReadReceipt from "../CometChatReadReceipt/CometChatReadReceipt";
 import CometChatMessageActions from "../CometChatMessageActions/CometChatMessageActions";
 import CometChatMessageReactions from "../Extensions/CometChatMessageReactions/CometChatMessageReactions";
 import CometChatThreadedMessageReplyCount from "../CometChatThreadedMessageReplyCount/CometChatThreadedMessageReplyCount";
@@ -80,21 +80,37 @@ import * as style from "./style";
 
 import srcIcon from "./resources/1px.png";
 
+/**
+ * Message bubble for received image messages.
+ *
+ * @displayName CometChatReceiverImageMessageBubble
+ */
 export default {
   name: "CometChatReceiverImageMessageBubble",
   mixins: [cometChatCommon, cometChatBubbles, thumbnailGeneration],
   components: {
     CometChatAvatar,
-    CometChatReadReciept,
+    CometChatReadReceipt,
     CometChatMessageActions,
     CometChatMessageReactions,
     CometChatThreadedMessageReplyCount,
   },
   props: {
+    /**
+     * Theme of the UI.
+     */
     theme: { ...DEFAULT_OBJECT_PROP },
+    /**
+     * The message object.
+     */
     message: { ...DEFAULT_OBJECT_PROP },
+    /**
+     * Current logged in user.
+     */
     loggedInUser: { ...DEFAULT_OBJECT_PROP },
-    widgetconfig: { ...DEFAULT_OBJECT_PROP },
+    /**
+     * Id of parent for the message.
+     */
     parentMessageId: { ...DEFAULT_STRING_PROP },
   },
   data() {
@@ -105,6 +121,9 @@ export default {
     };
   },
   computed: {
+    /**
+     * Computed styles for the component.
+     */
     styles() {
       return {
         img: style.messageImg(),
