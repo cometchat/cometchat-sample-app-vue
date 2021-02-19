@@ -1,5 +1,4 @@
 import * as enums from "../../../util/enums";
-import { validateWidgetSettings } from "../../../util/common";
 
 class MessageFilter {
   categories = {};
@@ -27,44 +26,11 @@ class MessageFilter {
     };
   }
 
-  getCategories = (widgetSettings) => {
-    if (
-      validateWidgetSettings(
-        widgetSettings,
-        "hide_join_leave_notifications"
-      ) === true
-    ) {
-      delete this.categories[enums.CATEGORY_ACTION];
-    }
-
-    if (
-      validateWidgetSettings(widgetSettings, "show_call_notifications") ===
-      false
-    ) {
-      delete this.categories[enums.CATEGORY_CALL];
-    }
-
+  getCategories = () => {
     return Object.keys(this.categories);
   };
 
-  getTypes = (widgetSettings) => {
-    if (
-      validateWidgetSettings(
-        widgetSettings,
-        "hide_join_leave_notifications"
-      ) === true
-    ) {
-      delete this.types[enums.ACTION_TYPE_GROUPMEMBER];
-    }
-
-    if (
-      validateWidgetSettings(widgetSettings, "show_call_notifications") ===
-      false
-    ) {
-      delete this.types[enums.CALL_TYPE_AUDIO];
-      delete this.types[enums.CALL_TYPE_VIDEO];
-    }
-
+  getTypes = () => {
     return Object.keys(this.types);
   };
 }

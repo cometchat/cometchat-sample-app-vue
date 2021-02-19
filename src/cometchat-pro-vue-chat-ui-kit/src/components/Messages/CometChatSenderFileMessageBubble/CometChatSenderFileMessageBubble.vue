@@ -23,8 +23,8 @@
                 {{ message.data.attachments[0].name }}
               </span>
               <img
-                alt="file"
                 :src="fileIcon"
+                :alt="COMET_CHAT.MESSAGE_TYPE.FILE"
                 class="sender__message__file__img"
               />
             </span>
@@ -44,11 +44,13 @@
         v-if="!parentMessageId"
         @action="actionHandler"
       />
-      <comet-chat-read-reciept :theme="theme" :message="parsedMessage" />
+      <comet-chat-read-receipt :theme="theme" :message="parsedMessage" />
     </div>
   </div>
 </template>
 <script>
+import { CometChat } from "@cometchat-pro/chat";
+
 import {
   DEFAULT_OBJECT_PROP,
   DEFAULT_STRING_PROP,
@@ -56,7 +58,7 @@ import {
 
 import { cometChatCommon, cometChatBubbles } from "../../../mixins/";
 
-import CometChatReadReciept from "../CometChatReadReciept/CometChatReadReciept";
+import CometChatReadReceipt from "../CometChatReadReceipt/CometChatReadReceipt";
 import CometChatMessageActions from "../CometChatMessageActions/CometChatMessageActions";
 import CometChatMessageReactions from "../Extensions/CometChatMessageReactions/CometChatMessageReactions";
 import CometChatThreadedMessageReplyCount from "../CometChatThreadedMessageReplyCount/CometChatThreadedMessageReplyCount";
@@ -65,20 +67,36 @@ import * as style from "./style";
 
 import blueFile from "./resources/file-blue.svg";
 
+/**
+ * Message bubble for sent file messages.
+ *
+ * @displayName CometChatSenderFileMessageBubble
+ */
 export default {
   name: "CometChatSenderFileMessageBubble",
   mixins: [cometChatCommon, cometChatBubbles],
   components: {
-    CometChatReadReciept,
+    CometChatReadReceipt,
     CometChatMessageActions,
     CometChatMessageReactions,
     CometChatThreadedMessageReplyCount,
   },
   props: {
+    /**
+     * Theme of the UI.
+     */
     theme: { ...DEFAULT_OBJECT_PROP },
+    /**
+     * The message object.
+     */
     message: { ...DEFAULT_OBJECT_PROP },
+    /**
+     * Current logged in user.
+     */
     loggedInUser: { ...DEFAULT_OBJECT_PROP },
-    widgetconfig: { ...DEFAULT_OBJECT_PROP },
+    /**
+     * Id of parent for the message.
+     */
     parentMessageId: { ...DEFAULT_STRING_PROP },
   },
   data() {
@@ -87,6 +105,9 @@ export default {
     };
   },
   computed: {
+    /**
+     * Computed styles for the component.
+     */
     styles() {
       return {
         wrapper: style.messageWrapperStyle(),
@@ -101,8 +122,17 @@ export default {
         ),
       };
     },
+    /**
+     * Icon computed from file images.
+     */
     fileIcon() {
       return blueFile;
+    },
+    /**
+     * Instance of "CometChat" to use in Vue html template.
+     */
+    COMET_CHAT() {
+      return CometChat;
     },
   },
 };

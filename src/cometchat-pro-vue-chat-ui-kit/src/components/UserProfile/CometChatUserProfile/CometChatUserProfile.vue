@@ -54,7 +54,7 @@
 </template>
 <script>
 import {
-  STRING_MESSAGES,
+  COMETCHAT_CONSTANTS,
   DEFAULT_OBJECT_PROP,
 } from "../../../resources/constants";
 
@@ -73,12 +73,20 @@ import reportIcon from "./resources/report-black-icon.svg";
 import chatIcon from "./resources/chat-black-icon.svg";
 import helpIcon from "./resources/help-black-icon.svg";
 
+/**
+ * Displays user information.
+ *
+ * @displayName CometChatUserProfile
+ */
 export default {
   name: "CometChatUserProfile",
   components: {
     CometChatAvatar,
   },
   props: {
+    /**
+     * Theme of the UI.
+     */
     theme: { ...DEFAULT_OBJECT_PROP },
   },
   data() {
@@ -87,6 +95,9 @@ export default {
     };
   },
   computed: {
+    /**
+     * Computed styles for the component.
+     */
     styles() {
       return {
         detail: style.detailStyle(),
@@ -111,17 +122,29 @@ export default {
         },
       };
     },
+    /**
+     * Theme computed using default theme and theme coming from prop.
+     */
     themeValue() {
       return Object.assign({}, theme, this.theme);
     },
+    /**
+     * Whether it is user or not.
+     */
     isUser() {
       return Object.keys(this.user).length;
     },
+    /**
+     * Local string constants.
+     */
     STRINGS() {
-      return STRING_MESSAGES;
+      return COMETCHAT_CONSTANTS;
     },
   },
   methods: {
+    /**
+     * Sets SVG avatar
+     */
     setAvatar(user) {
       if (!user.getAvatar()) {
         const uid = user.getUid();
@@ -138,7 +161,7 @@ export default {
         this.setAvatar(user);
         this.user = user;
       } catch (error) {
-        console.log("[CometChatUnified] getLoggedInUser error", error);
+        this.logError("[CometChatUnified] getLoggedInUser error", error);
       }
     })();
   },

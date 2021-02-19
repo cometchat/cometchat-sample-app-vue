@@ -87,7 +87,7 @@
 </template>
 <script>
 import {
-  STRING_MESSAGES,
+  COMETCHAT_CONSTANTS,
   DEFAULT_OBJECT_PROP,
 } from "../../resources/constants";
 
@@ -109,6 +109,11 @@ import { theme } from "../../resources/theme";
 
 import * as style from "./style";
 
+/**
+ * Displays a fully working chat application.
+ *
+ * @displayName CometChatUI
+ */
 export default {
   name: "CometChatUI",
   mixins: [cometChatScreens],
@@ -123,6 +128,9 @@ export default {
     CometChatMessages,
   },
   props: {
+    /**
+     * Theme of the UI.
+     */
     theme: { ...DEFAULT_OBJECT_PROP },
   },
   data() {
@@ -153,21 +161,34 @@ export default {
     };
   },
   computed: {
+    /**
+     * Computed styles for the component.
+     */
     styles() {
       return {
         main: style.unifiedMainStyle(
           this.viewThreadMessage,
           this.viewDetailScreen
         ),
+        secondary: style.unifiedSecondaryStyle(
+          this.themeValue,
+          this.viewThreadMessage
+        ),
         root: style.unifiedStyle(this.themeValue),
-        secondary: style.unifiedSecondaryStyle(this.themeValue),
         placeholder: style.unifiedPlaceholderStyle(this.themeValue),
         sidebar: style.unifiedSidebarStyle(this.themeValue, this.viewSidebar),
       };
     },
+    /**
+     * Theme computed using default theme and theme coming from prop.
+     */
+
     themeValue() {
       return Object.assign({}, theme, this.theme);
     },
+    /**
+     * Placeholder message when chat item is not selected.
+     */
     placeholderMessage() {
       return this.STRINGS[
         this.tab === "info"
@@ -175,11 +196,17 @@ export default {
           : "NO_ITEM_SELECTED_MESSAGE"
       ];
     },
+    /**
+     * Local string constants.
+     */
     STRINGS() {
-      return STRING_MESSAGES;
+      return COMETCHAT_CONSTANTS;
     },
   },
   methods: {
+    /**
+     * Handler for emitted action events
+     */
     actionHandler({
       action,
       tab,
@@ -298,6 +325,9 @@ export default {
           break;
       }
     },
+    /**
+     * Changes tab
+     */
     changeTab(tab) {
       this.tab = tab;
       this.imageView = null;
@@ -314,7 +344,7 @@ export default {
       try {
         this.loggedInUser = await new CometChatManager().getLoggedInUser();
       } catch (error) {
-        console.log("[CometChatUnified] getLoggedInUser error", error);
+        this.logError("[CometChatUnified] getLoggedInUser error", error);
       }
     })();
   },

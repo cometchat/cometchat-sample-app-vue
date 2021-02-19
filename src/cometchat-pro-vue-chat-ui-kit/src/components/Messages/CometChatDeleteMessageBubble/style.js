@@ -1,3 +1,5 @@
+import { CometChat } from "@cometchat-pro/chat";
+
 export const messageContainerStyle = (messageOf) => {
   const alignment =
     messageOf === "sender"
@@ -102,7 +104,10 @@ export const messageThumbnailStyle = () => {
 
 export const messageDetailStyle = (message, messageOf) => {
   let paddingSpace = {};
-  if (messageOf === "receiver" && message.receiverType === "group") {
+  if (
+    messageOf === "receiver" &&
+    message.receiverType === CometChat.RECEIVER_TYPE.GROUP
+  ) {
     paddingSpace = {
       paddingLeft: "5px",
     };
@@ -119,7 +124,10 @@ export const messageDetailStyle = (message, messageOf) => {
 
 export const nameWrapperStyle = (message, messageOf) => {
   let paddingSpace = {};
-  if (messageOf === "receiver" && message.receiverType === "group") {
+  if (
+    messageOf === "receiver" &&
+    message.receiverType === CometChat.RECEIVER_TYPE.GROUP
+  ) {
     paddingSpace = {
       padding: "3px 5px",
     };

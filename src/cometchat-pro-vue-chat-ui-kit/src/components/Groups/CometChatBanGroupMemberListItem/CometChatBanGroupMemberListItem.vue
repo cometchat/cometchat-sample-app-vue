@@ -39,7 +39,7 @@
 import { CometChat } from "@cometchat-pro/chat";
 
 import {
-  STRING_MESSAGES,
+  COMETCHAT_CONSTANTS,
   DEFAULT_OBJECT_PROP,
 } from "../../../resources/constants";
 
@@ -51,6 +51,11 @@ import * as style from "./style";
 
 import unban from "./resources/block.png";
 
+/**
+ * List item for ban group member list.
+ *
+ * @displayName CometChatBanGroupMemberListItem
+ */
 export default {
   name: "CometChatBanGroupMemberListItem",
   mixins: [tooltip, cometChatCommon],
@@ -59,12 +64,27 @@ export default {
     CometChatUserPresence,
   },
   props: {
+    /**
+     * The selected chat item object.
+     */
     item: { ...DEFAULT_OBJECT_PROP },
+    /**
+     * Theme of the UI.
+     */
     theme: { ...DEFAULT_OBJECT_PROP },
+    /**
+     * Member object.
+     */
     member: { ...DEFAULT_OBJECT_PROP },
+    /**
+     * Current logged in user.
+     */
     loggedInUser: { ...DEFAULT_OBJECT_PROP },
   },
   computed: {
+    /**
+     * Computed styles for the component.
+     */
     styles() {
       return {
         name: style.nameStyle(),
@@ -74,19 +94,32 @@ export default {
         tableRow: style.tableRowStyle(this.theme),
       };
     },
+    /**
+     * Local string constants.
+     */
     STRINGS() {
-      return STRING_MESSAGES;
+      return COMETCHAT_CONSTANTS;
     },
+    /**
+     * Unban icon image.
+     */
     unbanImage() {
       return unban;
     },
+    /**
+     * Computed member roles.
+     */
     roles() {
       return {
-        [CometChat.GROUP_MEMBER_SCOPE.ADMIN]: STRING_MESSAGES.ADMINISTRATOR,
-        [CometChat.GROUP_MEMBER_SCOPE.MODERATOR]: STRING_MESSAGES.MODERATOR,
-        [CometChat.GROUP_MEMBER_SCOPE.PARTICIPANT]: STRING_MESSAGES.PARTICIPANT,
+        [CometChat.GROUP_MEMBER_SCOPE.ADMIN]: COMETCHAT_CONSTANTS.ADMINISTRATOR,
+        [CometChat.GROUP_MEMBER_SCOPE.MODERATOR]: COMETCHAT_CONSTANTS.MODERATOR,
+        [CometChat.GROUP_MEMBER_SCOPE.PARTICIPANT]:
+          COMETCHAT_CONSTANTS.PARTICIPANT,
       };
     },
+    /**
+     * Computes if can unban.
+     */
     canUnBan() {
       let unBan = true;
 

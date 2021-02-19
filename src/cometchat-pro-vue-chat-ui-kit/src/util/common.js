@@ -14,20 +14,10 @@ const phoneNumPattern = new RegExp(
   "g"
 );
 
-export const validateWidgetSettings = (wSettings, checkAgainst) => {
-  let output = null;
-
-  if (wSettings && Object.prototype.hasOwnProperty.call(wSettings, "main")) {
-    if (Object.prototype.hasOwnProperty.call(wSettings.main, checkAgainst)) {
-      output = wSettings.main[checkAgainst];
-    } else {
-      output = false;
-    }
-  }
-
-  return output;
-};
-
+/**
+ * Converts a string to its HTML equivalent
+ * @param {*} message
+ */
 export const linkify = (message) => {
   let outputStr = message.replace(
     phoneNumPattern,
@@ -45,6 +35,11 @@ export const linkify = (message) => {
   return outputStr;
 };
 
+/**
+ * Extracts extension data from message
+ * @param {*} message
+ * @param {*} extensionKey
+ */
 export const getExtensionsDataFromMessage = (message, extensionKey) => {
   let output = null;
 
@@ -65,4 +60,23 @@ export const getExtensionsDataFromMessage = (message, extensionKey) => {
     }
   }
   return output;
+};
+
+/**
+ * Simple logger utility
+ * @param {*} type
+ * @param  {...any} args
+ */
+export const logger = (type = "error", ...args) => {
+  if (process.env.NODE_ENV === "development") {
+    const log = console[type];
+
+    if (!log) {
+      return;
+    }
+
+    if (args) {
+      log(...args);
+    }
+  }
 };

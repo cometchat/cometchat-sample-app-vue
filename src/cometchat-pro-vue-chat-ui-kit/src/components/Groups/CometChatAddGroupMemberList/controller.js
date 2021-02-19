@@ -1,5 +1,10 @@
 import { CometChat } from "@cometchat-pro/chat";
 
+/**
+ * AddMembersManager class encapsulates the following functionality:
+ * - fetching of User list
+ * - attaching User listener
+ */
 export class AddMembersManager {
   membersRequest = null;
   userListenerId = new Date().getTime();

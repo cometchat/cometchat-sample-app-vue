@@ -51,7 +51,7 @@
 import { CometChat } from "@cometchat-pro/chat";
 
 import {
-  STRING_MESSAGES,
+  COMETCHAT_CONSTANTS,
   DEFAULT_ARRAY_PROP,
   DEFAULT_OBJECT_PROP,
   DEFAULT_BOOLEAN_PROP,
@@ -66,6 +66,11 @@ import * as style from "./style";
 
 import clearIcon from "./resources/close.png";
 
+/**
+ * Displays list of banned group members.
+ *
+ * @displayName CometChatBanGroupMemberList
+ */
 export default {
   name: "CometChatBanGroupMemberList",
   mixins: [cometChatCommon],
@@ -74,13 +79,31 @@ export default {
     CometChatBanGroupMemberListItem,
   },
   props: {
+    /**
+     * The selected chat item object.
+     */
     item: { ...DEFAULT_OBJECT_PROP },
+    /**
+     * Opens the modal.
+     */
     open: { ...DEFAULT_BOOLEAN_PROP },
+    /**
+     * Theme of the UI.
+     */
     theme: { ...DEFAULT_OBJECT_PROP },
+    /**
+     * Current logged in user.
+     */
     loggedInUser: { ...DEFAULT_OBJECT_PROP },
+    /**
+     * List of banned group members.
+     */
     bannedMembersList: { ...DEFAULT_ARRAY_PROP },
   },
   computed: {
+    /**
+     * Computed styles for the component.
+     */
     styles() {
       return {
         tableBody: style.tableBodyStyle(),
@@ -95,16 +118,25 @@ export default {
         modalWrapper: style.modalWrapperStyle(this.theme, this.open),
       };
     },
+    /**
+     * Computed decorator message.
+     */
     decoratorMessage() {
       return this.bannedMembersList.length === 0
-        ? STRING_MESSAGES.NO_BANNED_MEMBERS_FOUND
-        : STRING_MESSAGES.LOADING_MESSSAGE;
+        ? COMETCHAT_CONSTANTS.NO_BANNED_MEMBERS_FOUND
+        : COMETCHAT_CONSTANTS.LOADING_MESSSAGE;
     },
+    /**
+     * Local string constants.
+     */
     STRINGS() {
-      return STRING_MESSAGES;
+      return COMETCHAT_CONSTANTS;
     },
   },
   methods: {
+    /**
+     * Unbans a member
+     */
     async unbanMember(memberToUnBan) {
       try {
         const guid = this.item.guid;
@@ -117,10 +149,12 @@ export default {
           this.emitAction("unbanGroupMembers", { members: [memberToUnBan] });
         }
       } catch (error) {
-        console.log("Group member banning failed with error", error);
+        this.logError("Group member banning failed with error", error);
       }
     },
-
+    /**
+     * Handles action emitted by list item
+     */
     memberUpdateHandler({ action, member }) {
       switch (action) {
         case "unBan":
@@ -130,14 +164,21 @@ export default {
           break;
       }
     },
-
+    /**
+     * Handles list scroll
+     */
     scrollHandler(e) {
-      const bottom =
-        Math.round(e.currentTarget.scrollHeight - e.currentTarget.scrollTop) ===
-        Math.round(e.currentTarget.clientHeight);
+      try {
+        const bottom =
+          Math.round(
+            e.currentTarget.scrollHeight - e.currentTarget.scrollTop
+          ) === Math.round(e.currentTarget.clientHeight);
 
-      if (bottom) {
-        this.emitAction("fetchBannedMembers");
+        if (bottom) {
+          this.emitAction("fetchBannedMembers");
+        }
+      } catch (error) {
+        this.logError("Error in scroll", error);
       }
     },
   },

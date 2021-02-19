@@ -40,7 +40,7 @@
 </template>
 <script>
 import {
-  STRING_MESSAGES,
+  COMETCHAT_CONSTANTS,
   DEFAULT_OBJECT_PROP,
 } from "../../../resources/constants";
 
@@ -53,6 +53,11 @@ import lockIcon from "./resources/lock.png";
 
 import * as style from "./style";
 
+/**
+ * List item for group list.
+ *
+ * @displayName CometChatGroupListItem
+ */
 export default {
   name: "CometChatGroupListItem",
   mixins: [tooltip, cometChatCommon],
@@ -60,11 +65,23 @@ export default {
     CometChatAvatar,
   },
   props: {
+    /**
+     * Group item.
+     */
     group: { ...DEFAULT_OBJECT_PROP },
+    /**
+     * Theme of the UI.
+     */
     theme: { ...DEFAULT_OBJECT_PROP },
+    /**
+     * Selected group item.
+     */
     selectedGroup: { ...DEFAULT_OBJECT_PROP },
   },
   computed: {
+    /**
+     * Computed styles for the component.
+     */
     styles() {
       return {
         name: style.itemNameStyle(),
@@ -76,14 +93,23 @@ export default {
         list: style.listItemStyle(this.theme, this.group, this.selectedGroup),
       };
     },
+    /**
+     * Icon for group types.
+     */
     groupTypeIcons() {
       return { shieldIcon, lockIcon };
     },
+    /**
+     * Description of group.
+     */
     groupDescription() {
       return `${this.group.membersCount} members`;
     },
+    /**
+     * Local string constants.
+     */
     STRINGS() {
-      return STRING_MESSAGES;
+      return COMETCHAT_CONSTANTS;
     },
   },
 };

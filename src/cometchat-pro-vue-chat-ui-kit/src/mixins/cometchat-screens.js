@@ -15,6 +15,11 @@ export default {
     },
   },
   methods: {
+    /**
+     * Handler for list item click
+     * @param {*} item
+     * @param {*} type
+     */
     itemClicked(item, type) {
       this.toggleSideBar();
 
@@ -24,6 +29,9 @@ export default {
       }
       this.closeThreadMessages();
     },
+    /**
+     * Blocks a user
+     */
     async blockUser() {
       let usersList = [this.item.uid];
 
@@ -32,9 +40,12 @@ export default {
 
         this.item = { ...this.item, blockedByMe: true };
       } catch (error) {
-        console.log("Blocking user fails with error", error);
+        this.logError("Blocking user fails with error", error);
       }
     },
+    /**
+     * Unblocks a user
+     */
     async unblockUser() {
       let usersList = [this.item.uid];
 
@@ -43,22 +54,24 @@ export default {
 
         this.item = { ...this.item, blockedByMe: false };
       } catch (error) {
-        console.log("Blocking user fails with error", error);
+        this.logError("Blocking user fails with error", error);
       }
     },
-
+    /**
+     * Starts an audio call
+     */
     async audioCall() {
-      let receiverId, receiverType;
-
-      if (this.type === "user") {
-        receiverId = this.item.uid;
-        receiverType = CometChat.RECEIVER_TYPE.USER;
-      } else if (this.type === "group") {
-        receiverId = this.item.guid;
-        receiverType = CometChat.RECEIVER_TYPE.GROUP;
-      }
-
       try {
+        let receiverId, receiverType;
+
+        if (this.type === "user") {
+          receiverId = this.item.uid;
+          receiverType = CometChat.RECEIVER_TYPE.USER;
+        } else if (this.type === "group") {
+          receiverId = this.item.guid;
+          receiverType = CometChat.RECEIVER_TYPE.GROUP;
+        }
+
         const call = await CometChatManager.call(
           receiverId,
           receiverType,
@@ -68,20 +81,24 @@ export default {
         this.appendCallMessage(call);
         this.outgoingCall = call;
       } catch (error) {
-        console.log("Call initialization failed with exception:", error);
+        this.logError("Call initialization failed with exception:", error);
       }
     },
+    /**
+     * Starts a video call
+     */
     async videoCall() {
-      let receiverId, receiverType;
-      if (this.type === "user") {
-        receiverId = this.item.uid;
-        receiverType = CometChat.RECEIVER_TYPE.USER;
-      } else if (this.type === "group") {
-        receiverId = this.item.guid;
-        receiverType = CometChat.RECEIVER_TYPE.GROUP;
-      }
-
       try {
+        let receiverId, receiverType;
+
+        if (this.type === "user") {
+          receiverId = this.item.uid;
+          receiverType = CometChat.RECEIVER_TYPE.USER;
+        } else if (this.type === "group") {
+          receiverId = this.item.guid;
+          receiverType = CometChat.RECEIVER_TYPE.GROUP;
+        }
+
         const call = await CometChatManager.call(
           receiverId,
           receiverType,
@@ -91,174 +108,260 @@ export default {
         this.appendCallMessage(call);
         this.outgoingCall = call;
       } catch (error) {
-        console.log("Call initialization failed with exception:", error);
+        this.logError("Call initialization failed with exception:", error);
       }
     },
+    /**
+     * Accepts an incoming call
+     * @param {*} call
+     */
     async acceptIncomingCall(call) {
-      this.incomingCall = call;
-
-      const type = call.receiverType;
-
       try {
+        this.incomingCall = call;
+
+        const type = call.receiverType;
+
         const conversation = await CometChat.CometChatHelper.getConversationFromMessage(
           call
         );
 
         this.itemClicked(conversation.conversationWith, type);
       } catch (error) {
-        console.log("error while fetching a conversation", error);
+        this.logError("error while fetching a conversation", error);
       }
     },
+    /**
+     * Rejects incoming call
+     * @param {*} incomingCallMessage
+     * @param {*} rejectedCallMessage
+     */
     rejectedIncomingCall(incomingCallMessage, rejectedCallMessage) {
-      let receiverType = incomingCallMessage.receiverType;
-      let receiverId =
-        receiverType === "user"
-          ? incomingCallMessage.sender.uid
-          : incomingCallMessage.receiverId;
+      try {
+        let receiverType = incomingCallMessage.receiverType;
+        let receiverId =
+          receiverType === "user"
+            ? incomingCallMessage.sender.uid
+            : incomingCallMessage.receiverId;
 
-      //marking the incoming call message as read
-      if (this.hasProperty(incomingCallMessage, "readAt") === false) {
-        CometChat.markAsRead(incomingCallMessage.id, receiverId, receiverType);
-      }
+        if (this.hasProperty(incomingCallMessage, "readAt") === false) {
+          CometChat.markAsRead(
+            incomingCallMessage.id,
+            receiverId,
+            receiverType
+          );
+        }
 
-      //updating unreadcount in chats list
-      this.messageToMarkRead = incomingCallMessage;
+        this.messageToMarkRead = incomingCallMessage;
 
-      receiverType = rejectedCallMessage.receiverType;
-      receiverId = rejectedCallMessage.receiverId;
+        receiverType = rejectedCallMessage.receiverType;
+        receiverId = rejectedCallMessage.receiverId;
 
-      if (
-        (this.type === "group" &&
-          receiverType === "group" &&
-          receiverId === this.item.guid) ||
-        (this.type === "user" &&
-          receiverType === "user" &&
-          receiverId === this.item.uid)
-      ) {
-        this.appendCallMessage(rejectedCallMessage);
+        if (
+          (this.type === "group" &&
+            receiverType === CometChat.RECEIVER_TYPE.GROUP &&
+            receiverId === this.item.guid) ||
+          (this.type === "user" &&
+            receiverType === CometChat.RECEIVER_TYPE.USER &&
+            receiverId === this.item.uid)
+        ) {
+          this.appendCallMessage(rejectedCallMessage);
+        }
+      } catch (error) {
+        console.log("Reject incoming call failed with error:", error);
       }
     },
+    /**
+     * Compose thread message
+     * @param {*} composedMessage
+     */
     onThreadMessageComposed(composedMessage) {
-      if (this.type !== this.threadMessageType) {
-        return false;
-      }
+      try {
+        if (this.type !== this.threadMessageType) {
+          return false;
+        }
 
-      if (
-        (this.threadMessageType === "group" &&
-          this.item.guid !== this.threadMessageItem.guid) ||
-        (this.threadMessageType === "user" &&
-          this.item.uid !== this.threadMessageItem.uid)
-      ) {
-        return false;
-      }
+        if (
+          (this.threadMessageType === "group" &&
+            this.item.guid !== this.threadMessageItem.guid) ||
+          (this.threadMessageType === "user" &&
+            this.item.uid !== this.threadMessageItem.uid)
+        ) {
+          return false;
+        }
 
-      const message = { ...composedMessage };
-      this.composedThreadMessage = message;
+        const message = { ...composedMessage };
+        this.composedThreadMessage = message;
+      } catch (error) {
+        console.log("Thread message compose failed with error:", error);
+      }
     },
+    /**
+     * Updates selected group
+     * @param {*} key
+     * @param {*} options
+     */
     groupUpdated(key, options) {
       this.groupMessages = [];
 
-      switch (key) {
-        case enums.GROUP_MEMBER_BANNED:
-        case enums.GROUP_MEMBER_KICKED: {
-          if (options.user.uid === this.loggedInUser.uid) {
-            this.item = {};
-            this.type = "group";
-            this.viewDetailScreen = false;
+      try {
+        switch (key) {
+          case enums.GROUP_MEMBER_BANNED:
+          case enums.GROUP_MEMBER_KICKED: {
+            if (options.user.uid === this.loggedInUser.uid) {
+              this.item = {};
+              this.type = "group";
+              this.viewDetailScreen = false;
+            }
+            break;
           }
-          break;
-        }
-        case enums.GROUP_MEMBER_SCOPE_CHANGED: {
-          if (options.user.uid === this.loggedInUser.uid) {
-            const newObj = Object.assign({}, this.item, {
-              scope: options["scope"],
-            });
+          case enums.GROUP_MEMBER_SCOPE_CHANGED: {
+            if (options.user.uid === this.loggedInUser.uid) {
+              const newObj = Object.assign({}, this.item, {
+                scope: options["scope"],
+              });
 
-            this.item = newObj;
-            this.type = "group";
-            this.viewDetailScreen = false;
+              this.item = newObj;
+              this.type = "group";
+              this.viewDetailScreen = false;
+            }
+            break;
           }
-          break;
+          default:
+            break;
         }
-        default:
-          break;
+      } catch (error) {
+        console.log("Group update failed with error:", error);
       }
     },
-    deleteGroup(group) {
+    /**
+     * Marks group for delete
+     * @param {*} group
+     */
+    deleteGroup(group = {}) {
       this.groupToDelete = { ...group };
 
       this.toggleSideBar();
       this.resetForGroup();
     },
-    leaveGroup(group) {
+    /**
+     * Marks group for leave
+     * @param {*} group
+     */
+    leaveGroup(group = {}) {
       this.groupToLeave = { ...group };
 
       this.toggleSideBar();
       this.resetForGroup();
     },
-    updateLastMessage(message) {
+    /**
+     * Updates last message
+     * @param {*} message
+     */
+    updateLastMessage(message = {}) {
       this.lastMessage = { ...message };
     },
+    /**
+     * Updates thread message
+     * @param {*} message
+     */
     updateThreadMessage(message) {
-      if (this.viewThreadMessage && this.threadMessageParent) {
-        if (this.threadMessageParent.id === message.id) {
-          this.threadMessageParent = Object.assign(
-            {},
-            this.threadMessageParent,
-            message
-          );
+      try {
+        if (this.viewThreadMessage && this.threadMessageParent) {
+          if (this.threadMessageParent.id === message.id) {
+            this.threadMessageParent = Object.assign(
+              {},
+              this.threadMessageParent,
+              message
+            );
+          }
         }
+      } catch (error) {
+        console.log("Update thread message failed with error:", error);
       }
     },
+    /**
+     * Updates count of members
+     * @param {*} count
+     */
     updateMembersCount(count) {
       const group = Object.assign({}, this.item, { membersCount: count });
 
       this.item = { ...group };
       this.groupToUpdate = { ...group };
     },
-    membersAdded(members) {
+    /**
+     * Adds add members messages to list of messages
+     */
+    membersAdded(members = []) {
       const messageList = [];
 
-      members.forEach((eachMember, message) => {
-        messageList.push(
-          this.getMessageObj(
-            `${this.loggedInUser.name} added ${eachMember.name}`,
-            message
-          )
-        );
-      });
+      try {
+        members.forEach((eachMember, message) => {
+          messageList.push(
+            this.getMessageObj(
+              `${this.loggedInUser.name} added ${eachMember.name}`,
+              message
+            )
+          );
+        });
 
-      this.groupMessages = [...messageList];
+        this.groupMessages = [...messageList];
+      } catch (error) {
+        console.log("Members add failed with error:", error);
+      }
     },
-    memberUnbanned(members, message) {
+    /**
+     * Adds unbanned messages to messages list
+     * @param {*} members
+     * @param {*} message
+     */
+    memberUnbanned(members = [], message = {}) {
       const messageList = [];
 
-      members.forEach((eachMember) => {
-        messageList.push(
-          this.getMessageObj(
-            `${this.loggedInUser.name} unbanned ${eachMember.name}`,
-            message
-          )
-        );
-      });
+      try {
+        members.forEach((eachMember) => {
+          messageList.push(
+            this.getMessageObj(
+              `${this.loggedInUser.name} unbanned ${eachMember.name}`,
+              message
+            )
+          );
+        });
 
-      this.groupMessages = [...messageList];
+        this.groupMessages = [...messageList];
+      } catch (error) {
+        console.log("Members unban failed with error:", error);
+      }
     },
-    memberScopeChanged(members, message) {
+    /**
+     * Adds scope change messages to messages list
+     * @param {*} members
+     * @param {*} message
+     */
+    memberScopeChanged(members = [], message = {}) {
       const messageList = [];
 
-      members.forEach((eachMember) => {
-        messageList.push(
-          this.getMessageObj(
-            `${this.loggedInUser.name} made ${eachMember.name} ${eachMember.scope}`,
-            message
-          )
-        );
-      });
+      try {
+        members.forEach((eachMember) => {
+          messageList.push(
+            this.getMessageObj(
+              `${this.loggedInUser.name} made ${eachMember.name} ${eachMember.scope}`,
+              message
+            )
+          );
+        });
 
-      this.groupMessages = [...messageList];
+        this.groupMessages = [...messageList];
+      } catch (error) {
+        console.log("Members scope change failed with error:", error);
+      }
     },
-    getMessageObj(message, messageObj) {
+    /**
+     * Gets a new combined message object
+     * @param {*} message
+     * @param {*} messageObj
+     */
+    getMessageObj(message = {}, messageObj = {}) {
       return {
         message,
         id: this.uid(),
@@ -268,20 +371,23 @@ export default {
         ...(messageObj || {}),
       };
     },
+    /**
+     * Resets group
+     */
     resetForGroup() {
       this.item = {};
       this.type = "group";
       this.viewDetailScreen = false;
     },
-    callInitiated(message) {
+    callInitiated(message = {}) {
       this.appendCallMessage(message);
     },
-    outgoingCallEnded(message) {
+    outgoingCallEnded(message = {}) {
       this.outgoingCall = null;
       this.incomingCall = null;
       this.appendCallMessage(message);
     },
-    viewMessageThread(parentMessage) {
+    viewMessageThread(parentMessage = {}) {
       const message = { ...parentMessage };
       const threaditem = { ...this.item };
 
@@ -298,7 +404,7 @@ export default {
       this.viewDetailScreen = false;
       this.viewThreadMessage = false;
     },
-    setImageView(message) {
+    setImageView(message = {}) {
       this.imageView = message;
     },
     toggleSideBar() {

@@ -62,7 +62,7 @@
 import { CometChat } from "@cometchat-pro/chat";
 
 import {
-  STRING_MESSAGES,
+  COMETCHAT_CONSTANTS,
   DEFAULT_ARRAY_PROP,
   DEFAULT_OBJECT_PROP,
   DEFAULT_BOOLEAN_PROP,
@@ -86,6 +86,11 @@ let timeout;
 let friendsOnly;
 let addMembersManager;
 
+/**
+ * Displays list of users for adding in group.
+ *
+ * @displayName CometChatAddGroupMemberList
+ */
 export default {
   name: "CometChatAddGroupMemberList",
   mixins: [cometChatCommon],
@@ -94,11 +99,29 @@ export default {
     CometChatAddGroupMemberListItem,
   },
   props: {
+    /**
+     * Opens the modal.
+     */
     open: { ...DEFAULT_BOOLEAN_PROP },
+    /**
+     * The selected chat item object.
+     */
     item: { ...DEFAULT_OBJECT_PROP },
+    /**
+     * Theme of the UI.
+     */
     theme: { ...DEFAULT_OBJECT_PROP },
+    /**
+     * List of members.
+     */
     membersList: { ...DEFAULT_ARRAY_PROP },
+    /**
+     * Current logged in user.
+     */
     loggedInUser: { ...DEFAULT_OBJECT_PROP },
+    /**
+     * List of banned members.
+     */
     bannedMembersList: { ...DEFAULT_ARRAY_PROP },
   },
   data() {
@@ -107,10 +130,13 @@ export default {
       membersToAdd: [],
       filteredList: [],
       membersAdding: false,
-      decoratorMessage: STRING_MESSAGES.LOADING_MESSSAGE,
+      decoratorMessage: COMETCHAT_CONSTANTS.LOADING_MESSSAGE,
     };
   },
   computed: {
+    /**
+     * Computed styles for the component.
+     */
     styles() {
       return {
         modalBody: style.modalBodyCtyle(),
@@ -126,48 +152,69 @@ export default {
         modalWrapper: style.modalWrapperStyle(this.theme, this.open),
       };
     },
+    /**
+     * Local string constants.
+     */
     STRINGS() {
-      return STRING_MESSAGES;
+      return COMETCHAT_CONSTANTS;
     },
   },
   methods: {
+    /**
+     * Updates a user
+     */
     userUpdateHandler(user) {
-      console.log("CometChatAddGroupMemberList: userUpdateHandler", user);
-      let userlist = [...this.userList];
+      try {
+        let userlist = [...this.userList];
 
-      let userKey = userlist.findIndex((u) => u.uid === user.uid);
+        let userKey = userlist.findIndex((u) => u.uid === user.uid);
 
-      if (userKey > -1) {
-        let userObj = userlist[userKey];
-        let newUserObj = Object.assign({}, userObj, user);
-        userlist.splice(userKey, 1, newUserObj);
+        if (userKey > -1) {
+          let userObj = userlist[userKey];
+          let newUserObj = Object.assign({}, userObj, user);
+          userlist.splice(userKey, 1, newUserObj);
 
-        this.userList = userlist;
+          this.userList = userlist;
+        }
+      } catch (error) {
+        this.logError("Error updating user", error);
       }
     },
+    /**
+     * Handles scroll in user list
+     */
     scrollHandler(e) {
-      const bottom =
-        Math.round(e.currentTarget.scrollHeight - e.currentTarget.scrollTop) ===
-        Math.round(e.currentTarget.clientHeight);
-      if (bottom) {
-        this.getUsers();
+      try {
+        const bottom =
+          Math.round(
+            e.currentTarget.scrollHeight - e.currentTarget.scrollTop
+          ) === Math.round(e.currentTarget.clientHeight);
+        if (bottom) {
+          this.getUsers();
+        }
+      } catch (error) {
+        this.logError("Error in scrollHandler", error);
       }
     },
     searchUsers(event) {
-      if (timeout) {
-        clearTimeout(timeout);
+      try {
+        if (timeout) {
+          clearTimeout(timeout);
+        }
+
+        let val = event.target.value;
+        timeout = setTimeout(() => {
+          addMembersManager = new AddMembersManager(friendsOnly, val);
+
+          this.userList = [];
+          this.membersToAdd = [];
+          this.membersToRemove = [];
+
+          this.getUsers(true);
+        }, 500);
+      } catch (error) {
+        this.logError("Error in searching users", error);
       }
-
-      let val = event.target.value;
-      timeout = setTimeout(() => {
-        addMembersManager = new AddMembersManager(friendsOnly, val);
-
-        this.userList = [];
-        this.membersToAdd = [];
-        this.membersToRemove = [];
-
-        this.getUsers(true);
-      }, 500);
     },
     async getUsers(search = false) {
       try {
@@ -191,7 +238,7 @@ export default {
         });
 
         if (filteredUserList.length === 0) {
-          this.decoratorMessage = STRING_MESSAGES.ERROR_NO_USERS_FOUND;
+          this.decoratorMessage = COMETCHAT_CONSTANTS.ERROR_NO_USERS_FOUND;
         }
 
         if (search) {
@@ -202,8 +249,8 @@ export default {
           this.filteredList = [...this.filteredList, ...filteredUserList];
         }
       } catch (error) {
-        this.decoratorMessage = STRING_MESSAGES.ERROR;
-        console.error(
+        this.decoratorMessage = COMETCHAT_CONSTANTS.ERROR;
+        this.logError(
           "[CometChatAddGroupMemberList] getUsers fetchNext error",
           error
         );
@@ -217,69 +264,81 @@ export default {
       }
     },
     membersUpdated({ user, value }) {
-      if (value) {
-        const members = [...this.membersToAdd];
-        members.push(user);
+      try {
+        if (value) {
+          const members = [...this.membersToAdd];
+          members.push(user);
 
-        this.membersToAdd = [...members];
-      } else {
-        const membersToAdd = [...this.membersToAdd];
-        const index = membersToAdd.findIndex(
-          (member) => member.uid === user.uid
-        );
-        if (index > -1) {
-          membersToAdd.splice(index, 1);
+          this.membersToAdd = [...members];
+        } else {
+          const membersToAdd = [...this.membersToAdd];
+          const index = membersToAdd.findIndex(
+            (member) => member.uid === user.uid
+          );
+          if (index > -1) {
+            membersToAdd.splice(index, 1);
 
-          this.membersToAdd = [...membersToAdd];
+            this.membersToAdd = [...membersToAdd];
+          }
         }
+      } catch (error) {
+        this.logError("Error in members updated", error);
       }
     },
     async updateMembers() {
-      const guid = this.item.guid;
-      const membersList = [];
+      try {
+        const guid = this.item.guid;
+        const membersList = [];
 
-      this.membersToAdd.forEach((newmember) => {
-        const index = this.membersList.findIndex(
-          (member) => member.uid === newmember.uid
-        );
-        if (index === -1) {
-          const newMember = new CometChat.GroupMember(
-            newmember.uid,
-            CometChat.GROUP_MEMBER_SCOPE.PARTICIPANT
+        this.membersToAdd.forEach((newmember) => {
+          const index = this.membersList.findIndex(
+            (member) => member.uid === newmember.uid
           );
-          membersList.push(newMember);
+          if (index === -1) {
+            const newMember = new CometChat.GroupMember(
+              newmember.uid,
+              CometChat.GROUP_MEMBER_SCOPE.PARTICIPANT
+            );
+            membersList.push(newMember);
 
-          newmember["type"] = "add";
-        }
-      });
-
-      if (membersList.length) {
-        const membersToAdd = [];
-        this.membersAdding = true;
-
-        try {
-          const response = await CometChat.addMembersToGroup(
-            guid,
-            membersList,
-            []
-          );
-
-          if (Object.keys(response).length) {
-            for (const member in response) {
-              if (response[member] === "success") {
-                const found = this.userList.find((user) => user.uid === member);
-                found["scope"] = CometChat.GROUP_MEMBER_SCOPE.PARTICIPANT;
-                membersToAdd.push(found);
-              }
-            }
-            this.emitAction("addGroupParticipants", { members: membersToAdd });
+            newmember["type"] = "add";
           }
-          this.emitEvent("close");
-        } catch (error) {
-          console.log("addMembersToGroup failed with exception:", error);
-        } finally {
-          this.membersAdding = false;
+        });
+
+        if (membersList.length) {
+          const membersToAdd = [];
+          this.membersAdding = true;
+
+          try {
+            const response = await CometChat.addMembersToGroup(
+              guid,
+              membersList,
+              []
+            );
+
+            if (Object.keys(response).length) {
+              for (const member in response) {
+                if (response[member] === "success") {
+                  const found = this.userList.find(
+                    (user) => user.uid === member
+                  );
+                  found["scope"] = CometChat.GROUP_MEMBER_SCOPE.PARTICIPANT;
+                  membersToAdd.push(found);
+                }
+              }
+              this.emitAction("addGroupParticipants", {
+                members: membersToAdd,
+              });
+            }
+            this.emitEvent("close");
+          } catch (error) {
+            this.logError("addMembersToGroup failed with exception:", error);
+          } finally {
+            this.membersAdding = false;
+          }
         }
+      } catch (error) {
+        this.logError("Error in update members", error);
       }
     },
   },

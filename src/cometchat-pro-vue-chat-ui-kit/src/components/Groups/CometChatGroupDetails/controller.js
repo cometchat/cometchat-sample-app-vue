@@ -2,6 +2,12 @@ import { CometChat } from "@cometchat-pro/chat";
 
 import * as enums from "../../../util/enums.js";
 
+/**
+ * GroupDetailManager class encapsulates the following functionality:
+ * - fetching the group list
+ * - attaching User listener
+ * - attaching Group listener
+ */
 export class GroupDetailManager {
   guid = null;
   groupMemberRequest = null;

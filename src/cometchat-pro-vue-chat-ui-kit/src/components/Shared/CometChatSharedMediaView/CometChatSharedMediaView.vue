@@ -1,25 +1,25 @@
 <template>
-  <div :style="sharedStyle.section">
-    <h6 :style="sharedStyle.sectionHeader">{{ STRINGS.SHARED_MEDIA }}</h6>
-    <div :style="sharedStyle.sectionContent" data-id="sharedmedia">
-      <div :style="sharedStyle.mediaBtn">
+  <div :style="styles.section">
+    <h6 :style="styles.sectionHeader">{{ STRINGS.SHARED_MEDIA }}</h6>
+    <div :style="styles.sectionContent" data-id="sharedmedia">
+      <div :style="styles.mediaBtn">
         <span
           class="sharedmedia__button"
-          :style="sharedStyle.imageButton"
+          :style="styles.imageButton"
           @click="mediaClickHandler('image')"
         >
           {{ STRINGS.PHOTOS }}
         </span>
         <span
           class="sharedmedia__button"
-          :style="sharedStyle.videoButton"
+          :style="styles.videoButton"
           @click="mediaClickHandler('video')"
         >
           {{ STRINGS.VIDEOS }}
         </span>
         <span
           class="sharedmedia__button"
-          :style="sharedStyle.fileButton"
+          :style="styles.fileButton"
           @click="mediaClickHandler('file')"
         >
           {{ STRINGS.DOCUMENT }}
@@ -27,22 +27,22 @@
       </div>
       <div
         ref="messageContainer"
-        :style="sharedStyle.mediaItem"
+        :style="styles.mediaItem"
         @scroll="scrollHandler"
       >
         <template v-if="loading">
-          <div :style="sharedStyle.message">{{ STRINGS.LOADING_MESSSAGE }}</div>
+          <div :style="styles.message">{{ STRINGS.LOADING_MESSSAGE }}</div>
         </template>
         <template v-if="messageList.length">
           <template v-for="(message, key) in messageList">
             <div
               :key="key"
               :id="message.id"
-              :style="sharedStyle.imageItem"
+              :style="styles.imageItem"
               v-if="messageType === 'image' && message.data.url"
             >
               <img
-                :style="sharedStyle.imageItem.image"
+                :style="styles.imageItem.image"
                 :alt="STRINGS.MEDIA_ITEM"
                 :src="message.data.url"
               />
@@ -50,25 +50,22 @@
             <div
               :key="key"
               :id="message.id"
-              :style="sharedStyle.videoItem"
+              :style="styles.videoItem"
               v-if="messageType === 'video' && message.data.url"
             >
-              <video
-                :style="sharedStyle.videoItem.video"
-                :src="message.data.url"
-              />
+              <video :style="styles.videoItem.video" :src="message.data.url" />
             </div>
             <div
               :key="key"
               :id="message.id"
-              :style="sharedStyle.fileItem"
+              :style="styles.fileItem"
               v-if="messageType === 'file' && message.data.attachments"
             >
               <a
                 target="_blank"
                 rel="noopener noreferrer"
                 class="sharedmedia__button__anchor"
-                :style="sharedStyle.fileItem.anchor"
+                :style="styles.fileItem.anchor"
                 :href="message.data.attachments[0].url"
                 >{{ message.data.attachments[0].name }}</a
               >
@@ -76,7 +73,7 @@
           </template>
         </template>
         <template v-else>
-          <div v-if="!loading" :style="sharedStyle.message">
+          <div v-if="!loading" :style="styles.message">
             {{ STRINGS.ERROR_NO_RECORDS }}
           </div>
         </template>
@@ -86,7 +83,7 @@
 </template>
 <script>
 import {
-  STRING_MESSAGES,
+  COMETCHAT_CONSTANTS,
   DEFAULT_OBJECT_PROP,
   DEFAULT_STRING_PROP,
 } from "../../../resources/constants";
@@ -102,12 +99,29 @@ import fileIcon from "./resources/file-blue.svg";
 
 let sharedMediaManager;
 
+/**
+ * Shows a preview of media messages that is shared in chat.
+ *
+ * @displayName CometChatSharedMediaView
+ */
 export default {
   name: "CometChatSharedMediaView",
   props: {
+    /**
+     * Type of chat item.
+     */
     item: { ...DEFAULT_OBJECT_PROP },
+    /**
+     * The selected chat item object.
+     */
     type: { ...DEFAULT_STRING_PROP },
+    /**
+     * Theme of the UI.
+     */
     theme: { ...DEFAULT_OBJECT_PROP },
+    /**
+     * Height of the wrapper container.
+     */
     containerHeight: { ...DEFAULT_STRING_PROP },
   },
   data() {
@@ -118,6 +132,9 @@ export default {
     };
   },
   watch: {
+    /**
+     * Refreshes the manager on message type change.
+     */
     messageType: {
       handler(newValue, oldValue) {
         if (newValue !== oldValue) {
@@ -128,7 +145,10 @@ export default {
     },
   },
   computed: {
-    sharedStyle() {
+    /**
+     * Computed styles for the component.
+     */
+    styles() {
       return {
         mediaBtn: style.mediaBtnStyle(),
         mediaItem: style.mediaItemStyle(),
@@ -144,13 +164,19 @@ export default {
         fileItem: style.itemStyle(this.messageType, this.theme, fileIcon),
       };
     },
+    /**
+     * Local string constants.
+     */
     STRINGS() {
-      return STRING_MESSAGES;
+      return COMETCHAT_CONSTANTS;
     },
   },
   methods: {
+    /**
+     * Handles listener events
+     */
     messageUpdateHandler(key, message) {
-      console.log("CometChatSharedMediaView :messageUpdateHandler", {
+      this.logInfo("CometChatSharedMediaView :messageUpdateHandler", {
         key,
         message,
       });
@@ -165,6 +191,9 @@ export default {
           break;
       }
     },
+    /**
+     * Called when message is deleted
+     */
     messageDeleted(deletedMessage) {
       const messageType = deletedMessage.data.type;
 
@@ -183,6 +212,9 @@ export default {
         this.scrollToBottom = false;
       }
     },
+    /**
+     * Called when message is recieved
+     */
     messageReceived(message) {
       const messageType = message.data.type;
 
@@ -199,6 +231,9 @@ export default {
         this.scrollToBottom = false;
       }
     },
+    /**
+     * Gets list of all messages
+     */
     async getMessages(scrollToBottom = false) {
       if (this.loading) {
         return;
@@ -231,12 +266,22 @@ export default {
         this.loading = false;
       }
     },
+    /**
+     * Handles scroll in container
+     */
     scrollHandler(e) {
-      const top = Math.round(e.target.scrollTop) === 0;
-      if (top && this.messageList.length) {
-        this.getMessages();
+      try {
+        const top = Math.round(e.target.scrollTop) === 0;
+        if (top && this.messageList.length) {
+          this.getMessages();
+        }
+      } catch (error) {
+        this.logError("Eroor in scroll", error);
       }
     },
+    /**
+     * Handles medai click
+     */
     mediaClickHandler(type) {
       if (this.loading) {
         return;
@@ -244,6 +289,9 @@ export default {
 
       this.messageType = type;
     },
+    /**
+     * Scrolls the list to bottom
+     */
     scrollToBottom() {
       this.$nextTick(() => {
         if (this.$refs && this.$refs.messageContainer) {

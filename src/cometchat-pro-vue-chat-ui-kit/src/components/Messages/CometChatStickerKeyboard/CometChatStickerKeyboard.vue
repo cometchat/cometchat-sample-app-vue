@@ -52,10 +52,18 @@ import * as style from "./style";
 
 import closeIcon from "./resources/clear.svg";
 
+/**
+ * Used to choose and send sticker messages.
+ *
+ * @displayName CometChatStickerKeyboard
+ */
 export default {
   name: "CometChatStickerKeyboard",
   mixins: [propertyCheck, cometChatCommon],
   props: {
+    /**
+     * Theme of the UI.
+     */
     theme: { ...DEFAULT_OBJECT_PROP },
   },
   data() {
@@ -68,6 +76,9 @@ export default {
     };
   },
   computed: {
+    /**
+     * Computed styles for the component.
+     */
     styles() {
       return {
         stickerMsg: style.stickerMsgStyle(),
@@ -80,11 +91,17 @@ export default {
         stickerSectionList: style.stickerSectionListStyle(this.theme),
       };
     },
+    /**
+     * List of all sticker sets.
+     */
     stickerSetList() {
       return Object.keys(this.stickerSet);
     },
   },
   methods: {
+    /**
+     * Gets all available sticker sets.
+     */
     async getStickers() {
       this.decoratorMessage = "Loading...";
       try {
@@ -153,9 +170,15 @@ export default {
         this.activeStickerList = [];
       }
     },
+    /**
+     * Sends a sticker message.
+     */
     sendStickerMessage(item) {
       this.emitAction("sendSticker", { sticker: item });
     },
+    /**
+     * Handles sending a sticker.
+     */
     onStickerSetClicked(item) {
       this.activeStickerSet = item;
       this.activeStickerList = [...this.stickerSet[item]];

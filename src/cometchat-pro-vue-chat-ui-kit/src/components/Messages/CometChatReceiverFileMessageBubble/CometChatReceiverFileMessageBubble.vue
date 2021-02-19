@@ -36,8 +36,8 @@
                     {{ parsedMessage.data.attachments[0].name }}
                   </span>
                   <img
-                    alt="file"
                     :src="fileIcon"
+                    :alt="COMET_CHAT.MESSAGE_TYPE.FILE"
                     class="receiver__message__file__img"
                   />
                 </span>
@@ -52,7 +52,7 @@
           :logged-in-user="loggedInUser"
         />
         <div :style="styles.infoWrapper">
-          <comet-chat-read-reciept :theme="theme" :message="parsedMessage" />
+          <comet-chat-read-receipt :theme="theme" :message="parsedMessage" />
           <comet-chat-threaded-message-reply-count
             v-bind="commonProps"
             v-if="!parentMessageId"
@@ -64,6 +64,8 @@
   </div>
 </template>
 <script>
+import { CometChat } from "@cometchat-pro/chat";
+
 import {
   DEFAULT_OBJECT_PROP,
   DEFAULT_STRING_PROP,
@@ -72,7 +74,7 @@ import {
 import { cometChatCommon, cometChatBubbles } from "../../../mixins/";
 
 import { CometChatAvatar } from "../../Shared";
-import CometChatReadReciept from "../CometChatReadReciept/CometChatReadReciept";
+import CometChatReadReceipt from "../CometChatReadReceipt/CometChatReadReceipt";
 import CometChatMessageActions from "../CometChatMessageActions/CometChatMessageActions";
 import CometChatMessageReactions from "../Extensions/CometChatMessageReactions/CometChatMessageReactions";
 import CometChatThreadedMessageReplyCount from "../CometChatThreadedMessageReplyCount/CometChatThreadedMessageReplyCount";
@@ -81,21 +83,37 @@ import * as style from "./style";
 
 import blueFile from "./resources/file-blue.svg";
 
+/**
+ * Message bubble for received file messages.
+ *
+ * @displayName CometChatReceiverFileMessageBubble
+ */
 export default {
   name: "CometChatReceiverFileMessageBubble",
   mixins: [cometChatCommon, cometChatBubbles],
   components: {
     CometChatAvatar,
-    CometChatReadReciept,
+    CometChatReadReceipt,
     CometChatMessageActions,
     CometChatMessageReactions,
     CometChatThreadedMessageReplyCount,
   },
   props: {
+    /**
+     * Theme of the UI.
+     */
     theme: { ...DEFAULT_OBJECT_PROP },
+    /**
+     * The message object.
+     */
     message: { ...DEFAULT_OBJECT_PROP },
+    /**
+     * Current logged in user.
+     */
     loggedInUser: { ...DEFAULT_OBJECT_PROP },
-    widgetconfig: { ...DEFAULT_OBJECT_PROP },
+    /**
+     * Id of parent for the message.
+     */
     parentMessageId: { ...DEFAULT_STRING_PROP },
   },
   data() {
@@ -104,6 +122,9 @@ export default {
     };
   },
   computed: {
+    /**
+     * Computed styles for the component.
+     */
     styles() {
       return {
         name: style.nameStyle(this.theme),
@@ -124,8 +145,17 @@ export default {
         ),
       };
     },
+    /**
+     * File icon computed from image.
+     */
     fileIcon() {
       return blueFile;
+    },
+    /**
+     * Instance of "CometChat" to use in Vue html template.
+     */
+    COMET_CHAT() {
+      return CometChat;
     },
   },
 };

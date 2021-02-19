@@ -39,6 +39,11 @@ import { CometChatAvatar, CometChatUserPresence } from "../../Shared/";
 
 import * as style from "./style";
 
+/**
+ * List item for user list.
+ *
+ * @displayName CometChatUserListItem
+ */
 export default {
   name: "CometChatUserListItem",
   mixins: [tooltip, cometChatCommon],
@@ -47,11 +52,23 @@ export default {
     CometChatUserPresence,
   },
   props: {
+    /**
+     * User object.
+     */
     user: { ...DEFAULT_OBJECT_PROP },
+    /**
+     * Theme of the UI.
+     */
     theme: { ...DEFAULT_OBJECT_PROP },
+    /**
+     * Selected user in the list.
+     */
     selectedUser: { ...DEFAULT_OBJECT_PROP },
   },
   computed: {
+    /**
+     * Computed styles for the component.
+     */
     styles() {
       return {
         itemName: style.itemNameStyle(),

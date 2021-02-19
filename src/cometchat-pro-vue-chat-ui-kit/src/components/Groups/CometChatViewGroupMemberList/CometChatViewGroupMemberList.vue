@@ -59,7 +59,7 @@
 import { CometChat } from "@cometchat-pro/chat";
 
 import {
-  STRING_MESSAGES,
+  COMETCHAT_CONSTANTS,
   DEFAULT_ARRAY_PROP,
   DEFAULT_OBJECT_PROP,
   DEFAULT_BOOLEAN_PROP,
@@ -74,6 +74,11 @@ import clearIcon from "./resources/close.png";
 
 import * as style from "./style";
 
+/**
+ * Displays list of group members.
+ *
+ * @displayName CometChatViewGroupMemberList
+ */
 export default {
   name: "CometChatViewGroupMemberList",
   mixins: [cometChatCommon, propertyCheck],
@@ -82,13 +87,31 @@ export default {
     CometChatViewGroupMemberListItem,
   },
   props: {
+    /**
+     * The selected chat item object.
+     */
     item: { ...DEFAULT_OBJECT_PROP },
+    /**
+     * Opens the modal.
+     */
     open: { ...DEFAULT_BOOLEAN_PROP },
+    /**
+     * Theme of the UI.
+     */
     theme: { ...DEFAULT_OBJECT_PROP },
+    /**
+     * List of all members.
+     */
     membersList: { ...DEFAULT_ARRAY_PROP },
+    /**
+     * Current logged in user.
+     */
     loggedInUser: { ...DEFAULT_OBJECT_PROP },
   },
   computed: {
+    /**
+     * Computed styles for the component.
+     */
     styles() {
       return {
         modalBody: style.modalBodyCtyle(),
@@ -100,6 +123,9 @@ export default {
         modalWrapper: style.modalWrapperStyle(this.theme, this.open),
       };
     },
+    /**
+     * Returns if user can edit scope(ban/kick) members.
+     */
     canEdit() {
       let flag = false;
 
@@ -109,23 +135,40 @@ export default {
 
       return flag;
     },
+    /**
+     * Local string constants.
+     */
     STRINGS() {
-      return STRING_MESSAGES;
+      return COMETCHAT_CONSTANTS;
     },
   },
   methods: {
+    /**
+     * Closes modal
+     */
     closeModal() {
       this.emitEvent("close");
     },
+    /**
+     * Handler for group member list scroll
+     */
     scrollHandler(e) {
-      const bottom =
-        Math.round(e.currentTarget.scrollHeight - e.currentTarget.scrollTop) ===
-        Math.round(e.currentTarget.clientHeight);
+      try {
+        const bottom =
+          Math.round(
+            e.currentTarget.scrollHeight - e.currentTarget.scrollTop
+          ) === Math.round(e.currentTarget.clientHeight);
 
-      if (bottom) {
-        this.emitAction("fetchGroupMembers");
+        if (bottom) {
+          this.emitAction("fetchGroupMembers");
+        }
+      } catch (error) {
+        this.logError("Error in group member scroll ", error);
       }
     },
+    /**
+     * Handler for emitted action events
+     */
     updateMembersHandler({ action, member, scope }) {
       switch (action) {
         case "ban":
@@ -141,6 +184,9 @@ export default {
           break;
       }
     },
+    /**
+     * Bans a member
+     */
     async banMember(memberToBan) {
       try {
         const guid = this.item.guid;
@@ -151,9 +197,12 @@ export default {
           this.emitAction("removeGroupParticipants", { member: memberToBan });
         }
       } catch (error) {
-        console.log("banGroupMember failed with error: ", error);
+        this.logError("banGroupMember failed with error: ", error);
       }
     },
+    /**
+     * Kicks a member
+     */
     async kickMember(memberToKick) {
       try {
         const guid = this.item.guid;
@@ -166,9 +215,12 @@ export default {
           this.emitAction("removeGroupParticipants", { member: memberToKick });
         }
       } catch (error) {
-        console.log("kickGroupMember failed with error: ", error);
+        this.logError("kickGroupMember failed with error: ", error);
       }
     },
+    /**
+     * Changes scope of a member
+     */
     async changeScope(member, scope = "participant") {
       try {
         const guid = this.item.guid;
@@ -184,7 +236,7 @@ export default {
           this.emitAction("updateGroupParticipants", { member: updatedMember });
         }
       } catch (error) {
-        console.log("updateGroupMemberScope failed with error: ", error);
+        this.logError("updateGroupMemberScope failed with error: ", error);
       }
     },
   },

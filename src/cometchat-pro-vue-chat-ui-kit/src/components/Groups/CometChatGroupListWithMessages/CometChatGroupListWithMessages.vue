@@ -94,6 +94,11 @@ import { theme } from "../../../resources/theme";
 
 import * as style from "./style";
 
+/**
+ * Displays list of group with messages.
+ *
+ * @displayName CometChatGroupListWithMessages
+ */
 export default {
   name: "CometChatGroupListWithMessages",
   mixins: [propertyCheck, cometChatScreens],
@@ -107,6 +112,9 @@ export default {
     CometChatMessages,
   },
   props: {
+    /**
+     * Theme of the UI.
+     */
     theme: { ...DEFAULT_OBJECT_PROP },
   },
   data() {
@@ -135,9 +143,15 @@ export default {
     };
   },
   computed: {
+    /**
+     * Theme computed using default theme and theme coming from prop.
+     */
     themeValue() {
       return Object.assign({}, theme, this.theme);
     },
+    /**
+     * Computed styles for the component.
+     */
     styles() {
       return {
         root: style.groupScreenStyle(this.themeValue),
@@ -149,11 +163,17 @@ export default {
           this.viewThreadMessage,
           this.viewDetailScreen
         ),
-        secondary: style.groupScreenSecondaryStyle(this.themeValue),
+        secondary: style.groupScreenSecondaryStyle(
+          this.themeValue,
+          this.viewThreadMessage
+        ),
       };
     },
   },
   methods: {
+    /**
+     * Handler for emitted action events
+     */
     actionHandler({
       action,
       key,
@@ -263,6 +283,9 @@ export default {
           break;
       }
     },
+    /**
+     * Updates group
+     */
     groupUpdated(key, options) {
       this.groupMessages = [];
 
@@ -292,16 +315,25 @@ export default {
           break;
       }
     },
+    /**
+     * Deletes group
+     */
     deleteGroup(group) {
       this.groupToDelete = group;
 
       this.resetGroup();
     },
+    /**
+     * Leaves group
+     */
     leaveGroup(group) {
       this.groupToLeave = group;
 
       this.resetGroup();
     },
+    /**
+     * Reset group
+     */
     resetGroup() {
       this.item = {};
       this.type = "group";
@@ -309,11 +341,15 @@ export default {
     },
   },
   beforeMount() {
+    if (!Object.keys(this.item).length) {
+      this.toggleSideBar();
+    }
+
     (async () => {
       try {
         this.loggedInUser = await new CometChatManager().getLoggedInUser();
       } catch (error) {
-        console.log(
+        this.logError(
           "[CometChatUserListWithMessages] getLoggedInUser error",
           error
         );

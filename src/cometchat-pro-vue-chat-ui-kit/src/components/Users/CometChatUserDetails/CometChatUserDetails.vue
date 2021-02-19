@@ -41,7 +41,7 @@
 </template>
 <script>
 import {
-  STRING_MESSAGES,
+  COMETCHAT_CONSTANTS,
   DEFAULT_OBJECT_PROP,
   DEFAULT_STRING_PROP,
 } from "../../../resources/constants";
@@ -50,20 +50,37 @@ import { propertyCheck, cometChatCommon } from "../../../mixins/";
 
 import { CometChatSharedMediaView } from "../../Shared";
 
-import navigateIcon from "./resources/navigate_before.svg";
+import navigateIcon from "./resources/navigate.png";
 
 import * as style from "./style";
 
+/**
+ * Displays details for the user of current chat.
+ *
+ * @displayName CometChatUserDetails
+ */
 export default {
   name: "CometChatUserDetails",
   mixins: [propertyCheck, cometChatCommon],
   components: { CometChatSharedMediaView },
   props: {
+    /**
+     * The selected chat item object.
+     */
     item: { ...DEFAULT_OBJECT_PROP },
+    /**
+     * Type of chat item.
+     */
     type: { ...DEFAULT_STRING_PROP },
+    /**
+     * Theme of the UI.
+     */
     theme: { ...DEFAULT_OBJECT_PROP },
   },
   computed: {
+    /**
+     * Computed styles for the component.
+     */
     styles() {
       return {
         section: style.sectionStyle(),
@@ -78,8 +95,11 @@ export default {
         privacySection: style.privacySectionStyle(this.theme),
       };
     },
+    /**
+     * Local string constants.
+     */
     STRINGS() {
-      return STRING_MESSAGES;
+      return COMETCHAT_CONSTANTS;
     },
   },
 };

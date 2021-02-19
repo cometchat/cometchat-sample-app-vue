@@ -45,7 +45,7 @@
         v-if="!parentMessageId"
         @action="actionHandler"
       />
-      <comet-chat-read-reciept :theme="theme" :message="parsedMessage" />
+      <comet-chat-read-receipt :theme="theme" :message="parsedMessage" />
     </div>
   </div>
 </template>
@@ -57,27 +57,43 @@ import {
 
 import { polls, cometChatCommon, cometChatBubbles } from "../../../../mixins/";
 
-import CometChatReadReciept from "../../CometChatReadReciept/CometChatReadReciept";
+import CometChatReadReceipt from "../../CometChatReadReceipt/CometChatReadReceipt";
 import CometChatMessageActions from "../../CometChatMessageActions/CometChatMessageActions";
 import CometChatMessageReactions from "../CometChatMessageReactions/CometChatMessageReactions";
 import CometChatThreadedMessageReplyCount from "../../CometChatThreadedMessageReplyCount/CometChatThreadedMessageReplyCount";
 
 import * as style from "./style";
 
+/**
+ * Message bubble for sent poll messages.
+ *
+ * @displayName CometChatSenderPollMessageBubble
+ */
 export default {
   name: "CometChatSenderPollMessageBubble",
   mixins: [polls, cometChatCommon, cometChatBubbles],
   components: {
-    CometChatReadReciept,
+    CometChatReadReceipt,
     CometChatMessageActions,
     CometChatMessageReactions,
     CometChatThreadedMessageReplyCount,
   },
   props: {
+    /**
+     * Theme of the UI.
+     */
     theme: { ...DEFAULT_OBJECT_PROP },
+    /**
+     * The message object.
+     */
     message: { ...DEFAULT_OBJECT_PROP },
+    /**
+     * Current logged in user.
+     */
     loggedInUser: { ...DEFAULT_OBJECT_PROP },
-    widgetconfig: { ...DEFAULT_OBJECT_PROP },
+    /**
+     * Id of parent for the message.
+     */
     parentMessageId: { ...DEFAULT_STRING_PROP },
   },
   data() {
@@ -87,6 +103,9 @@ export default {
     };
   },
   computed: {
+    /**
+     * Computed styles for the component.
+     */
     styles() {
       return {
         pollTotal: style.pollTotalStyle(),
@@ -105,6 +124,9 @@ export default {
     },
   },
   methods: {
+    /**
+     * Returns poll percentage
+     */
     getPollPercent(pollOption) {
       let width = "0%";
 
@@ -115,6 +137,9 @@ export default {
       }
       return width;
     },
+    /**
+     * Returns poll style according to percentage
+     */
     getPollPercentStyle(percent) {
       return style.pollPercentStyle(this.theme, percent);
     },

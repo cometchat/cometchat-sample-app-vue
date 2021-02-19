@@ -21,7 +21,7 @@
         autoComplete="off"
         :style="styles.searchInput"
         :placeholder="STRINGS.SEARCH"
-        @input="userSearchHandler"
+        @input="groupSearchHandler"
       />
     </div>
     <div v-if="groupList.length === 0" :style="styles.msg">
@@ -60,7 +60,7 @@ import { CometChatManager } from "../../../util/controller";
 import { SvgAvatar } from "../../../util/svgavatar";
 
 import {
-  STRING_MESSAGES,
+  COMETCHAT_CONSTANTS,
   DEFAULT_OBJECT_PROP,
   DEFAULT_BOOLEAN_PROP,
 } from "../../../resources/constants";
@@ -85,6 +85,11 @@ let timeout;
 let groupListManager;
 let cometChatManager;
 
+/**
+ * Displays list of groups.
+ *
+ * @displayName CometChatGroupList
+ */
 export default {
   name: "CometChatGroupList",
   mixins: [propertyCheck, cometChatCommon],
@@ -93,12 +98,33 @@ export default {
     CometChatCreateGroup,
   },
   props: {
+    /**
+     * The selected chat item object.
+     */
     item: { ...DEFAULT_OBJECT_PROP },
+    /**
+     * Theme of the UI.
+     */
     theme: { ...DEFAULT_OBJECT_PROP },
+    /**
+     * @ignore
+     */
     config: { ...DEFAULT_OBJECT_PROP },
+    /**
+     * The group selected to leave.
+     */
     groupToLeave: { ...DEFAULT_OBJECT_PROP },
+    /**
+     * The group selected to update.
+     */
     groupToUpdate: { ...DEFAULT_OBJECT_PROP },
+    /**
+     * The group selected to delete.
+     */
     groupToDelete: { ...DEFAULT_OBJECT_PROP },
+    /**
+     * Shows/hides the close menu button.
+     */
     enableCloseMenu: { ...DEFAULT_BOOLEAN_PROP },
   },
   data() {
@@ -108,13 +134,19 @@ export default {
       loggedInUser: {},
       selectedGroup: null,
       createGroupOpen: false,
-      decoratorMessage: STRING_MESSAGES.LOADING_MESSSAGE,
+      decoratorMessage: COMETCHAT_CONSTANTS.LOADING_MESSSAGE,
     };
   },
   computed: {
+    /**
+     * Theme computed using default theme and theme coming from prop.
+     */
     themeValue() {
       return Object.assign({}, theme, this.theme || {});
     },
+    /**
+     * Computed styles for the component.
+     */
     styles() {
       return {
         msg: style.groupMsgStyle(),
@@ -129,6 +161,9 @@ export default {
         searchInput: style.groupSearchInputStyle(this.themeValue, searchIcon),
       };
     },
+    /**
+     * Returns if user can create group.
+     */
     canCreateGroup() {
       if (
         this.config &&
@@ -140,6 +175,9 @@ export default {
 
       return true;
     },
+    /**
+     * Computed object, made of props, for watcher.
+     */
     propsForWatcher() {
       return {
         item: this.item,
@@ -148,11 +186,17 @@ export default {
         groupToDelete: this.groupToDelete,
       };
     },
+    /**
+     * Local string constants.
+     */
     STRINGS() {
-      return STRING_MESSAGES;
+      return COMETCHAT_CONSTANTS;
     },
   },
   watch: {
+    /**
+     * One true watcher that updates state on props update.
+     */
     propsForWatcher: {
       handler(_, prevProps) {
         const previousItem = JSON.stringify(prevProps.item);
@@ -249,84 +293,122 @@ export default {
     deep: true,
   },
   methods: {
-    userSearchHandler(e) {
-      if (timeout) {
-        clearTimeout(timeout);
+    /**
+     * Handles searching in group
+     */
+    groupSearchHandler(e) {
+      try {
+        if (timeout) {
+          clearTimeout(timeout);
+        }
+
+        let val = e.target.value;
+        this.searchKey = val;
+
+        timeout = setTimeout(() => {
+          groupListManager = new GroupListManager(val);
+          this.getGroups(true);
+        }, 500);
+      } catch (error) {
+        this.logError("Error in searching groups", error);
       }
-
-      let val = e.target.value;
-      this.searchKey = val;
-
-      timeout = setTimeout(() => {
-        groupListManager = new GroupListManager(val);
-        this.getGroups(true);
-      }, 500);
     },
+    /**
+     * Handles group creation
+     */
     createGroupActionHandler({ action, group }) {
-      if (action === "groupCreated") {
-        this.setAvatar(group);
-        const groups = [group, ...this.groupList];
+      try {
+        if (action === "groupCreated") {
+          this.setAvatar(group);
+          const groups = [group, ...this.groupList];
 
-        this.groupClickHandler(group);
+          this.groupClickHandler(group);
 
-        this.groupList = groups;
-        this.createGroupOpen = false;
+          this.groupList = groups;
+          this.createGroupOpen = false;
+        }
+      } catch (error) {
+        this.logError("Error in creating group", error);
       }
     },
+    /**
+     * Handles group item click
+     */
     async groupClickHandler(group) {
-      if (!(this.$listeners && this.$listeners["action"])) {
-        return;
-      }
-
-      if (group.hasJoined === false) {
-        let password = "";
-        if (group.type === CometChat.GROUP_TYPE.PASSWORD) {
-          password = prompt("Enter your password");
+      try {
+        if (!(this.$listeners && this.$listeners["action"])) {
+          return;
         }
-        const guid = group.guid;
-        const groupType = group.type;
 
-        try {
-          const response = await CometChat.joinGroup(guid, groupType, password);
-          console.log(
-            "Group joining success with response",
-            response,
-            "group",
-            group
-          );
-
-          const groups = [...this.groupList];
-          let groupKey = groups.findIndex((g) => g.guid === guid);
-
-          if (groupKey > -1) {
-            const groupObj = groups[groupKey];
-            const newGroupObj = Object.assign({}, groupObj, response, {
-              scope: CometChat.GROUP_MEMBER_SCOPE.PARTICIPANT,
-            });
-
-            groups.splice(groupKey, 1, newGroupObj);
-
-            this.groupList = groups;
-            this.selectedGroup = newGroupObj;
-
-            this.emitAction("item-click", { item: newGroupObj, type: "group" });
+        if (group.hasJoined === false) {
+          let password = "";
+          if (group.type === CometChat.GROUP_TYPE.PASSWORD) {
+            password = prompt("Enter your password");
           }
-        } catch (error) {
-          console.log("Group joining failed with exception:", error);
+          const guid = group.guid;
+          const groupType = group.type;
+
+          try {
+            const response = await CometChat.joinGroup(
+              guid,
+              groupType,
+              password
+            );
+            this.logError(
+              "Group joining success with response",
+              response,
+              "group",
+              group
+            );
+
+            const groups = [...this.groupList];
+            let groupKey = groups.findIndex((g) => g.guid === guid);
+
+            if (groupKey > -1) {
+              const groupObj = groups[groupKey];
+              const newGroupObj = Object.assign({}, groupObj, response, {
+                scope: CometChat.GROUP_MEMBER_SCOPE.PARTICIPANT,
+              });
+
+              groups.splice(groupKey, 1, newGroupObj);
+
+              this.groupList = groups;
+              this.selectedGroup = newGroupObj;
+
+              this.emitAction("item-click", {
+                item: newGroupObj,
+                type: "group",
+              });
+            }
+          } catch (error) {
+            this.logError("Group joining failed with exception:", error);
+          }
+        } else {
+          this.selectedGroup = group;
+          this.emitAction("item-click", { item: group, type: "group" });
         }
-      } else {
-        this.selectedGroup = group;
-        this.emitAction("item-click", { item: group, type: "group" });
+      } catch (error) {
+        this.logError("Error in group item click", error);
       }
     },
+    /**
+     * Handles group list scroll
+     */
     groupScrollHandler(elem) {
-      if (
-        elem.target.offsetHeight + elem.target.scrollTop >=
-        elem.target.scrollHeight - 20
-      ) {
-        this.getGroups();
+      try {
+        if (
+          elem.target.offsetHeight + elem.target.scrollTop >=
+          elem.target.scrollHeight - 20
+        ) {
+          this.getGroups();
+        }
+      } catch (error) {
+        this.logError("Error in group scroll", error);
       }
     },
+    /**
+     * Gets list of group
+     */
     async getGroups(clear = false) {
       cometChatManager = new CometChatManager();
       try {
@@ -351,10 +433,13 @@ export default {
           this.groupList = [...this.groupList, ...groups];
         }
       } catch (error) {
-        this.decoratorMessage = STRING_MESSAGES.ERROR_LOADING_USERS;
+        this.decoratorMessage = COMETCHAT_CONSTANTS.ERROR_LOADING_USERS;
         console.error("[CometChatGroupList] getGroups error", error);
       }
     },
+    /**
+     * Set SVG avatar
+     */
     setAvatar(group) {
       if (!this.hasProperty(group, "icon")) {
         const guid = group.guid;
@@ -363,133 +448,161 @@ export default {
       }
       return group;
     },
+    /**
+     * Updates changed members
+     */
     updateMemberChanged(group, options) {
-      let groups = [...this.groupList];
+      try {
+        let groups = [...this.groupList];
 
-      let groupKey = groups.findIndex((g) => g.guid === group.guid);
+        let groupKey = groups.findIndex((g) => g.guid === group.guid);
 
-      if (groupKey > -1) {
-        let groupObj = { ...groups[groupKey] };
-        if (options && this.loggedInUser.uid === options.user.uid) {
+        if (groupKey > -1) {
+          let groupObj = { ...groups[groupKey] };
+          if (options && this.loggedInUser.uid === options.user.uid) {
+            let newgroupObj = Object.assign({}, groupObj, {
+              scope: options.scope,
+            });
+
+            groups.splice(groupKey, 1, newgroupObj);
+            this.groupList = groups;
+          }
+        }
+      } catch (error) {
+        this.logError("Error in member change update", error);
+      }
+    },
+    /**
+     * Updates removed members
+     */
+    updateMemberRemoved(group, options) {
+      try {
+        let groups = [...this.groupList];
+
+        let groupKey = groups.findIndex((g) => g.guid === group.guid);
+
+        if (groupKey > -1) {
+          if (options && this.loggedInUser.uid === options.user.uid) {
+            let groupObj = { ...groups[groupKey] };
+            let membersCount = parseInt(group.membersCount);
+
+            let newgroupObj = Object.assign({}, groupObj, {
+              membersCount: membersCount,
+              hasJoined: false,
+            });
+
+            groups.splice(groupKey, 1, newgroupObj);
+          } else {
+            let groupObj = { ...groups[groupKey] };
+            let membersCount = parseInt(group.membersCount);
+
+            let newgroupObj = Object.assign({}, groupObj, {
+              membersCount: membersCount,
+            });
+
+            groups.splice(groupKey, 1, newgroupObj);
+          }
+          this.groupList = groups;
+        }
+      } catch (error) {
+        this.logError("Error in member change update", error);
+      }
+    },
+    /**
+     * Updates added members
+     */
+    updateMemberAdded(group, options) {
+      try {
+        let groups = [...this.groupList];
+
+        let groupKey = groups.findIndex((g) => g.guid === group.guid);
+
+        if (groupKey > -1) {
+          let groupObj = { ...groups[groupKey] };
+
+          let membersCount = parseInt(group.membersCount);
+
+          let scope = this.hasProperty(group, "scope") ? group.scope : "";
+          let hasJoined = this.hasProperty(group, "hasJoined")
+            ? group.hasJoined
+            : false;
+
+          if (options && this.loggedInUser.uid === options.user.uid) {
+            scope = CometChat.GROUP_MEMBER_SCOPE.PARTICIPANT;
+            hasJoined = true;
+          }
+
           let newgroupObj = Object.assign({}, groupObj, {
-            scope: options.scope,
+            membersCount: membersCount,
+            hasJoined: hasJoined,
+            scope: scope,
+          });
+
+          groups.splice(groupKey, 1, newgroupObj);
+          this.groupList = groups;
+        } else {
+          let groupObj = { ...group };
+
+          let scope = this.hasProperty(groupObj, "scope") ? groupObj.scope : {};
+          let hasJoined = this.hasProperty(groupObj, "hasJoined")
+            ? groupObj.hasJoined
+            : false;
+          let membersCount = parseInt(groupObj.membersCount);
+          this.setAvatar(groupObj);
+
+          if (options && this.loggedInUser.uid === options.user.uid) {
+            scope = CometChat.GROUP_MEMBER_SCOPE.PARTICIPANT;
+            hasJoined = true;
+          }
+
+          let newgroupObj = Object.assign({}, groupObj, {
+            membersCount: membersCount,
+            hasJoined: hasJoined,
+            scope: scope,
+          });
+
+          this.groupList = [newgroupObj, ...groups];
+        }
+      } catch (error) {
+        this.logError("Error in member add update", error);
+      }
+    },
+    /**
+     * Updates joined members
+     */
+    updateMemberJoined(group, options) {
+      try {
+        let groups = [...this.groupList];
+
+        let groupKey = groups.findIndex((g) => g.guid === group.guid);
+
+        if (groupKey > -1) {
+          let groupObj = { ...groups[groupKey] };
+
+          let scope = groupObj.scope;
+          let membersCount = parseInt(group.membersCount);
+
+          if (options && this.loggedInUser.uid === options.user.uid) {
+            scope = CometChat.GROUP_MEMBER_SCOPE.PARTICIPANT;
+          }
+
+          let newgroupObj = Object.assign({}, groupObj, {
+            membersCount: membersCount,
+            scope: scope,
           });
 
           groups.splice(groupKey, 1, newgroupObj);
           this.groupList = groups;
         }
+      } catch (error) {
+        this.logError("Error in member join update", error);
       }
     },
-    updateMemberRemoved(group, options) {
-      let groups = [...this.groupList];
-
-      let groupKey = groups.findIndex((g) => g.guid === group.guid);
-
-      if (groupKey > -1) {
-        if (options && this.loggedInUser.uid === options.user.uid) {
-          let groupObj = { ...groups[groupKey] };
-          let membersCount = parseInt(group.membersCount);
-
-          let newgroupObj = Object.assign({}, groupObj, {
-            membersCount: membersCount,
-            hasJoined: false,
-          });
-
-          groups.splice(groupKey, 1, newgroupObj);
-        } else {
-          let groupObj = { ...groups[groupKey] };
-          let membersCount = parseInt(group.membersCount);
-
-          let newgroupObj = Object.assign({}, groupObj, {
-            membersCount: membersCount,
-          });
-
-          groups.splice(groupKey, 1, newgroupObj);
-        }
-        this.groupList = groups;
-      }
-    },
-
-    updateMemberAdded(group, options) {
-      let groups = [...this.groupList];
-
-      let groupKey = groups.findIndex((g) => g.guid === group.guid);
-
-      if (groupKey > -1) {
-        let groupObj = { ...groups[groupKey] };
-
-        let membersCount = parseInt(group.membersCount);
-
-        let scope = this.hasProperty(group, "scope") ? group.scope : "";
-        let hasJoined = this.hasProperty(group, "hasJoined")
-          ? group.hasJoined
-          : false;
-
-        if (options && this.loggedInUser.uid === options.user.uid) {
-          scope = CometChat.GROUP_MEMBER_SCOPE.PARTICIPANT;
-          hasJoined = true;
-        }
-
-        let newgroupObj = Object.assign({}, groupObj, {
-          membersCount: membersCount,
-          hasJoined: hasJoined,
-          scope: scope,
-        });
-
-        groups.splice(groupKey, 1, newgroupObj);
-        this.groupList = groups;
-      } else {
-        let groupObj = { ...group };
-
-        let scope = this.hasProperty(groupObj, "scope") ? groupObj.scope : {};
-        let hasJoined = this.hasProperty(groupObj, "hasJoined")
-          ? groupObj.hasJoined
-          : false;
-        let membersCount = parseInt(groupObj.membersCount);
-        this.setAvatar(groupObj);
-
-        if (options && this.loggedInUser.uid === options.user.uid) {
-          scope = CometChat.GROUP_MEMBER_SCOPE.PARTICIPANT;
-          hasJoined = true;
-        }
-
-        let newgroupObj = Object.assign({}, groupObj, {
-          membersCount: membersCount,
-          hasJoined: hasJoined,
-          scope: scope,
-        });
-
-        this.groupList = [newgroupObj, ...groups];
-      }
-    },
-
-    updateMemberJoined(group, options) {
-      let groups = [...this.groupList];
-
-      let groupKey = groups.findIndex((g) => g.guid === group.guid);
-
-      if (groupKey > -1) {
-        let groupObj = { ...groups[groupKey] };
-
-        let scope = groupObj.scope;
-        let membersCount = parseInt(group.membersCount);
-
-        if (options && this.loggedInUser.uid === options.user.uid) {
-          scope = CometChat.GROUP_MEMBER_SCOPE.PARTICIPANT;
-        }
-
-        let newgroupObj = Object.assign({}, groupObj, {
-          membersCount: membersCount,
-          scope: scope,
-        });
-
-        groups.splice(groupKey, 1, newgroupObj);
-        this.groupList = groups;
-      }
-    },
-
+    /**
+     * Handler for group change listeners
+     */
     groupsUpdateHandler(key, message, group, options) {
-      console.log("CometChatGroupList: groupUpdateHandler", {
+      this.logInfo("CometChatGroupList: groupUpdateHandler", {
         key,
         message,
         group,
@@ -514,30 +627,36 @@ export default {
           break;
       }
     },
-
+    /**
+     * Handles changes in group search input
+     */
     onSearchChange(event) {
-      this.groupList = [];
-      if (this.searchStarted) {
-        clearTimeout(this.searchStarted);
-      }
-      if (event.target.value.trim() !== STRING_MESSAGES.EMPTY_STRING) {
-        this.searchStarted = setTimeout(() => {
-          this.decoratorMessage = STRING_MESSAGES.SEARCH_LOADING;
-          this.getGroupList(event.target.value);
-        }, 400);
-      } else if (
-        event.target.value.trim() === STRING_MESSAGES.EMPTY_STRING &&
-        event.data === null
-      ) {
-        event.target.value = STRING_MESSAGES.EMPTY_STRING;
-        this.searchStarted = setTimeout(() => {
-          this.getGroupList();
-        }, 400);
-      } else if (
-        event.target.value.trim() === STRING_MESSAGES.EMPTY_STRING &&
-        event.data === STRING_MESSAGES.SINGLE_SPACE
-      ) {
-        event.target.value = STRING_MESSAGES.EMPTY_STRING;
+      try {
+        this.groupList = [];
+        if (this.searchStarted) {
+          clearTimeout(this.searchStarted);
+        }
+        if (event.target.value.trim() !== COMETCHAT_CONSTANTS.EMPTY_STRING) {
+          this.searchStarted = setTimeout(() => {
+            this.decoratorMessage = COMETCHAT_CONSTANTS.SEARCH_LOADING;
+            this.getGroupList(event.target.value);
+          }, 400);
+        } else if (
+          event.target.value.trim() === COMETCHAT_CONSTANTS.EMPTY_STRING &&
+          event.data === null
+        ) {
+          event.target.value = COMETCHAT_CONSTANTS.EMPTY_STRING;
+          this.searchStarted = setTimeout(() => {
+            this.getGroupList();
+          }, 400);
+        } else if (
+          event.target.value.trim() === COMETCHAT_CONSTANTS.EMPTY_STRING &&
+          event.data === COMETCHAT_CONSTANTS.SINGLE_SPACE
+        ) {
+          event.target.value = COMETCHAT_CONSTANTS.EMPTY_STRING;
+        }
+      } catch (error) {
+        this.logError("Error in group search change", error);
       }
     },
   },

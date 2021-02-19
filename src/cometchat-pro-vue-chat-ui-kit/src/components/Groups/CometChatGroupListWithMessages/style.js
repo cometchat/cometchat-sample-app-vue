@@ -32,12 +32,15 @@ export const groupScreenSidebarStyle = (theme, sidebarView) => {
 };
 
 export const groupScreenMainStyle = (threadMessageView, detailView) => {
-  const secondaryView =
-    threadMessageView || detailView
-      ? {
-          width: "calc(100% - 640px)",
-        }
-      : {};
+  const secondaryView = threadMessageView
+    ? {
+        width: "calc(100% - 680px)",
+      }
+    : detailView
+    ? {
+        width: "calc(100% - 580px)",
+      }
+    : {};
 
   return {
     width: "calc(100% - 280px)",
@@ -47,12 +50,12 @@ export const groupScreenMainStyle = (threadMessageView, detailView) => {
   };
 };
 
-export const groupScreenSecondaryStyle = (theme) => {
+export const groupScreenSecondaryStyle = (theme, threadMessageView) => {
   return {
     float: "right",
     borderLeft: `1px solid ${theme.borderColor.primary}`,
     height: "100%",
-    width: "360px",
+    width: threadMessageView ? "400px" : "300px",
     display: "flex",
     flexDirection: "column",
     order: "3",

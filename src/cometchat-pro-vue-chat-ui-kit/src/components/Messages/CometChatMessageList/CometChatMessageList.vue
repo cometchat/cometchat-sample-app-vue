@@ -1,5 +1,5 @@
 <template>
-  <div :style="styles.root">
+  <div :style="styles.root" class="chat__list">
     <div v-if="messages.length === 0" :style="styles.decoratorMsg">
       <p :style="styles.decoratorMsgText">{{ decoratorMessage }}</p>
     </div>
@@ -265,7 +265,7 @@
 import { CometChat } from "@cometchat-pro/chat";
 
 import {
-  STRING_MESSAGES,
+  COMETCHAT_CONSTANTS,
   DEFAULT_ARRAY_PROP,
   DEFAULT_OBJECT_PROP,
   DEFAULT_STRING_PROP,
@@ -298,6 +298,11 @@ let cometChatManager;
 
 import * as style from "./style";
 
+/**
+ * Displays list of messages.
+ *
+ * @displayName CometChatMessageList
+ */
 export default {
   name: "CometChatMessageList",
   mixins: [propertyCheck, cometChatCommon],
@@ -320,12 +325,32 @@ export default {
     CometChatReceiverStickerMessageBubble,
   },
   props: {
+    /**
+     * The selected chat item object.
+     */
     item: { ...DEFAULT_OBJECT_PROP },
+    /**
+     * Type of chat item.
+     */
     type: { ...DEFAULT_STRING_PROP },
+    /**
+     * Theme of the UI.
+     */
     theme: { ...DEFAULT_OBJECT_PROP },
+    /**
+     * List of messages
+     */
     messages: { ...DEFAULT_ARRAY_PROP },
-    loggedInUser: { ...DEFAULT_OBJECT_PROP },
+    /**
+     * Current logged in user.
+     */ loggedInUser: { ...DEFAULT_OBJECT_PROP },
+    /**
+     * Whether to scroll to bottom.
+     */
     scrollToBottom: { ...DEFAULT_BOOLEAN_PROP },
+    /**
+     * Id of parent for a message.
+     */
     parentMessageId: { ...DEFAULT_STRING_PROP },
   },
   data() {
@@ -337,6 +362,9 @@ export default {
     };
   },
   watch: {
+    /**
+     * One true watcher that updates state on props update.
+     */
     propsWatcher: {
       handler(_, { item, messages, parentMessageId }) {
         const previousMessages = JSON.stringify(this.messages);
@@ -360,15 +388,27 @@ export default {
     },
   },
   computed: {
+    /**
+     * Instance of "enums" to use in Vue html template.
+     */
     ENUMS() {
       return enums;
     },
+    /**
+     * Instance of "CometChat" to use in Vue html template.
+     */
     COMET_CHAT() {
       return CometChat;
     },
+    /**
+     * Local string constants.
+     */
     STRINGS() {
-      return STRING_MESSAGES;
+      return COMETCHAT_CONSTANTS;
     },
+    /**
+     * Computed object, made of props, for watcher.
+     */
     propsWatcher() {
       return {
         item: this.item,
@@ -376,7 +416,9 @@ export default {
         parentMessageId: this.parentMessageId,
       };
     },
-    styles() {
+    /**
+     * Computed styles for the component.
+     */ styles() {
       return {
         wrapper: style.listWrapperStyle(),
         root: style.chatListStyle(this.theme),
@@ -389,6 +431,9 @@ export default {
         decoratorMsgText: style.decoratorMessageTextStyle(this.theme),
       };
     },
+    /**
+     * Parsed message list with sent date information.
+     */
     computedMessages() {
       let cDate = null;
       return this.messages.map((message) => {
@@ -403,6 +448,9 @@ export default {
         return message;
       });
     },
+    /**
+     * Common props object for all the used components.
+     */
     senderRecieverMessageCommonProps() {
       return {
         item: this.item,
@@ -413,11 +461,17 @@ export default {
     },
   },
   methods: {
+    /**
+     * Handles emitted action events
+     */
     actionHandler({ action, message }) {
       this.emitAction(action, { message });
     },
+    /**
+     * Handles listener events
+     */
     messageUpdateHandler(key, message, group, options) {
-      console.log("CometChatMessageList :messageUpdateHandler", {
+      this.logInfo("CometChatMessageList :messageUpdateHandler", {
         key,
         message,
         group,
@@ -460,21 +514,31 @@ export default {
           break;
       }
     },
+    /**
+     * Handles mesaage list scroll
+     */
     scrollHandler(e) {
       this.$nextTick(() => {
-        const scrollTop = e.currentTarget.scrollTop;
-        this.lastScrollTop = this.$refs.messagesEnd.scrollHeight - scrollTop;
+        try {
+          const scrollTop = e.currentTarget.scrollTop;
+          this.lastScrollTop = this.$refs.messagesEnd.scrollHeight - scrollTop;
 
-        const top = Math.round(scrollTop) === 0;
-        if (top && this.messages.length) {
-          this.getMessages();
+          const top = Math.round(scrollTop) === 0;
+          if (top && this.messages.length) {
+            this.getMessages();
+          }
+        } catch (error) {
+          this.logError("Error in scrolling", error);
         }
       });
     },
+    /**
+     * Emits group updated event
+     */
     groupUpdated(key, message, group, options) {
       if (
         this.type === "group" &&
-        message.getReceiverType() === "group" &&
+        message.getReceiverType() === CometChat.RECEIVER_TYPE.GROUP &&
         message.getReceiver().guid === this.item.guid
       ) {
         // if(!message.getReadAt()) {
@@ -484,49 +548,62 @@ export default {
         this.emitAction("groupUpdated", { message, key, group, options });
       }
     },
+    /**
+     * Updates call read status
+     */
     callUpdated(message) {
-      if (
-        this.type === "group" &&
-        message.getReceiverType() === "group" &&
-        message.getReceiverId() === this.item.guid
-      ) {
-        if (!message.getReadAt()) {
-          CometChat.markAsRead(
-            message.getId().toString(),
-            message.getReceiverId(),
-            message.getReceiverType()
-          );
-        }
+      try {
+        if (
+          this.type === "group" &&
+          message.getReceiverId() === this.item.guid &&
+          message.getReceiverType() === CometChat.RECEIVER_TYPE.GROUP
+        ) {
+          if (!message.getReadAt()) {
+            CometChat.markAsRead(
+              message.getId().toString(),
+              message.getReceiverId(),
+              message.getReceiverType()
+            );
+          }
 
-        this.emitAction("callUpdated", { message });
-      } else if (
-        this.type === "user" &&
-        message.getReceiverType() === "user" &&
-        message.getSender().uid === this.item.uid
-      ) {
-        if (!message.getReadAt()) {
-          CometChat.markAsRead(
-            message.getId().toString(),
-            message.getSender().uid,
-            message.getReceiverType()
-          );
-        }
+          this.emitAction("callUpdated", { message });
+        } else if (
+          this.type === "user" &&
+          message.getSender().uid === this.item.uid &&
+          message.getReceiverType() === CometChat.RECEIVER_TYPE.USER
+        ) {
+          if (!message.getReadAt()) {
+            CometChat.markAsRead(
+              message.getId().toString(),
+              message.getSender().uid,
+              message.getReceiverType()
+            );
+          }
 
-        this.emitAction("callUpdated", { message });
+          this.emitAction("callUpdated", { message });
+        }
+      } catch (error) {
+        this.logError("Error in call update", error);
       }
     },
+    /**
+     * Emits message delete event
+     */
     messageDeleted(message) {
       if (
         (this.type === "group" &&
-          message.getReceiverType() === "group" &&
+          message.getReceiverType() === CometChat.RECEIVER_TYPE.GROUP &&
           message.getReceiver().guid === this.item.guid) ||
         (this.type === "user" &&
-          message.getReceiverType() === "user" &&
+          message.getReceiverType() === CometChat.RECEIVER_TYPE.USER &&
           message.getSender().uid === this.item.uid)
       ) {
         this.emitAction("messageDeleted", { messages: [message] });
       }
     },
+    /**
+     * Edits message
+     */
     messageEdited(message) {
       const messageList = [...this.messages];
 
@@ -548,30 +625,33 @@ export default {
 
       if (
         this.type === "group" &&
-        message.getReceiverType() === "group" &&
+        message.getReceiverType() === CometChat.RECEIVER_TYPE.GROUP &&
         message.getReceiver().guid === this.item.guid
       ) {
         updateEditedMessage(message);
       } else if (
         this.type === "user" &&
-        message.getReceiverType() === "user" &&
+        message.getReceiverType() === CometChat.RECEIVER_TYPE.USER &&
         this.loggedInUser.uid === message.getReceiverId() &&
         message.getSender().uid === this.item.uid
       ) {
         updateEditedMessage(message);
       } else if (
         this.type === "user" &&
-        message.getReceiverType() === "user" &&
+        message.getReceiverType() === CometChat.RECEIVER_TYPE.USER &&
         this.loggedInUser.uid === message.getSender().uid &&
         message.getReceiverId() === this.item.uid
       ) {
         updateEditedMessage(message);
       }
     },
+    /**
+     * Updates message read state
+     */
     messageReceived(message) {
       if (
         this.type === "group" &&
-        message.getReceiverType() === "group" &&
+        message.getReceiverType() === CometChat.RECEIVER_TYPE.GROUP &&
         message.getReceiverId() === this.item.guid
       ) {
         if (!message.getReadAt()) {
@@ -585,7 +665,7 @@ export default {
         this.emitAction("messageReceived", { messages: [message] });
       } else if (
         this.type === "user" &&
-        message.getReceiverType() === "user" &&
+        message.getReceiverType() === CometChat.RECEIVER_TYPE.USER &&
         message.getSender().uid === this.item.uid
       ) {
         if (!message.getReadAt()) {
@@ -599,10 +679,13 @@ export default {
         this.emitAction("messageReceived", { messages: [message] });
       }
     },
+    /**
+     * Updates state for custom message
+     */
     customMessageReceived(message) {
       if (
         this.type === "group" &&
-        message.getReceiverType() === "group" &&
+        message.getReceiverType() === CometChat.RECEIVER_TYPE.GROUP &&
         message.getReceiverId() === this.item.guid
       ) {
         if (!message.getReadAt()) {
@@ -625,7 +708,7 @@ export default {
         }
       } else if (
         this.type === "user" &&
-        message.getReceiverType() === "user" &&
+        message.getReceiverType() === CometChat.RECEIVER_TYPE.USER &&
         message.getSender().uid === this.item.uid
       ) {
         if (!message.getReadAt()) {
@@ -648,6 +731,9 @@ export default {
         }
       }
     },
+    /**
+     * Adds metadata prop to given message
+     */
     addMetadataToCustomData(message) {
       const customData = message.data.customData;
       const options = customData.options;
@@ -676,9 +762,12 @@ export default {
         metadata: { "@injected": { extensions: { polls: polls } } },
       };
     },
+    /**
+     * Sets message read and delivery status
+     */
     messageReadAndDelivered(message) {
       if (
-        message.getReceiverType() === "user" &&
+        message.getReceiverType() === CometChat.RECEIVER_TYPE.USER &&
         message.getSender().getUid() === this.item.uid &&
         message.getReceiver() === this.loggedInUser.uid
       ) {
@@ -701,13 +790,16 @@ export default {
           }
         }
       } else if (
-        message.getReceiverType() === "group" &&
+        message.getReceiverType() === CometChat.RECEIVER_TYPE.GROUP &&
         message.getReceiver().guid === this.item.guid
       ) {
         // TODO group message recieve
         //not implemented
       }
     },
+    /**
+     * Gets list of messages
+     */
     async getMessages(scrollListToBottom = false, refresh = false) {
       const actionMessages = [];
       this.messagesLoading = true;
@@ -727,14 +819,14 @@ export default {
         const messages = await this.messageListManager.fetchPreviousMessages();
 
         if (messages.length === 0) {
-          this.decoratorMessage = "No messages found";
+          this.decoratorMessage = COMETCHAT_CONSTANTS.NO_MESSAGES_FOUND;
         } else {
           this.decoratorMessage = "";
         }
 
         messages.forEach((message) => {
           if (
-            message.category === "action" &&
+            message.category === CometChat.CATEGORY_ACTION &&
             message.sender.uid === "app_system"
           ) {
             actionMessages.push(message);
@@ -745,13 +837,15 @@ export default {
             message.getSender().getUid() !== user.getUid() &&
             !message.getReadAt()
           ) {
-            if (message.getReceiverType() === "user") {
+            if (message.getReceiverType() === CometChat.RECEIVER_TYPE.USER) {
               CometChat.markAsRead(
                 message.getId().toString(),
                 message.getSender().getUid(),
                 message.getReceiverType()
               );
-            } else if (message.getReceiverType() === "group") {
+            } else if (
+              message.getReceiverType() === CometChat.RECEIVER_TYPE.GROUP
+            ) {
               CometChat.markAsRead(
                 message.getId().toString(),
                 message.getReceiverId(),
@@ -785,7 +879,7 @@ export default {
         //   this.emitAction( { action: actionGenerated, messages });
         // }
       } catch (error) {
-        console.log(
+        this.logError(
           "[CometChatMessageList] getMessages getLoggedInUser error",
           error
         );
@@ -794,6 +888,9 @@ export default {
         this.messagesLoading = false;
       }
     },
+    /**
+     * Returns if can show message
+     */
     canShowMessage(message) {
       if (message.category === "action") {
         let canShow = false;
@@ -805,6 +902,9 @@ export default {
         return true;
       }
     },
+    /**
+     * Refreshes component state
+     */
     refresh() {
       this.removeMessageListeners();
 
@@ -816,17 +916,12 @@ export default {
     createMessageListManager() {
       if (this.parentMessageId) {
         this.messageListManager = new MessageListManager(
-          {}, // widgetsettings opted out
           this.item,
           this.type,
           this.parentMessageId
         );
       } else {
-        this.messageListManager = new MessageListManager(
-          {}, // widgetsettings opted out
-          this.item,
-          this.type
-        );
+        this.messageListManager = new MessageListManager(this.item, this.type);
       }
     },
     attachMessageListeners() {

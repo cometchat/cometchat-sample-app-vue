@@ -51,6 +51,11 @@ import { CometChatAvatar } from "../../Shared";
 
 import * as style from "./style";
 
+/**
+ * Message bubble for deleted messages.
+ *
+ * @displayName CometChatDeleteMessageBubble
+ */
 export default {
   name: "CometChatDeleteMessageBubble",
   mixins: [cometChatBubbles],
@@ -58,13 +63,28 @@ export default {
     CometChatAvatar,
   },
   props: {
+    /**
+     * The selected chat item object.
+     */
     item: { ...DEFAULT_OBJECT_PROP },
+    /**
+     * Type of chat item.
+     */
     type: { ...DEFAULT_STRING_PROP },
+    /**
+     * Theme of the UI.
+     */
     theme: { ...DEFAULT_OBJECT_PROP },
+    /**
+     *
+     */
     message: { ...DEFAULT_OBJECT_PROP },
     messageFrom: { ...DEFAULT_STRING_PROP },
   },
   computed: {
+    /**
+     * Computed styles for the bubble.
+     */
     styles() {
       return {
         messageTextWrapper: style.messageTextWrapperStyle(

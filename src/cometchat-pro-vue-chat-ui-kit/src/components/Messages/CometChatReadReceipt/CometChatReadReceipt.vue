@@ -15,17 +15,34 @@ import greyTick from "./resources/grey-tick-icon.png";
 
 import { msgTimestampStyle } from "./style";
 
+/**
+ * Shows the read receipt for a given message.
+ *
+ * @displayName CometChatReadReceipt
+ */
 export default {
-  name: "CometChatReadReciept",
+  name: "CometChatReadReceipt",
   mixins: [propertyCheck, cometChatBubbles],
   props: {
+    /**
+     * Theme of the UI.
+     */
     theme: { ...DEFAULT_OBJECT_PROP },
+    /**
+     * The message object/
+     */
     message: { ...DEFAULT_OBJECT_PROP },
   },
   computed: {
+    /**
+     * Computed styles for the component.
+     */
     styles() {
       return msgTimestampStyle(this.theme);
     },
+    /**
+     * computes the tick image.
+     */
     ticks() {
       let ticks = null;
 

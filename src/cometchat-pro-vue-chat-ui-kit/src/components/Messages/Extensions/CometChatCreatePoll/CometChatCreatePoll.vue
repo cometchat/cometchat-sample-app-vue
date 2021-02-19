@@ -7,7 +7,7 @@
         <table :style="styles.modalTable" class="modal__createpoll__table">
           <caption :style="styles.tableCaption">
             {{
-              CONSTANTS.CREATE_POLL
+              STRINGS.CREATE_POLL
             }}
           </caption>
           <tbody
@@ -21,7 +21,7 @@
             </tr>
             <tr :style="styles.modalTableRow">
               <td>
-                <label>{{ CONSTANTS.QUESTION }}</label>
+                <label>{{ STRINGS.QUESTION }}</label>
               </td>
               <td colSpan="2">
                 <input
@@ -30,13 +30,13 @@
                   tabIndex="1"
                   v-model="question"
                   :style="styles.input"
-                  :placeholder="CONSTANTS.ENTER_YOUR_QUESTION"
+                  :placeholder="STRINGS.ENTER_YOUR_QUESTION"
                 />
               </td>
             </tr>
             <tr :style="styles.modalTableRow">
               <td>
-                <label>{{ CONSTANTS.OPTIONS }}</label>
+                <label>{{ STRINGS.OPTIONS }}</label>
               </td>
               <td colSpan="2">
                 <input
@@ -44,7 +44,7 @@
                   tabIndex="1"
                   :style="styles.input"
                   v-model="firstOption"
-                  :placeholder="CONSTANTS.ENTER_YOUR_OPTION"
+                  :placeholder="STRINGS.ENTER_YOUR_OPTION"
                 />
               </td>
             </tr>
@@ -56,7 +56,7 @@
                   tabIndex="1"
                   :style="styles.input"
                   v-model="secondOption"
-                  :placeholder="CONSTANTS.ENTER_YOUR_OPTION"
+                  :placeholder="STRINGS.ENTER_YOUR_OPTION"
                 />
               </td>
             </tr>
@@ -72,7 +72,7 @@
             <tr :style="styles.modalTableRow" s>
               <td>&nbsp;</td>
               <td>
-                <label>{{ CONSTANTS.ADD_NEW_OPTION }}</label>
+                <label>{{ STRINGS.ADD_NEW_OPTION }}</label>
               </td>
               <td :style="styles.iconWrapper">
                 <span
@@ -83,7 +83,7 @@
             </tr>
           </tbody>
 
-          <tfoot :style="{ display: 'inline-block' }">
+          <tfoot :style="{ display: 'inline-block', padding: '12px' }">
             <tr :style="{ border: 'none' }">
               <td :style="{ textAlign: 'center' }" colSpan="2">
                 <button
@@ -105,7 +105,7 @@
 import { CometChat } from "@cometchat-pro/chat";
 
 import {
-  STRING_MESSAGES,
+  COMETCHAT_CONSTANTS,
   DEFAULT_OBJECT_PROP,
   DEFAULT_STRING_PROP,
   DEFAULT_BOOLEAN_PROP,
@@ -123,6 +123,11 @@ import * as style from "./style";
 import addIcon from "./resources/add.png";
 import clearIcon from "./resources/close.png";
 
+/**
+ * Displays dialog to create a new poll.
+ *
+ * @displayName CometChatCreatePoll
+ */
 export default {
   name: "CometChatCreatePoll",
   mixins: [cometChatCommon],
@@ -131,9 +136,21 @@ export default {
     CometChatCreatePollOptions,
   },
   props: {
+    /**
+     * The selected chat item object.
+     */
     item: { ...DEFAULT_OBJECT_PROP },
+    /**
+     * Type of chat item.
+     */
     type: { ...DEFAULT_STRING_PROP },
+    /**
+     * Opens the modal.
+     */
     open: { ...DEFAULT_BOOLEAN_PROP },
+    /**
+     * Theme of the UI.
+     */
     theme: { ...DEFAULT_OBJECT_PROP },
   },
   data() {
@@ -149,6 +166,9 @@ export default {
     };
   },
   computed: {
+    /**
+     * Computed styles for the component.
+     */
     styles() {
       return {
         input: style.inputStyle(),
@@ -166,16 +186,25 @@ export default {
         modalWrapper: style.modalWrapperStyle(this.theme, this.open),
       };
     },
+    /**
+     * Button text depending on component state.
+     */
     actionButtonText() {
       return this.creatingPoll
-        ? STRING_MESSAGES.CREATING_MESSSAGE
-        : STRING_MESSAGES.CREATE;
+        ? COMETCHAT_CONSTANTS.CREATING_MESSSAGE
+        : COMETCHAT_CONSTANTS.CREATE;
     },
-    CONSTANTS() {
-      return STRING_MESSAGES;
+    /**
+     * Local string constants.
+     */
+    STRINGS() {
+      return COMETCHAT_CONSTANTS;
     },
   },
   methods: {
+    /**
+     * Closes the modal
+     */
     closeModal() {
       this.error = "";
       this.options = [];
@@ -185,6 +214,9 @@ export default {
 
       this.emitEvent("close");
     },
+    /**
+     * Handles change in options
+     */
     optionChangeHandler({ event, option }) {
       const options = [...this.options];
       const optionKey = options.findIndex((opt) => opt.id === option.id);
@@ -197,52 +229,55 @@ export default {
         this.options = options;
       }
     },
+    /**
+     * Creates a new poll
+     */
     async createPoll() {
       this.creatingPoll = true;
 
-      const question = (this.question || "").trim();
-      const firstOption = (this.firstOption || "").trim();
-      const secondOption = (this.secondOption || "").trim();
+      try {
+        const question = (this.question || "").trim();
+        const firstOption = (this.firstOption || "").trim();
+        const secondOption = (this.secondOption || "").trim();
 
-      const optionItems = [firstOption, secondOption];
-      let invalid = false;
+        const optionItems = [firstOption, secondOption];
+        let invalid = false;
 
-      if (question.length === 0) {
-        this.error = STRING_MESSAGES.POLL_QUESTION_BLANK;
-        this.creatingPoll = false;
-        return false;
-      }
+        if (question.length === 0) {
+          this.error = COMETCHAT_CONSTANTS.POLL_QUESTION_BLANK;
+          this.creatingPoll = false;
+          return false;
+        }
 
-      if (firstOption.length === 0 || secondOption.length === 0) {
-        invalid = true;
-      }
-
-      this.options.forEach((option) => {
-        const value = (option.value || "").trim();
-
-        if (!value) {
+        if (firstOption.length === 0 || secondOption.length === 0) {
           invalid = true;
         }
 
-        optionItems.push(value);
-      });
+        this.options.forEach((option) => {
+          const value = (option.value || "").trim();
 
-      if (invalid) {
-        this.error = STRING_MESSAGES.POLL_OPTION_BLANK;
-        this.creatingPoll = false;
-        return false;
-      }
+          if (!value) {
+            invalid = true;
+          }
 
-      let receiverId;
-      let receiverType = this.type;
+          optionItems.push(value);
+        });
 
-      if (this.type === "user") {
-        receiverId = this.item.uid;
-      } else if (this.type === "group") {
-        receiverId = this.item.guid;
-      }
+        if (invalid) {
+          this.error = COMETCHAT_CONSTANTS.POLL_OPTION_BLANK;
+          this.creatingPoll = false;
+          return false;
+        }
 
-      try {
+        let receiverId;
+        let receiverType = this.type;
+
+        if (this.type === "user") {
+          receiverId = this.item.uid;
+        } else if (this.type === "group") {
+          receiverId = this.item.guid;
+        }
+
         const response = await CometChat.callExtension(
           "polls",
           "POST",
@@ -287,18 +322,28 @@ export default {
         this.error = "";
         this.emitAction("pollCreated", { message });
       } catch (error) {
-        console.log("error", error);
-        this.error = error.message || error;
+        this.logError("[CometChatCreatePoll] error", error);
+        const errorMessage = (error || {}).message;
+        this.error =
+          Object.prototype.toString.call(errorMessage) === "[object String]"
+            ? errorMessage
+            : COMETCHAT_CONSTANTS.POLL_CREATE_ERROR;
       } finally {
         this.creatingPoll = false;
       }
     },
+    /**
+     * Adds a new poll option.
+     */
     addPollOption() {
       const options = [...this.options];
       options.push({ value: "", id: new Date().getTime() });
 
       this.options = options;
     },
+    /**
+     * Removes a given poll option.
+     */
     removePollOption(option) {
       const options = [...this.options];
       const optionKey = options.findIndex((opt) => opt.id === option.id);

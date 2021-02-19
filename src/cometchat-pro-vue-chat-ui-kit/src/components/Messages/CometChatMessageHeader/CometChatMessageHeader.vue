@@ -64,7 +64,7 @@
 import dateFormat from "dateformat";
 
 import {
-  STRING_MESSAGES,
+  COMETCHAT_CONSTANTS,
   DEFAULT_STRING_PROP,
   DEFAULT_OBJECT_PROP,
   DEFAULT_BOOLEAN_PROP,
@@ -87,6 +87,11 @@ import * as style from "./style";
 
 let messageHeaderManager;
 
+/**
+ * Displays message info in header.
+ *
+ * @displayName CometChatMessageHeader
+ */
 export default {
   name: "CometChatMessageHeader",
   mixins: [tooltip, propertyCheck, cometChatCommon],
@@ -95,10 +100,26 @@ export default {
     CometChatUserPresence,
   },
   props: {
-    type: { ...DEFAULT_STRING_PROP },
+    /**
+     * The selected chat item object.
+     */
     item: { ...DEFAULT_OBJECT_PROP },
+    /**
+     * Type of chat item.
+     */
+    type: { ...DEFAULT_STRING_PROP },
+    /**
+     * Theme of the UI.
+     */
+
     theme: { ...DEFAULT_OBJECT_PROP },
+    /**
+     * Whether to show sidebar.
+     */
     sidebar: { ...DEFAULT_BOOLEAN_PROP },
+    /**
+     * Current logged in user.
+     */
     loggedInUser: { ...DEFAULT_OBJECT_PROP },
   },
   data() {
@@ -109,6 +130,9 @@ export default {
   },
   watch: {
     item: {
+      /**
+       * Watches item to update status message for group.
+       */
       handler(newValue, oldValue) {
         if (messageHeaderManager) {
           messageHeaderManager.removeListeners();
@@ -131,6 +155,9 @@ export default {
     },
   },
   computed: {
+    /**
+     * Icons computed from file images.
+     */
     styles() {
       return {
         name: style.chatNameStyle(),
@@ -151,6 +178,9 @@ export default {
         ),
       };
     },
+    /**
+     * Computed avatar image
+     */
     avatarImage() {
       const isUser = this.type === "user";
       let avatar = isUser ? this.item.avatar : this.item.icon;
@@ -169,24 +199,36 @@ export default {
       }
       return avatar;
     },
+    /**
+     * Returns if item is blocked by current user.
+     */
     isBlockedByMe() {
       return this.item.blockedByMe;
     },
+    /**
+     * Returns if audio call icon can be shown.
+     */
     canShowAudioCall() {
       return this.isBlockedByMe ? false : true;
     },
+    /**
+     * Returns if video call icon can be shown.
+     */
     canShowVideoCall() {
       return this.isBlockedByMe ? false : true;
     },
   },
   methods: {
+    /**
+     * Sets status message for user
+     */
     setStatusForUser() {
       let status = this.item.status;
       const presence = this.item.status === "online" ? "online" : "offline";
 
       if (this.item.status === "offline" && this.item.lastActiveAt) {
         status =
-          STRING_MESSAGES.LAST_ACTIVE_AT +
+          COMETCHAT_CONSTANTS.LAST_ACTIVE_AT +
           dateFormat(this.item.lastActiveAt * 1000, "d mmmm yyyy, h:MM TT");
       } else if (this.item.status === "offline") {
         status = "offline";
@@ -195,11 +237,17 @@ export default {
       this.status = status;
       this.presence = presence;
     },
+    /**
+     * Sets status message for group
+     */
     setStatusForGroup() {
       this.status = `${this.item.membersCount} members`;
     },
+    /**
+     * Handles listener events
+     */
     updateHeaderHandler(key, item, groupUser) {
-      console.log("CometChatMessageHeader: updateHeaderHandler", {
+      this.logInfo("CometChatMessageHeader: updateHeaderHandler", {
         key,
         item,
         groupUser,
@@ -249,13 +297,13 @@ export default {
             this.type === item.receiverType &&
             this.item.guid === item.receiverId
           ) {
-            this.status = `${item.sender.name} ${STRING_MESSAGES.IS_TYPING}`;
+            this.status = `${item.sender.name} ${COMETCHAT_CONSTANTS.IS_TYPING}`;
           } else if (
             this.type === "user" &&
             this.type === item.receiverType &&
             this.item.uid === item.sender.uid
           ) {
-            this.status = STRING_MESSAGES.TYPING;
+            this.status = COMETCHAT_CONSTANTS.TYPING;
           }
 
           this.emitAction("showReaction", { reaction: item });
@@ -281,7 +329,6 @@ export default {
             }
           }
 
-
           this.emitAction("stopReaction", { reaction: item });
           break;
         }
@@ -290,7 +337,6 @@ export default {
       }
     },
   },
-
   beforeMount() {
     messageHeaderManager = new MessageHeaderManager();
     messageHeaderManager.attachListeners(this.updateHeaderHandler);

@@ -22,10 +22,21 @@ import heart from "./resources/heart.png";
 
 import * as style from "./style";
 
+/**
+ * Displays live reaction animation.
+ *
+ * @displayName CometChatLiveReactions
+ */
 export default {
   name: "CometChatLiveReactions",
   props: {
+    /**
+     * Theme of the UI.
+     */
     theme: { ...DEFAULT_OBJECT_PROP },
+    /**
+     * The reaction to animate.
+     */
     reaction: { ...DEFAULT_STRING_PROP },
   },
   data() {
@@ -39,17 +50,26 @@ export default {
     };
   },
   computed: {
+    /**
+     * Computed styles for the bubble.
+     */
     styles() {
       return {
         reactionEmoji: style.reactionEmojiStyle(),
         reactionContainer: style.reactionContainerStyle(),
       };
     },
+    /**
+     * Computed reaction icon source.
+     */
     reactionIconSrc() {
       return this.reaction
         ? this.icons[enums.LIVE_REACTIONS[this.reaction]]
         : this.icons[enums.LIVE_REACTIONS["heart"]];
     },
+    /**
+     * Icons computed from file images.
+     */
     icons() {
       return {
         heart,
@@ -57,6 +77,9 @@ export default {
     },
   },
   methods: {
+    /**
+     * Sets the items before animating
+     */
     setItems() {
       this.$nextTick(() => {
         const width = this.$refs.parentElement.offsetWidth;
@@ -92,6 +115,9 @@ export default {
         }
       });
     },
+    /**
+     * Animates the reaction
+     */
     animate() {
       this.$nextTick(() => {
         if (!this.$refs.parentElement) {
@@ -125,6 +151,9 @@ export default {
         this.counter++;
       });
     },
+    /**
+     * Looper function that controls the animation
+     */
     requestAnimation() {
       this.timer = setTimeout(this.animate, 1000 / 60);
     },

@@ -106,7 +106,7 @@
 import { CometChat } from "@cometchat-pro/chat";
 
 import {
-  STRING_MESSAGES,
+  COMETCHAT_CONSTANTS,
   DEFAULT_OBJECT_PROP,
 } from "../../../resources/constants";
 
@@ -122,6 +122,12 @@ import scopeIcon from "./resources/edit.png";
 import doneIcon from "./resources/done.png";
 import banIcon from "./resources/block.png";
 
+/**
+ * List item for group member list.
+ *
+ * @displayName CometChatViewGroupMemberListItem
+ */
+
 export default {
   name: "CometChatViewGroupMemberListItem",
   mixins: [tooltip, propertyCheck, cometChatCommon],
@@ -130,9 +136,21 @@ export default {
     CometChatUserPresence,
   },
   props: {
+    /**
+     * The selected chat item object.
+     */
     item: { ...DEFAULT_OBJECT_PROP },
+    /**
+     * Theme of the UI.
+     */
     theme: { ...DEFAULT_OBJECT_PROP },
+    /**
+     * Member item.
+     */
     member: { ...DEFAULT_OBJECT_PROP },
+    /**
+     * Current logged in user.
+     */
     loggedInUser: { ...DEFAULT_OBJECT_PROP },
   },
   data() {
@@ -143,6 +161,9 @@ export default {
     };
   },
   computed: {
+    /**
+     * Computed styles for the component.
+     */
     styles() {
       return {
         role: style.roleStyle(),
@@ -156,20 +177,35 @@ export default {
         avatar: style.avatarStyle(this.isParticipant),
       };
     },
+    /**
+     * Computed scope name.
+     */
     scopeName() {
       return this.isOwner
-        ? STRING_MESSAGES.OWNER
+        ? COMETCHAT_CONSTANTS.OWNER
         : this.roles[this.member.scope];
     },
+    /**
+     * Computed display name.
+     */
     displayName() {
-      return this.isCurrentUser ? STRING_MESSAGES.YOU : this.member.name;
+      return this.isCurrentUser ? COMETCHAT_CONSTANTS.YOU : this.member.name;
     },
+    /**
+     * Returns if current member is owner.
+     */
     isOwner() {
       return this.item.owner === this.member.uid;
     },
+    /**
+     * Returns if current member is current user.
+     */
     isCurrentUser() {
       return this.loggedInUser.uid === this.member.uid;
     },
+    /**
+     * Returns if current member is moderator.
+     */
     isModerator() {
       return (
         this.item.scope === CometChat.GROUP_MEMBER_SCOPE.MODERATOR &&
@@ -177,6 +213,9 @@ export default {
           this.member.scope === CometChat.GROUP_MEMBER_SCOPE.MODERATOR)
       );
     },
+    /**
+     * Returns if current member is admin but not owner.
+     */
     isAdminButNotOwner() {
       return (
         this.item.owner !== this.loggedInUser.uid &&
@@ -184,15 +223,24 @@ export default {
         this.member.scope === CometChat.GROUP_MEMBER_SCOPE.ADMIN
       );
     },
+    /**
+     * Returns if current member is not admin.
+     */
     isNotAdmin() {
       return (
         this.item.scope === CometChat.GROUP_MEMBER_SCOPE.MODERATOR &&
         this.member.scope === CometChat.GROUP_MEMBER_SCOPE.PARTICIPANT
       );
     },
+    /**
+     * Returns if current member is participant.
+     */
     isParticipant() {
       return this.item.scope === CometChat.GROUP_MEMBER_SCOPE.PARTICIPANT;
     },
+    /**
+     * Returns if current member can view actions.
+     */
     canViewAction() {
       return !(
         this.isOwner ||
@@ -201,6 +249,9 @@ export default {
         this.isAdminButNotOwner
       );
     },
+    /**
+     * Returns if current member can change scope.
+     */
     canChangeScope() {
       return !(
         this.isOwner ||
@@ -210,9 +261,16 @@ export default {
         this.isParticipant
       );
     },
+
+    /**
+     * Returns if current member can edit(ban/kick).
+     */
     canEdit() {
       return this.isParticipant ? false : true;
     },
+    /**
+     * Icon images.
+     */
     icons() {
       return {
         ban: banIcon,
@@ -222,17 +280,29 @@ export default {
         clear: clearIcon,
       };
     },
+    /**
+     * Instance of "CometChat" to use in Vue html template.
+     */
     COMET_CHAT() {
       return CometChat;
     },
+    /**
+     * Local string constants.
+     */
     STRINGS() {
-      return STRING_MESSAGES;
+      return COMETCHAT_CONSTANTS;
     },
   },
   methods: {
+    /**
+     * Updates scope
+     */
     scopeChangeHandler(event) {
       this.scope = event.target.value;
     },
+    /**
+     * Emits changeScope event
+     */
     updateMemberScope() {
       this.emitAction("changeScope", {
         member: this.member,
@@ -240,17 +310,20 @@ export default {
       });
       this.changeScopeView(false);
     },
+    /**
+     * Toggles scope icon view
+     */
     changeScopeView(value) {
       this.showChangeScope = value;
     },
   },
   beforeMount() {
     this.roles[CometChat.GROUP_MEMBER_SCOPE.ADMIN] =
-      STRING_MESSAGES.ADMINISTRATOR;
+      COMETCHAT_CONSTANTS.ADMINISTRATOR;
     this.roles[CometChat.GROUP_MEMBER_SCOPE.MODERATOR] =
-      STRING_MESSAGES.MODERATOR;
+      COMETCHAT_CONSTANTS.MODERATOR;
     this.roles[CometChat.GROUP_MEMBER_SCOPE.PARTICIPANT] =
-      STRING_MESSAGES.PARTICIPANT;
+      COMETCHAT_CONSTANTS.PARTICIPANT;
   },
 };
 </script>

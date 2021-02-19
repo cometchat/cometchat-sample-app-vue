@@ -1,28 +1,22 @@
 <template>
   <div>
     <comet-chat-backdrop :show="open" @click="closeModal" />
-    <div
-      :style="createGroupStyle.modalWrapper"
-      class="modal__creategroup__wrapper"
-    >
-      <span :style="createGroupStyle.modalClose" @click="closeModal"></span>
-      <div :style="createGroupStyle.modalBody">
-        <table
-          class="modal__creategroup__table"
-          :style="createGroupStyle.modalTable"
-        >
-          <caption :style="createGroupStyle.caption">
+    <div :style="styles.modalWrapper" class="modal__creategroup__wrapper">
+      <span :style="styles.modalClose" @click="closeModal"></span>
+      <div :style="styles.modalBody">
+        <table class="modal__creategroup__table" :style="styles.modalTable">
+          <caption :style="styles.caption">
             {{
               STRINGS.CREATE_GROUP
             }}
           </caption>
           <tbody
-            :style="createGroupStyle.tableBody"
+            :style="styles.tableBody"
             class="modal__creategroup__table__body"
           >
             <tr class="error">
               <td>
-                <div :style="createGroupStyle.tableError">
+                <div :style="styles.tableError">
                   {{ error }}
                 </div>
               </td>
@@ -35,17 +29,13 @@
                   v-model="name"
                   autocomplete="off"
                   placeholder="Enter group name"
-                  :style="createGroupStyle.input"
+                  :style="styles.input"
                 />
               </td>
             </tr>
             <tr>
               <td>
-                <select
-                  tabIndex="2"
-                  v-model="type"
-                  :style="createGroupStyle.input"
-                >
+                <select tabIndex="2" v-model="type" :style="styles.input">
                   <option value="">{{ STRINGS.SELECT_GROUP_TYPE }}</option>
                   <option value="public">{{ STRINGS.PUBLIC }}</option>
                   <option value="private">{{ STRINGS.PRIVATE }}</option>
@@ -62,7 +52,7 @@
                   type="password"
                   autoComplete="off"
                   v-model="password"
-                  :style="createGroupStyle.input"
+                  :style="styles.input"
                   :placeholder="STRINGS.ENTER_GROUP_PASSWORD"
                 />
               </td>
@@ -75,7 +65,7 @@
                   tabIndex="4"
                   :disabled="creatingGroup"
                   @click="createGroupHandler"
-                  :style="createGroupStyle.tableButton"
+                  :style="styles.tableButton"
                 >
                   {{
                     creatingGroup ? STRINGS.CREATING_MESSSAGE : STRINGS.CREATE
@@ -93,7 +83,7 @@
 import { CometChat } from "@cometchat-pro/chat";
 
 import {
-  STRING_MESSAGES,
+  COMETCHAT_CONSTANTS,
   DEFAULT_OBJECT_PROP,
   DEFAULT_BOOLEAN_PROP,
 } from "../../../resources/constants";
@@ -105,6 +95,11 @@ import closeIcon from "./resources/close.png";
 
 import * as style from "./style";
 
+/**
+ * Modal used to create a group.
+ *
+ * @displayName CometChatCreateGroup
+ */
 export default {
   name: "CometChatCreateGroup",
   mixins: [cometChatCommon],
@@ -112,7 +107,13 @@ export default {
     CometChatBackdrop,
   },
   props: {
+    /**
+     * Opens the modal.
+     */
     open: { ...DEFAULT_BOOLEAN_PROP },
+    /**
+     * Theme of the UI.
+     */
     theme: { ...DEFAULT_OBJECT_PROP },
   },
   data() {
@@ -126,13 +127,22 @@ export default {
     };
   },
   computed: {
+    /**
+     * Computed group name.
+     */
     groupName() {
       return this.name.trim();
     },
+    /**
+     * Computed group type.
+     */
     groupType() {
       return this.type.trim();
     },
-    createGroupStyle() {
+    /**
+     * Computed styles for the component.
+     */
+    styles() {
       return {
         modalBody: style.modalBodyStyle(),
         tableBody: style.tableBodyStyle(),
@@ -145,11 +155,17 @@ export default {
         modalWrapper: style.modalWrapperStyle(this.theme, this.open),
       };
     },
+    /**
+     * Local string constants.
+     */
     STRINGS() {
-      return STRING_MESSAGES;
+      return COMETCHAT_CONSTANTS;
     },
   },
   watch: {
+    /**
+     * Toggles isPasswordInput on value change
+     */
     type: {
       handler(value) {
         this.isPasswordInput = value === "protected";
@@ -157,57 +173,67 @@ export default {
     },
   },
   methods: {
+    /**
+     * Handles group creation
+     */
     async createGroupHandler() {
-      if (!this.validate()) {
-        return false;
-      }
-
-      this.creatingGroup = true;
-
-      const name = this.groupName;
-      const password = this.password;
-      const guid = "group_" + new Date().getTime();
-
-      let type = CometChat.GROUP_TYPE.PUBLIC;
-
-      switch (this.groupType) {
-        case "public":
-          type = CometChat.GROUP_TYPE.PUBLIC;
-          break;
-        case "private":
-          type = CometChat.GROUP_TYPE.PRIVATE;
-          break;
-        case "protected":
-          type = CometChat.GROUP_TYPE.PASSWORD;
-          break;
-        default:
-          break;
-      }
-
-      const group = new CometChat.Group(guid, name, type, password);
-
       try {
-        const createdGroup = await CometChat.createGroup(group);
-        console.log("Group created successfully:", createdGroup);
+        if (!this.validate()) {
+          return false;
+        }
 
-        this.clearForm();
+        this.creatingGroup = true;
 
-        this.emitAction("groupCreated", { group: createdGroup });
+        const name = this.groupName;
+        const password = this.password;
+        const guid = "group_" + new Date().getTime();
+
+        let type = CometChat.GROUP_TYPE.PUBLIC;
+
+        switch (this.groupType) {
+          case "public":
+            type = CometChat.GROUP_TYPE.PUBLIC;
+            break;
+          case "private":
+            type = CometChat.GROUP_TYPE.PRIVATE;
+            break;
+          case "protected":
+            type = CometChat.GROUP_TYPE.PASSWORD;
+            break;
+          default:
+            break;
+        }
+
+        const group = new CometChat.Group(guid, name, type, password);
+
+        try {
+          const createdGroup = await CometChat.createGroup(group);
+          this.logError("Group created successfully:", createdGroup);
+
+          this.clearForm();
+
+          this.emitAction("groupCreated", { group: createdGroup });
+        } catch (error) {
+          this.logError("Group creation failed with exception:", error);
+          this.error = error;
+        } finally {
+          this.creatingGroup = false;
+        }
       } catch (error) {
-        console.log("Group creation failed with exception:", error);
-        this.error = error;
-      } finally {
-        this.creatingGroup = false;
+        this.logError("Group creation failed with exception:", error);
       }
     },
+    /**
+     * Validates input
+     */
     validate() {
       if (!this.groupName) {
-        this.error = STRING_MESSAGES.GROUP_NAME_BLANK;
+        this.error = COMETCHAT_CONSTANTS.GROUP_NAME_BLANK;
         return false;
       }
 
       if (!this.groupType) {
-        this.error = STRING_MESSAGES.GROUP_TYPE_BLANK;
+        this.error = COMETCHAT_CONSTANTS.GROUP_TYPE_BLANK;
         return false;
       }
 
@@ -216,15 +242,21 @@ export default {
         password = this.password;
 
         if (!password.length) {
-          this.error = STRING_MESSAGES.GROUP_PASSWORD_BLANK;
+          this.error = COMETCHAT_CONSTANTS.GROUP_PASSWORD_BLANK;
           return false;
         }
       }
       return true;
     },
+    /**
+     * Closes modal
+     */
     closeModal() {
       this.emitEvent("close");
     },
+    /**
+     * Clears form
+     */
     clearForm() {
       this.error = null;
       this.name = "";

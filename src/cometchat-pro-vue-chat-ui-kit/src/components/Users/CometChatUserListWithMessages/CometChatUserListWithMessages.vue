@@ -88,6 +88,11 @@ import { theme } from "../../../resources/theme";
 
 import * as style from "./style";
 
+/**
+ * Displays list of user with messages.
+ *
+ * @displayName CometChatUserListWithMessages
+ */
 export default {
   name: "CometChatUserListWithMessages",
   mixins: [propertyCheck, cometChatScreens],
@@ -101,6 +106,9 @@ export default {
     CometChatMessageThread,
   },
   props: {
+    /**
+     * Theme of the UI.
+     */
     theme: { ...DEFAULT_OBJECT_PROP },
   },
   data() {
@@ -125,9 +133,15 @@ export default {
     };
   },
   computed: {
+    /**
+     * Theme computed using default theme and theme coming from prop.
+     */
     themeValue() {
       return Object.assign({}, theme, this.theme);
     },
+    /**
+     * Computed styles for the component.
+     */
     styles() {
       return {
         root: style.userScreenStyle(this.themeValue),
@@ -139,11 +153,17 @@ export default {
           this.viewThreadMessage,
           this.viewDetailScreen
         ),
-        secondary: style.userScreenSecondaryStyle(this.themeValue),
+        secondary: style.userScreenSecondaryStyle(
+          this.themeValue,
+          this.viewThreadMessage
+        ),
       };
     },
   },
   methods: {
+    /**
+     * Handles emitted action events
+     */
     actionHandler({
       action,
       type,
@@ -229,11 +249,15 @@ export default {
     },
   },
   beforeMount() {
+    if (!Object.keys(this.item).length) {
+      this.toggleSideBar();
+    }
+
     (async () => {
       try {
         this.loggedInUser = await new CometChatManager().getLoggedInUser();
       } catch (error) {
-        console.log(
+        this.logError(
           "[CometChatUserListWithMessages] getLoggedInUser error",
           error
         );

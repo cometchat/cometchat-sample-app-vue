@@ -81,6 +81,11 @@ import chatBlueIcon from "./resources/chats-blue.png";
 
 import * as style from "./style";
 
+/**
+ * Navigation bar for switching tabs in CometChatUI.
+ *
+ * @displayName CometChatNavBar
+ */
 export default {
   name: "CometChatNavBar",
   mixins: [cometChatCommon],
@@ -91,19 +96,52 @@ export default {
     CometChatUserList,
   },
   props: {
+    /**
+     * Current active tab.
+     * @values conversations, contacts, groups, info
+     */
     tab: { ...DEFAULT_STRING_PROP },
+    /**
+     * The selected chat item object.
+     */
     item: { ...DEFAULT_OBJECT_PROP },
+    /**
+     * Type of chat item.
+     */
     type: { ...DEFAULT_STRING_PROP },
+    /**
+     * Theme of the UI.
+     */
     theme: { ...DEFAULT_OBJECT_PROP },
-    config: { ...DEFAULT_OBJECT_PROP },
+    /**
+     * Last message in message list.
+     */
     lastMessage: { ...DEFAULT_OBJECT_PROP },
+    /**
+     * The group selected to leave.
+     */
     groupToLeave: { ...DEFAULT_OBJECT_PROP },
+    /**
+     * The group selected to update.
+     */
     groupToUpdate: { ...DEFAULT_OBJECT_PROP },
+    /**
+     * The group selected to delete.
+     */
     groupToDelete: { ...DEFAULT_OBJECT_PROP },
+    /**
+     * Shows/hides the close menu button.
+     */
     enableCloseMenu: { ...DEFAULT_BOOLEAN_PROP },
+    /**
+     * Message marked to read.
+     */
     messageToMarkRead: { ...DEFAULT_OBJECT_PROP },
   },
   computed: {
+    /**
+     * Computed styles for the component.
+     */
     styles() {
       return {
         item: style.itemStyle(),
@@ -132,23 +170,41 @@ export default {
         ),
       };
     },
+    /**
+     * Whether chats tab is active.
+     */
     isChatsTabActive() {
       return this.tab === "conversations";
     },
+    /**
+     * Whether users tab is active.
+     */
     isContactsTabActive() {
       return this.tab === "contacts";
     },
+    /**
+     * Whether groups tab is active.
+     */
     isGroupsTabActive() {
       return this.tab === "groups";
     },
+    /**
+     * Whether info tab is active.
+     */
     isMoreTabActive() {
       return this.tab === "info";
     },
   },
   methods: {
+    /**
+     * Emits change tab event
+     */
     changeTab(tab) {
       this.emitAction("tabChanged", { tab });
     },
+    /**
+     * Handles emitted action events
+     */
     actionHandler({ action, ...rest }) {
       this.emitAction(action, { ...rest });
     },

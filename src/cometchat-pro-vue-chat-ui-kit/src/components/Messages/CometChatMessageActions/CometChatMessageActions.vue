@@ -55,7 +55,7 @@
 import { CometChat } from "@cometchat-pro/chat";
 
 import {
-  STRING_MESSAGES,
+  COMETCHAT_CONSTANTS,
   DEFAULT_OBJECT_PROP,
   DEFAULT_BOOLEAN_PROP,
 } from "../../../resources/constants";
@@ -69,16 +69,32 @@ import editIcon from "./resources/edit.png";
 
 import * as style from "./style";
 
+/**
+ * A tooltip that displays all actions for a given message.
+ *
+ * @displayName CometChatMessageActions
+ */
 export default {
   name: "CometChatMessageActions",
   mixins: [propertyCheck, cometChatCommon, tooltip],
   props: {
+    /**
+     * Theme of the UI.
+     */
     theme: { ...DEFAULT_OBJECT_PROP },
+    /**
+     * The message object.
+     */
     message: { ...DEFAULT_OBJECT_PROP },
+    /**
+     * Whether the message is from group.
+     */
     isGroup: { ...DEFAULT_BOOLEAN_PROP },
-    widgetconfig: { ...DEFAULT_OBJECT_PROP },
   },
   computed: {
+    /**
+     * Computed styles for the bubble.
+     */
     styles() {
       return {
         actionGroup: style.actionGroupStyle(),
@@ -93,9 +109,15 @@ export default {
         ),
       };
     },
+    /**
+     * Local string constants.
+     */
     STRINGS() {
-      return STRING_MESSAGES;
+      return COMETCHAT_CONSTANTS;
     },
+    /**
+     * Returns if it can show threaded message icon.
+     */
     canShowThread() {
       let flag = true;
 
@@ -105,6 +127,9 @@ export default {
 
       return flag;
     },
+    /**
+     * Returns if it can show edit message icon.
+     */
     canShowEdit() {
       let flag = true;
 
@@ -117,6 +142,9 @@ export default {
 
       return flag;
     },
+    /**
+     * Returns if it can show delete message icon.
+     */
     canShowDelete() {
       let flag = true;
 
@@ -126,6 +154,9 @@ export default {
 
       return flag;
     },
+    /**
+     * Returns if it can show the message actions/tooltip.
+     */
     canShowTooltip() {
       return !this.canShowThread && !this.canShowEdit && !this.canShowDelete
         ? false

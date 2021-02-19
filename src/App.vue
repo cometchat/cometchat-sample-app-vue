@@ -12,20 +12,6 @@ export default {
 
 
 <style lang="css">
-/* @import "./assets/css/style.css"; */
-html {
-  transition: color 300ms, background-color 300ms;
-}
-html[data-theme="dark"] {
-  filter: invert(1) hue-rotate(180deg);
-}
-
-html[data-theme="dark"] img,
-picture,
-video {
-  filter: invert(1) hue-rotate(180deg);
-}
-
 @import url("https://rsms.me/inter/inter.css");
 #app {
   width: 100vw;
