@@ -1,6 +1,6 @@
 {
   "name": "cometchat-pro-javascript-vue-chat-app",
-  "version": "2.3.0-1",
+  "version": "3.0.0-beta1-1",
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
@@ -8,7 +8,7 @@
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
-    "@cometchat-pro/chat": "^2.3.0",
+    "@cometchat-pro/chat": "3.0.0-beta1",
     "core-js": "^3.6.4",
     "dateformat": "^4.4.1",
     "emoji-mart-vue-fast": "^7.0.7",

@@ -1,13 +1,13 @@
 {
   "name": "cometchat-pro-vue-ui-kit",
-  "version": "2.3.0-1",
+  "version": "3.0.0-beta1-1",
   "description": "CometChat UI Kit for Vue app.",
   "scripts": {
     "develop": "sh develop.sh",
     "dev": "watch 'npm run develop' ."
   },
   "dependencies": {
-    "@cometchat-pro/chat": "^2.3.0",
+    "@cometchat-pro/chat": "3.0.0-beta1",
     "dateformat": "^4.4.1",
     "emoji-mart-vue-fast": "^7.0.7",
     "twemoji": "^13.0.1"

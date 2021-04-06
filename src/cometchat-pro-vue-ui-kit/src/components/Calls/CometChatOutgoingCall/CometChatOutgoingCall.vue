@@ -377,14 +377,14 @@ export default {
      */
     markMessageAsRead(message) {
       try {
-        const type = message.receiverType;
-        const id =
-          type === CometChat.RECEIVER_TYPE.USER
-            ? message.sender.uid
-            : message.receiverId;
+        // const type = message.receiverType;
+        // const id =
+        //   type === CometChat.RECEIVER_TYPE.USER
+        //     ? message.sender.uid
+        //     : message.receiverId;
 
         if (this.hasProperty(message, "readAt") === false) {
-          CometChat.markAsRead(message.id, id, type);
+          CometChat.markAsRead(message);
         }
       } catch (error) {
         this.logError("Error marking message as read", error);

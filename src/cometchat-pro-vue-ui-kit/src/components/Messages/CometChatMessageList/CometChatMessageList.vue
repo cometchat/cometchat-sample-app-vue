@@ -542,7 +542,7 @@ export default {
         message.getReceiver().guid === this.item.guid
       ) {
         // if(!message.getReadAt()) {
-        //   CometChat.markAsRead(message.getId().toString(), message.getReceiverId(), message.getReceiverType());
+        //   CometChat.markAsRead(message);
         // }
 
         this.emitAction("groupUpdated", { message, key, group, options });
@@ -559,11 +559,7 @@ export default {
           message.getReceiverType() === CometChat.RECEIVER_TYPE.GROUP
         ) {
           if (!message.getReadAt()) {
-            CometChat.markAsRead(
-              message.getId().toString(),
-              message.getReceiverId(),
-              message.getReceiverType()
-            );
+            CometChat.markAsRead(message);
           }
 
           this.emitAction("callUpdated", { message });
@@ -573,11 +569,7 @@ export default {
           message.getReceiverType() === CometChat.RECEIVER_TYPE.USER
         ) {
           if (!message.getReadAt()) {
-            CometChat.markAsRead(
-              message.getId().toString(),
-              message.getSender().uid,
-              message.getReceiverType()
-            );
+            CometChat.markAsRead(message);
           }
 
           this.emitAction("callUpdated", { message });
@@ -655,11 +647,7 @@ export default {
         message.getReceiverId() === this.item.guid
       ) {
         if (!message.getReadAt()) {
-          CometChat.markAsRead(
-            message.getId().toString(),
-            message.getReceiverId(),
-            message.getReceiverType()
-          );
+          CometChat.markAsRead(message);
         }
 
         this.emitAction("messageReceived", { messages: [message] });
@@ -669,11 +657,7 @@ export default {
         message.getSender().uid === this.item.uid
       ) {
         if (!message.getReadAt()) {
-          CometChat.markAsRead(
-            message.getId().toString(),
-            message.getSender().uid,
-            message.getReceiverType()
-          );
+          CometChat.markAsRead(message);
         }
 
         this.emitAction("messageReceived", { messages: [message] });
@@ -689,11 +673,7 @@ export default {
         message.getReceiverId() === this.item.guid
       ) {
         if (!message.getReadAt()) {
-          CometChat.markAsRead(
-            message.getId().toString(),
-            message.getReceiverId(),
-            message.getReceiverType()
-          );
+          CometChat.markAsRead(message);
         }
 
         if (this.hasProperty(message, "metadata")) {
@@ -712,11 +692,7 @@ export default {
         message.getSender().uid === this.item.uid
       ) {
         if (!message.getReadAt()) {
-          CometChat.markAsRead(
-            message.getId().toString(),
-            message.getSender().uid,
-            message.getReceiverType()
-          );
+          CometChat.markAsRead(message);
         }
 
         if (this.hasProperty(message, "metadata")) {
@@ -838,19 +814,11 @@ export default {
             !message.getReadAt()
           ) {
             if (message.getReceiverType() === CometChat.RECEIVER_TYPE.USER) {
-              CometChat.markAsRead(
-                message.getId().toString(),
-                message.getSender().getUid(),
-                message.getReceiverType()
-              );
+              CometChat.markAsRead(message);
             } else if (
               message.getReceiverType() === CometChat.RECEIVER_TYPE.GROUP
             ) {
-              CometChat.markAsRead(
-                message.getId().toString(),
-                message.getReceiverId(),
-                message.getReceiverType()
-              );
+              CometChat.markAsRead(message);
             }
           }
           this.emitAction("messageRead", { message });
