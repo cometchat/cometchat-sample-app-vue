@@ -39,7 +39,7 @@
 </template>
 <script>
 import { CometChat } from "@cometchat-pro/chat";
-import { CometChatAvatar } from "../../cometchat-pro-vue-chat-ui-kit/";
+import { CometChatAvatar } from "../../cometchat-pro-vue-ui-kit/";
 
 import { COMETCHAT_CONSTANTS } from "../../CONSTS";
 import Loader from "../Loader/Loader";

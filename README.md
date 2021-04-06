@@ -48,7 +48,7 @@ CometChat Kitchen Sink Sample App (built using **CometChat UI Kit**) is a fully 
 
 ## Extensions
 
-[Thumbnail Generation](https://prodocs.cometchat.com/docs/extensions-thumbnail-generation) | [Link Preview](https://prodocs.cometchat.com/docs/extensions-link-preview) | [Rich Media Preview](https://prodocs.cometchat.com/docs/extensions-rich-media-preview) | [Smart Reply](https://prodocs.cometchat.com/docs/extensions-smart-reply)| [Emojis](https://prodocs.cometchat.com/docs/extensions-emojis) | [Polls](https://prodocs.cometchat.com/docs/extensions-polls) | [Reactions](https://prodocs.cometchat.com/docs/extensions-reactions) | [Stickers](https://prodocs.cometchat.com/docs/extensions-stickers)
+[Thumbnail Generation](https://prodocs.cometchat.com/v3.0-beta/docs/extensions-thumbnail-generation) | [Link Preview](https://prodocs.cometchat.com/v3.0-beta/docs/extensions-link-preview) | [Rich Media Preview](https://prodocs.cometchat.com/v3.0-beta/docs/extensions-rich-media-preview) | [Smart Reply](https://prodocs.cometchat.com/v3.0-beta/docs/extensions-smart-reply)| [Emojis](https://prodocs.cometchat.com/v3.0-beta/docs/extensions-emojis) | [Polls](https://prodocs.cometchat.com/v3.0-beta/docs/extensions-polls) | [Reactions](https://prodocs.cometchat.com/v3.0-beta/docs/extensions-reactions) | [Stickers](https://prodocs.cometchat.com/v3.0-beta/docs/extensions-stickers)
 
 <hr/>
 
@@ -74,11 +74,11 @@ Simply clone/ download this project.
 
 # Learn more about UI Kit
 
-Learn more about how to integrate [UI Kit](https://github.com/cometchat-pro/vue-chat-ui-kit) inside your app.
+Learn more about how to integrate [UI Kit](https://github.com/cometchat-pro/cometchat-pro-vue-ui-kit/tree/v3) inside your app.
 
 # Troubleshooting
 
-- To read the full documentation on UI Kit integration visit our [Documentation](https://prodocs.cometchat.com/docs/vue-ui-kit).
+- To read the full documentation on UI Kit integration visit our [Documentation](https://prodocs.cometchat.com/v3.0-beta/docs/vue-ui-kit).
 
 - Facing any issues while integrating or installing the UI Kit please connect with us via real time support present in <a href="https://app.cometchat.com/">CometChat Dashboard.</a>
 

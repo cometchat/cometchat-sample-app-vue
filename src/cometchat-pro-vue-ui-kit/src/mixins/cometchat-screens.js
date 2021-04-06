@@ -144,11 +144,7 @@ export default {
             : incomingCallMessage.receiverId;
 
         if (this.hasProperty(incomingCallMessage, "readAt") === false) {
-          CometChat.markAsRead(
-            incomingCallMessage.id,
-            receiverId,
-            receiverType
-          );
+          CometChat.markAsRead(incomingCallMessage);
         }
 
         this.messageToMarkRead = incomingCallMessage;
