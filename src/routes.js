@@ -6,7 +6,7 @@ import {
   CometChatUserListWithMessages,
   CometChatGroupListWithMessages,
   CometChatConversationListWithMessages,
-} from "./cometchat-pro-vue-chat-ui-kit/";
+} from "./cometchat-pro-vue-ui-kit/";
 
 import { AppHome, AppNavigation } from "./components/";
 
