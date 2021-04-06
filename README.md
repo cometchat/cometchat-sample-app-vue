@@ -74,7 +74,7 @@ Simply clone/ download this project.
 
 # Learn more about UI Kit
 
-Learn more about how to integrate [UI Kit](https://github.com/cometchat-pro/vue-chat-ui-kit) inside your app.
+Learn more about how to integrate [UI Kit](https://github.com/cometchat-pro/cometchat-pro-vue-ui-kit) inside your app.
 
 # Troubleshooting
 

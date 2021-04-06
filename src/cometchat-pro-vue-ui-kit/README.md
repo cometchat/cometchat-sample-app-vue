@@ -58,7 +58,7 @@ Before you begin, ensure you have met the following requirements:
 ### iii. Add the CometChat dependency 📦
 
 ```javascript
-  npm install @cometchat-pro/chat@2.2.1 --save
+  npm install @cometchat-pro/chat@2.3.0 --save
 ```
 
 <br/>
