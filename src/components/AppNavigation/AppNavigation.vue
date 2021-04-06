@@ -55,7 +55,7 @@
 
 <script>
 import { CometChat } from "@cometchat-pro/chat";
-import { CometChatAvatar } from "../../cometchat-pro-vue-chat-ui-kit/";
+import { CometChatAvatar } from "../../cometchat-pro-vue-ui-kit/";
 
 import * as style from "./style";
 
