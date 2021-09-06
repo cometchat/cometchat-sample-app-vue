@@ -55,7 +55,7 @@
 
 <script>
 import { CometChat } from "@cometchat-pro/chat";
-import { CometChatAvatar } from "../../cometchat-pro-vue-ui-kit/";
+import { CometChatAvatar } from "../../cometchat-pro-vue-ui-kit/CometChatWorkspace/src";
 
 import * as style from "./style";
 
@@ -68,7 +68,7 @@ export default {
         chatComponents: [
           {
             title: "CometChatUI",
-            href: "#/embedded-app",
+            href: "/embedded-app",
             image: "rocket",
             desc:
               "The <code>CometChatUI</code> component launches a fully working chat application.",
@@ -77,21 +77,21 @@ export default {
         screenComponents: [
           {
             title: "Conversations",
-            href: "#/conversation-screen",
+            href: "/conversations",
             image: "components",
             desc:
               "The <code>CometChatConversationListWithMessages</code> component launches Conversation list with messaging.",
           },
           {
             title: "Groups",
-            href: "#/group-screen",
+            href: "/groups",
             image: "components",
             desc:
               "The <code>CometChatGroupListWithMessages</code> component launches Group list with messaging.",
           },
           {
             title: "Users",
-            href: "#/user-screen",
+            href: "/users",
             image: "components",
             desc:
               "The <code>CometChatUserListWithMessages</code> component launches User list with messaging.",
@@ -100,21 +100,21 @@ export default {
         listComponents: [
           {
             title: "Conversation List",
-            href: "#/conversation-list",
+            href: "/conversation-list",
             image: "bricks",
             desc:
               "The <code>CometChatConversationList</code> component launches Conversation list.",
           },
           {
             title: "Group List",
-            href: "#/group-list",
+            href: "/group-list",
             image: "bricks",
             desc:
               "The <code>CometChatGroupList</code> component launches Group list.",
           },
           {
             title: "User List",
-            href: "#/user-list",
+            href: "/user-list",
             image: "bricks",
             desc:
               "The <code>CometChatUserList</code> component launches User list.",

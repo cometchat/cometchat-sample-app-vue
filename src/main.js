@@ -1,12 +1,9 @@
-import Vue from "vue";
+import { createApp } from "vue";
 import App from "./App.vue";
-import VueRouter from "vue-router";
-import routes from "./routes";
+import router from "./router";
 
-import { CometChat } from "@cometchat-pro/chat";
-import { COMETCHAT_CONSTANTS } from "./CONSTS";
-
-Vue.config.productionTip = false;
+import {CometChat} from '@cometchat-pro/chat'
+import { COMETCHAT_CONSTANTS } from './CONSTS'
 
 var appSetting = new CometChat.AppSettingsBuilder()
   .subscribePresenceForAllUsers()
@@ -14,10 +11,5 @@ var appSetting = new CometChat.AppSettingsBuilder()
   .build();
 
 CometChat.init(COMETCHAT_CONSTANTS.APP_ID, appSetting).then(() => {
-  Vue.use(VueRouter);
-  const router = new VueRouter({ routes });
-  new Vue({
-    router,
-    render: (h) => h(App),
-  }).$mount("#app");
+    createApp(App).use(router).mount("#app");
 });
