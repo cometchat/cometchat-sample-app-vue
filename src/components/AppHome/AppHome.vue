@@ -39,7 +39,7 @@
 </template>
 <script>
 import { CometChat } from "@cometchat-pro/chat";
-import { CometChatAvatar } from "../../cometchat-pro-vue-ui-kit/";
+import { CometChatAvatar } from "../../cometchat-pro-vue-ui-kit/CometChatWorkspace/src";
 
 import { COMETCHAT_CONSTANTS } from "../../CONSTS";
 import Loader from "../Loader/Loader";
@@ -115,9 +115,8 @@ export default {
 
       this.showloader = true;
       CometChat.login(this.uid, COMETCHAT_CONSTANTS.AUTH_KEY)
-        .then((user) => {
-          console.log("User logged in : ", user);
-          location.href = "#/menu";
+        .then(() => {
+          location.href = "/menu";
         })
         .catch((error) => {
           console.log("Error in [login]", error);
@@ -133,7 +132,7 @@ export default {
     CometChat.getLoggedinUser().then(
       (user) => {
         if (user) {
-          location.href = "#/menu";
+          location.href = "/menu";
           this.uid = user.getUid();
         } else {
           this.showloader = false;
