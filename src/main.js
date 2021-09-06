@@ -5,6 +5,8 @@ import router from "./router";
 import {CometChat} from '@cometchat-pro/chat'
 import { COMETCHAT_CONSTANTS } from './CONSTS'
 
+// Vue.config.productionTip = false;
+
 var appSetting = new CometChat.AppSettingsBuilder()
   .subscribePresenceForAllUsers()
   .setRegion(COMETCHAT_CONSTANTS.REGION)
