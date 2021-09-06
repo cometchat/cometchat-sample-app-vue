@@ -1,29 +1,33 @@
 {
-  "name": "cometchat-pro-javascript-vue-chat-app",
-  "version": "2.3.0-1",
+  "name": "javascript-vue-chat-app",
+  "version": "2.4.0-1",
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint"
+    "lint": "vue-cli-service lint",
+    "postinstall": "node ./postinstall.js"
   },
   "dependencies": {
-    "@cometchat-pro/chat": "^2.3.0",
-    "core-js": "^3.6.4",
-    "dateformat": "^4.4.1",
-    "emoji-mart-vue-fast": "^7.0.7",
-    "twemoji": "^13.0.1",
-    "vue": "^2.6.12",
-    "vue-router": "^3.4.9"
+    "@cometchat-pro/chat": "2.4.0",
+    "core-js": "^3.6.5",
+    "dateformat": "^4.5.1",
+    "emoji-mart-vue-fast": "8.0.3",
+    "twemoji": "^13.1.0",
+    "vue": "^3.0.0-0",
+    "vue-router": "^4.0.0-0"
   },
   "devDependencies": {
-    "@vue/cli-plugin-babel": "~4.3.0",
-    "@vue/cli-plugin-eslint": "~4.3.0",
-    "@vue/cli-service": "~4.3.0",
+    "@vue/cli-plugin-babel": "~4.5.0",
+    "@vue/cli-plugin-eslint": "~4.5.0",
+    "@vue/cli-service": "~4.5.0",
+    "@vue/compiler-sfc": "^3.0.0-0",
     "babel-eslint": "^10.1.0",
     "eslint": "^6.7.2",
-    "eslint-plugin-vue": "^6.2.2",
-    "vue-template-compiler": "^2.6.12"
+    "eslint-plugin-vue": "^7.0.0-0",
+    "extract-zip": "^2.0.1",
+    "fs-extra": "^9.0.1",
+    "rimraf": "^3.0.2"
   },
   "eslintConfig": {
     "root": true,
@@ -31,7 +35,7 @@
       "node": true
     },
     "extends": [
-      "plugin:vue/essential",
+      "plugin:vue/vue3-essential",
       "eslint:recommended"
     ],
     "parserOptions": {
