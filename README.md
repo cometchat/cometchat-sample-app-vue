@@ -17,15 +17,7 @@
 ![Twitter Follow](https://img.shields.io/twitter/follow/cometchat?style=social)
 </br></br>
 
-<div style="width:100%">
-    <div style="width:50%; display:inline-block">
-        <div align="center">
-          <img align="left" alt="Main" src="./Screenshots/main.png">    
-        </div>    
-    </div>    
-</div>
-
-</br></br>
+![alt text](./Screenshots/main.png "Main")
 
 CometChat Kitchen Sink Sample App (built using **CometChat UI Kit**) is a fully functional real-time messaging app capable of private (one-on-one), group messaging, voice & video calling.
 
@@ -54,15 +46,9 @@ CometChat Kitchen Sink Sample App (built using **CometChat UI Kit**) is a fully 
 
 # Installation
 
-Simply clone/ download this project.
-
-# Vue 2 sample app
-
-Please navigate to folder vue2 to run the sample app
-
-# Vue 3 sample app
-
-Please navigate to folder vue3 to run the sample app
+- Clone this repository  `git clone https://github.com/cometchat-pro/javascript-vue-chat-app.git -b v2`
+- Please navigate to folder vue2 to run the Vue2 sample app
+- Please navigate to folder vue3 to run the Vue3 sample app
 
 # Setting up the sample app
 
