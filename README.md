@@ -46,7 +46,7 @@ CometChat Kitchen Sink Sample App (built using **CometChat UI Kit**) is a fully 
 
 # Installation
 
-- Clone this repository  `git clone https://github.com/cometchat-pro/javascript-vue-chat-app.git -b v3`
+- Clone this repository  `git clone https://github.com/cometchat-pro/javascript-vue-chat-app.git`
 - Please navigate to folder vue2 to run the Vue2 sample app
 - Please navigate to folder vue3 to run the Vue3 sample app
 
