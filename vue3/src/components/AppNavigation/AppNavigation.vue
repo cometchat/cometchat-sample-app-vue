@@ -126,7 +126,6 @@ export default {
   created() {
     CometChat.getLoggedinUser().then(
       (user) => {
-        console.log("we are here", user);
         if (!user) {
           location.href = "/";
         }
