@@ -26,6 +26,7 @@
 </div>
 
 </br></br>
+</br></br>
 
 CometChat Kitchen Sink Sample App (built using **CometChat UI Kit**) is a fully functional real-time messaging app capable of private (one-on-one), group messaging, voice & video calling.
 
