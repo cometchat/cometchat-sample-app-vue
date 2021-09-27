@@ -1,6 +1,6 @@
 {
   "name": "javascript-vue-chat-app",
-  "version": "2.4.0-1",
+  "version": "2.4.0-2",
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
@@ -14,7 +14,7 @@
     "dateformat": "^4.5.1",
     "emoji-mart-vue-fast": "8.0.3",
     "twemoji": "^13.1.0",
-    "vue": "^3.0.0-0",
+    "vue": "^3.2.11",
     "vue-router": "^4.0.0-0"
   },
   "devDependencies": {
