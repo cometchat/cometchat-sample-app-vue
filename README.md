@@ -56,6 +56,14 @@ CometChat Kitchen Sink Sample App (built using **CometChat UI Kit**) is a fully 
 
 Simply clone/ download this project.
 
+# Vue 2 sample app
+
+Please navigate to folder vue2 to run the sample app
+
+# Vue 3 sample app
+
+Please navigate to folder vue3 to run the sample app
+
 # Setting up the sample app
 
 - Obtain your `APP_ID`, `AUTH_KEY` and `REGION` from [CometChat Dashboard](https://app.cometchat.com/)
@@ -74,7 +82,7 @@ Simply clone/ download this project.
 
 # Learn more about UI Kit
 
-Learn more about how to integrate [UI Kit](https://github.com/cometchat-pro/cometchat-pro-vue-ui-kit/tree/v3) inside your app.
+Learn more about how to integrate [UI Kit](https://github.com/cometchat-pro/cometchat-pro-vue-ui-kit/) inside your app.
 
 # Troubleshooting
 
