@@ -40,7 +40,7 @@ CometChat Kitchen Sink Sample App (built using **CometChat UI Kit**) is a fully 
 
 ## Extensions
 
-[Thumbnail Generation](https://prodocs.cometchat.com/docs/extensions-thumbnail-generation) | [Link Preview](https://prodocs.cometchat.com/docs/extensions-link-preview) | [Rich Media Preview](https://prodocs.cometchat.com/docs/extensions-rich-media-preview) | [Smart Reply](https://prodocs.cometchat.com/docs/extensions-smart-reply)| [Emojis](https://prodocs.cometchat.com/docs/extensions-emojis) | [Polls](https://prodocs.cometchat.com/docs/extensions-polls) | [Reactions](https://prodocs.cometchat.com/docs/extensions-reactions) | [Stickers](https://prodocs.cometchat.com/docs/extensions-stickers)
+[Thumbnail Generation](https://www.cometchat.com/docs/extensions/thumbnail-generation) | [Link Preview](https://www.cometchat.com/docs/extensions/link-preview) | [Rich Media Preview](https://www.cometchat.com/docs/extensions/rich-media-preview) | [Smart Reply](https://www.cometchat.com/docs/extensions/smart-replies)| [Emojis](https://www.cometchat.com/docs/extensions/emojis) | [Polls](https://www.cometchat.com/docs/extensions/polls) | [Reactions](https://www.cometchat.com/docs/extensions/reactions) | [Stickers](https://www.cometchat.com/docs/extensions/stickers)
 
 <hr/>
 
@@ -72,10 +72,18 @@ Learn more about how to integrate [UI Kit](https://github.com/cometchat-pro/come
 
 # Troubleshooting
 
-- To read the full documentation on UI Kit integration visit our [Documentation](https://prodocs.cometchat.com/docs/vue-ui-kit).
+- To read the full documentation on UI Kit integration visit our [Documentation](https://www.cometchat.com/docs/vue-chat-ui-kit/overview).
 
 - Facing any issues while integrating or installing the UI Kit please connect with us via real time support present in <a href="https://app.cometchat.com/">CometChat Dashboard.</a>
 
 # Contact 📪
 
 Contact us via real time support present in [CometChat Dashboard](https://app.cometchat.com/).
+
+---
+
+# License
+
+---
+
+This project uses the following [license](https://github.com/cometchat-pro/javascript-vue-chat-app/blob/master/LICENSE).
