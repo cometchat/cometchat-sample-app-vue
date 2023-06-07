@@ -1,6 +1,6 @@
 {
-  "name": "cometchat-pro-vue-ui-kit",
-  "version": "0.1.0",
+  "name": "cometchat-vue-ui-kit",
+  "version": "v4.0.0-beta1.0",
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
@@ -8,7 +8,7 @@
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
-    "@cometchat-pro/vue-ui-kit": "3.0.12-pluto.beta.2.2",
+    "@cometchat/chat-uikit-vue": "v4.0.0-beta.1.0",
     "@cometchat-pro/web-calls": "^3.0.0",
     "core-js": "^3.8.3",
     "file-loader": "^6.2.0",

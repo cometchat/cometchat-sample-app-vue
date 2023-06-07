@@ -40,9 +40,9 @@ import {
   Close2xIcon,
   fontHelper,
   CometChatTextBubble,
-} from "@cometchat-pro/vue-ui-kit";
+} from "@cometchat/chat-uikit-vue";
 
-import "my-cstom-package-lit";
+import ""@cometchat/uikit-elements";
 
 export default defineComponent({
   name: "TextBubble",

@@ -25,12 +25,12 @@ import {
   watch,
 } from "vue";
 
-import { CometChatGroupMembers } from "@cometchat-pro/vue-ui-kit";
-import { CometChatBannedMembers } from "@cometchat-pro/vue-ui-kit";
+import { CometChatGroupMembers } from "@cometchat/chat-uikit-vue";
+import { CometChatBannedMembers } from "@cometchat/chat-uikit-vue";
 import {
   CometChatAddMembers,
   CometChatGroupsWithMessages,
-} from "@cometchat-pro/vue-ui-kit";
+} from "@cometchat/chat-uikit-vue";
 
 import { CometChat } from "@cometchat-pro/chat";
 import { useRoute } from "vue-router";

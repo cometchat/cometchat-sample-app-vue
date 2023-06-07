@@ -78,10 +78,10 @@
 /*es-lint disabled*/
 
 import { defineComponent, PropType } from "vue";
-import "my-cstom-package-lit";
+import ""@cometchat/uikit-elements";
 import LoginComponent from "../Login/index.vue";
 import SingupComponent from "../Signup/index.vue";
-import { CometChatTheme } from "uikit-resources-lerna";
+import { CometChatTheme } from "@cometchat/uikit-resources";
 import * as Assets from "../assets";
 
 export default defineComponent({

@@ -12,7 +12,7 @@
 <script lang="ts">
 import { defineComponent, inject, onBeforeMount, ref } from "vue";
 
-import { CometChatDetails } from "@cometchat-pro/vue-ui-kit";
+import { CometChatDetails } from "@cometchat/chat-uikit-vue";
 
 import { CometChat } from "@cometchat-pro/chat";
 import { useRoute } from "vue-router";

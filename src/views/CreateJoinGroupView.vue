@@ -17,11 +17,11 @@
 <script lang="ts">
 import { computed, defineComponent, inject, onBeforeMount, ref } from "vue";
 
-import { CometChatTheme, fontHelper } from "@cometchat-pro/vue-ui-kit";
+import { CometChatTheme, fontHelper } from "@cometchat/chat-uikit-vue";
 
-import "my-cstom-package-lit";
+import ""@cometchat/uikit-elements";
 import { CometChat } from "@cometchat-pro/chat";
-import { CreateGroupStyle, JoinGroupStyle } from "my-cstom-package-lit";
+import { CreateGroupStyle, JoinGroupStyle } from ""@cometchat/uikit-elements";
 import { useRoute } from "vue-router";
 
 export default defineComponent({

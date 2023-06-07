@@ -6,7 +6,7 @@ import { defineComponent, inject, onBeforeMount, ref } from "vue";
 
 import * as Assets from "../assets";
 
-import { CometChatTransferOwnership } from "@cometchat-pro/vue-ui-kit";
+import { CometChatTransferOwnership } from "@cometchat/chat-uikit-vue";
 
 import { CometChat } from "@cometchat-pro/chat";
 

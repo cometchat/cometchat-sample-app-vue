@@ -3,9 +3,9 @@ import App from "./App.vue";
 import getRouter from "./router";
 import { COMETCHAT_CONSTANTS } from "./consts";
 import CardComponent from "../src/Card/index.vue";
-import { CometChatTheme, CometChatUIKit } from "@cometchat-pro/vue-ui-kit";
-import { CometChatConversations } from "@cometchat-pro/vue-ui-kit";
-import { UIKitSettingsBuilder } from "uikit-utils-lerna";
+import { CometChatTheme, CometChatUIKit } from "@cometchat/chat-uikit-vue";
+import { CometChatConversations } from "@cometchat/chat-uikit-vue";
+import { UIKitSettingsBuilder } from "@cometchat/uikit-shared";
 import { Utils } from "./utils/Utils";
 
 const uiKitSettings = new UIKitSettingsBuilder()

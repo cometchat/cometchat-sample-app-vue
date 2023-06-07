@@ -36,7 +36,7 @@
 /*es-lint disabled*/
 
 import { computed, defineComponent, inject, PropType } from "vue";
-import { fontHelper } from "@cometchat-pro/vue-ui-kit";
+import { fontHelper } from "@cometchat/chat-uikit-vue";
 
 import * as Assets from "../assets";
 

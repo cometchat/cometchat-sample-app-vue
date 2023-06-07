@@ -122,18 +122,18 @@
 /*es-lint disabled*/
 
 import { defineComponent, inject, ref } from "vue";
-import "my-cstom-package-lit";
-import { fontHelper } from "uikit-resources-lerna";
+import ""@cometchat/uikit-elements";
+import { fontHelper } from "@cometchat/uikit-resources";
 import { CometChat } from "@cometchat-pro/chat";
 import { COMETCHAT_CONSTANTS } from "../consts";
 import { useRouter } from "vue-router";
-import { AvatarStyle } from "my-cstom-package-lit";
+import { AvatarStyle } from ""@cometchat/uikit-elements";
 import {
   LoginSignupBackgroundImage,
   SpinnerSvg,
   CometChatLogo,
 } from "../assets";
-import { CometChatUIKit } from "@cometchat-pro/vue-ui-kit";
+import { CometChatUIKit } from "@cometchat/chat-uikit-vue";
 let buttonImage = "assets/button-opc.png";
 
 export default defineComponent({

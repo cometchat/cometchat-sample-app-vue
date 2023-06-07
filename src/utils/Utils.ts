@@ -1,5 +1,5 @@
 import { CometChat } from "@cometchat-pro/chat";
-import { CometChatTheme } from "uikit-resources-lerna";
+import { CometChatTheme } from "@cometchat/uikit-resources";
 import { ref } from "vue";
 
 export class Utils {

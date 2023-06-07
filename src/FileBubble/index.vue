@@ -37,10 +37,10 @@ import {
   fontHelper,
   CometChatFileBubble,
   DownloadIcon,
-} from "@cometchat-pro/vue-ui-kit";
+} from "@cometchat/chat-uikit-vue";
 import { SampleFile } from "../assets";
 
-import "my-cstom-package-lit";
+import ""@cometchat/uikit-elements";
 
 export default defineComponent({
   name: "FileBubble",

@@ -34,10 +34,10 @@ import {
   Close2xIcon,
   fontHelper,
   CometChatVideoBubble,
-} from "@cometchat-pro/vue-ui-kit";
+} from "@cometchat/chat-uikit-vue";
 import { SampleVideo } from "../assets";
 
-import "my-cstom-package-lit";
+import ""@cometchat/uikit-elements";
 
 export default defineComponent({
   name: "VideoBubble",

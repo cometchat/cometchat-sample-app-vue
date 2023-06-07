@@ -37,7 +37,7 @@ import {
   CometChatMessageHeader,
   CometChatMessageList,
   CometChatMessageComposer,
-} from "@cometchat-pro/vue-ui-kit";
+} from "@cometchat/chat-uikit-vue";
 
 export default defineComponent({
   name: "MessagesView",

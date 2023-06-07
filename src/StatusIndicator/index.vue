@@ -65,9 +65,9 @@ import {
   CometChatTheme,
   Close2xIcon,
   fontHelper,
-} from "@cometchat-pro/vue-ui-kit";
+} from "@cometchat/chat-uikit-vue";
 
-import "my-cstom-package-lit";
+import ""@cometchat/uikit-elements";
 
 export default defineComponent({
   name: "StatusIndicator",

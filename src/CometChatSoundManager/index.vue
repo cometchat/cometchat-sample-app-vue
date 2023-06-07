@@ -55,8 +55,8 @@ import {
   CometChatTheme,
   Close2xIcon,
   fontHelper,
-} from "@cometchat-pro/vue-ui-kit";
-import { CometChatSoundManager } from "uikit-utils-lerna";
+} from "@cometchat/chat-uikit-vue";
+import { CometChatSoundManager } from "@cometchat/uikit-shared";
 
 export default defineComponent({
   name: "CometChatSoundManager",

@@ -18,9 +18,9 @@ import { computed, defineComponent, inject, onBeforeMount, ref } from "vue";
 import {
   CometChatCallButtons,
   CometChatTheme,
-} from "@cometchat-pro/vue-ui-kit";
+} from "@cometchat/chat-uikit-vue";
 
-import "my-cstom-package-lit";
+import ""@cometchat/uikit-elements";
 import { CometChat } from "@cometchat-pro/chat";
 
 export default defineComponent({

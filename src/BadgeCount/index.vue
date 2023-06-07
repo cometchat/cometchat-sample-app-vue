@@ -66,9 +66,9 @@ import {
   CometChatTheme,
   Close2xIcon,
   fontHelper,
-} from "@cometchat-pro/vue-ui-kit";
-import { BadgeStyle } from "my-cstom-package-lit";
-import "my-cstom-package-lit";
+} from "@cometchat/chat-uikit-vue";
+import { BadgeStyle } from ""@cometchat/uikit-elements";
+import ""@cometchat/uikit-elements";
 
 export default defineComponent({
   name: "BadgeCount",

@@ -10,7 +10,7 @@
 import { defineComponent } from "vue";
 import LoginSignupParentView from "./LoginSignupParentView.vue";
 
-import "my-cstom-package-lit";
+import ""@cometchat/uikit-elements";
 
 export default defineComponent({
   name: "LoginView",

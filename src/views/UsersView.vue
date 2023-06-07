@@ -25,7 +25,7 @@ import { useRoute, useRouter } from "vue-router";
 import {
   CometChatUsers,
   CometChatUsersWithMessages,
-} from "@cometchat-pro/vue-ui-kit";
+} from "@cometchat/chat-uikit-vue";
 
 export default defineComponent({
   name: "UsersView",

@@ -65,7 +65,7 @@ import {
   Close2xIcon,
   fontHelper,
   CometChatPalette,
-} from "@cometchat-pro/vue-ui-kit";
+} from "@cometchat/chat-uikit-vue";
 
 export default defineComponent({
   name: "CometChatThemeManager",

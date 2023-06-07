@@ -73,9 +73,9 @@ import {
   CometChatTheme,
   Close2xIcon,
   fontHelper,
-} from "@cometchat-pro/vue-ui-kit";
-import { AvatarStyle } from "my-cstom-package-lit";
-import "my-cstom-package-lit";
+} from "@cometchat/chat-uikit-vue";
+import { AvatarStyle } from ""@cometchat/uikit-elements";
+import ""@cometchat/uikit-elements";
 
 export default defineComponent({
   name: "Avatar",

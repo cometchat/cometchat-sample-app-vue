@@ -15,10 +15,10 @@ import {
   CometChatGroupsWithMessages,
   CometChatGroupMembers,
   CometChatAddMembers,
-} from "@cometchat-pro/vue-ui-kit";
+} from "@cometchat/chat-uikit-vue";
 import { CometChat } from "@cometchat-pro/chat";
 import { Utils } from "@/utils/Utils";
-import { CometChatGroupEvents } from "uikit-resources-lerna";
+import { CometChatGroupEvents } from "@cometchat/uikit-resources";
 
 const getRouter = () => {
   const routes: Array<RouteRecordRaw> = [

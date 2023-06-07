@@ -30,10 +30,10 @@ import {
   Close2xIcon,
   fontHelper,
   CometChatAudioBubble,
-} from "@cometchat-pro/vue-ui-kit";
+} from "@cometchat/chat-uikit-vue";
 import { SampleAudio } from "../assets";
 
-import "my-cstom-package-lit";
+import ""@cometchat/uikit-elements";
 
 export default defineComponent({
   name: "AudioBubble",

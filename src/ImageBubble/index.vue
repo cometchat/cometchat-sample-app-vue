@@ -33,10 +33,10 @@ import {
   Close2xIcon,
   fontHelper,
   CometChatImageBubble,
-} from "@cometchat-pro/vue-ui-kit";
+} from "@cometchat/chat-uikit-vue";
 import { SampleImage } from "../assets";
 
-import "my-cstom-package-lit";
+import ""@cometchat/uikit-elements";
 
 export default defineComponent({
   name: "ImageBubble",

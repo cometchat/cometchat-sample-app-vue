@@ -99,7 +99,7 @@ import {
 import { useRoute, useRouter } from "vue-router";
 import CardComponent from "../Card/index.vue";
 import * as Assets from "../assets";
-import { States } from "@cometchat-pro/vue-ui-kit";
+import { States } from "@cometchat/chat-uikit-vue";
 import OptionsListComponent from "../OptionsList/index.vue";
 import CometChatSoundManager from "../CometChatSoundManager/index.vue";
 import CometChatThemeManager from "../CometChatThemeManager/index.vue";
