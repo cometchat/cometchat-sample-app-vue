@@ -33,7 +33,7 @@ import {
 } from "@cometchat/chat-uikit-vue";
 import { SampleAudio } from "../assets";
 
-import ""@cometchat/uikit-elements";
+import "@cometchat/uikit-elements";
 
 export default defineComponent({
   name: "AudioBubble",

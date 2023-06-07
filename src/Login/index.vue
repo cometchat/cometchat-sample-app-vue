@@ -122,12 +122,12 @@
 /*es-lint disabled*/
 
 import { defineComponent, inject, ref } from "vue";
-import ""@cometchat/uikit-elements";
+import "@cometchat/uikit-elements";
 import { fontHelper } from "@cometchat/uikit-resources";
 import { CometChat } from "@cometchat-pro/chat";
 import { COMETCHAT_CONSTANTS } from "../consts";
 import { useRouter } from "vue-router";
-import { AvatarStyle } from ""@cometchat/uikit-elements";
+import { AvatarStyle } from "@cometchat/uikit-elements";
 import {
   LoginSignupBackgroundImage,
   SpinnerSvg,

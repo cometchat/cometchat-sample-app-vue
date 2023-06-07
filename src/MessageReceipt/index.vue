@@ -73,7 +73,7 @@ import {
   Receipts,
 } from "@cometchat/chat-uikit-vue";
 
-import ""@cometchat/uikit-elements";
+import "@cometchat/uikit-elements";
 
 export default defineComponent({
   name: "MessageReceipt",

@@ -19,9 +19,9 @@ import { computed, defineComponent, inject, onBeforeMount, ref } from "vue";
 
 import { CometChatTheme, fontHelper } from "@cometchat/chat-uikit-vue";
 
-import ""@cometchat/uikit-elements";
+import "@cometchat/uikit-elements";
 import { CometChat } from "@cometchat-pro/chat";
-import { CreateGroupStyle, JoinGroupStyle } from ""@cometchat/uikit-elements";
+import { CreateGroupStyle, JoinGroupStyle } from "@cometchat/uikit-elements";
 import { useRoute } from "vue-router";
 
 export default defineComponent({

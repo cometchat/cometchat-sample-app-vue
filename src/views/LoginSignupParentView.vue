@@ -78,7 +78,7 @@
 /*es-lint disabled*/
 
 import { defineComponent, PropType } from "vue";
-import ""@cometchat/uikit-elements";
+import "@cometchat/uikit-elements";
 import LoginComponent from "../Login/index.vue";
 import SingupComponent from "../Signup/index.vue";
 import { CometChatTheme } from "@cometchat/uikit-resources";

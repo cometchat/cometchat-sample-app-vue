@@ -20,7 +20,7 @@ import {
   CometChatTheme,
 } from "@cometchat/chat-uikit-vue";
 
-import ""@cometchat/uikit-elements";
+import "@cometchat/uikit-elements";
 import { CometChat } from "@cometchat-pro/chat";
 
 export default defineComponent({

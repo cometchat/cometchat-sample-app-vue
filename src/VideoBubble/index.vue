@@ -37,7 +37,7 @@ import {
 } from "@cometchat/chat-uikit-vue";
 import { SampleVideo } from "../assets";
 
-import ""@cometchat/uikit-elements";
+import "@cometchat/uikit-elements";
 
 export default defineComponent({
   name: "VideoBubble",

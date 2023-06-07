@@ -74,8 +74,8 @@ import {
   Close2xIcon,
   fontHelper,
 } from "@cometchat/chat-uikit-vue";
-import { AvatarStyle } from ""@cometchat/uikit-elements";
-import ""@cometchat/uikit-elements";
+import { AvatarStyle } from "@cometchat/uikit-elements";
+import "@cometchat/uikit-elements";
 
 export default defineComponent({
   name: "Avatar",

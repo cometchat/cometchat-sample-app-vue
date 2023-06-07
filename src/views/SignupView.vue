@@ -11,7 +11,7 @@
 import { defineComponent } from "vue";
 import LoginSignupParentView from "./LoginSignupParentView.vue";
 
-import ""@cometchat/uikit-elements";
+import "@cometchat/uikit-elements";
 
 export default defineComponent({
   name: "SignupView",

@@ -92,7 +92,7 @@
 /*es-lint disabled*/
 
 import { defineComponent, inject, ref } from "vue";
-import ""@cometchat/uikit-elements";
+import "@cometchat/uikit-elements";
 import { fontHelper } from "@cometchat/uikit-resources";
 import { CometChat } from "@cometchat-pro/chat";
 import { useRouter } from "vue-router";
