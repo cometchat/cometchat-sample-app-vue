@@ -1,9 +1,9 @@
 <div style="width:100%">
     <div style="width:50%;">
         <div align="center">
-       <a> <img align="center" width="180" height="180" alt="CometChat" src="./Screenshots/logo.png"> </a>  
-        </div>    
-    </div>    
+       <a> <img align="center" width="180" height="180" alt="CometChat" src="./Screenshots/logo.png"> </a>
+        </div>
+    </div>
 </div>
 
 </br></br>
@@ -68,7 +68,7 @@ CometChat Kitchen Sink Sample App (built using **CometChat UI Kit**) is a fully 
 
 # Learn more about UI Kit
 
-Learn more about how to integrate [UI Kit](https://github.com/cometchat-pro/cometchat-pro-vue-ui-kit/) inside your app.
+Learn more about how to integrate [UI Kit](https://github.com/cometchat-pro/cometchat-chat-uikit-vue/) inside your app.
 
 # Troubleshooting
 
