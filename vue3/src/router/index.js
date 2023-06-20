@@ -7,7 +7,7 @@ import {
   CometChatUserListWithMessages,
   CometChatGroupListWithMessages,
   CometChatConversationListWithMessages,
-} from "../cometchat-pro-vue-ui-kit/CometChatWorkspace/src";
+} from "../cometchat-chat-uikit-vue/CometChatWorkspace/src";
 import { AppHome, AppNavigation } from "../components/";
 
 const routes = [
