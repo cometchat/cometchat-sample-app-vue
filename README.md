@@ -103,7 +103,7 @@ Simply clone or fork this repo and run it using the instructions below to see al
 
 ## Usage
 
-This app contains all features offered by CometChat through its UI Kit. [Read more about the Vue UI Kit here.](https://www.cometchat.com/docs/react-v4-uikit/overview)
+This app contains all features offered by CometChat through its UI Kit. [Read more about the Vue UI Kit here.](https://www.cometchat.com/docs/vue-v4-uikit/overview)
 
 ### Run project locally
 
@@ -111,7 +111,7 @@ This app contains all features offered by CometChat through its UI Kit. [Read mo
 npm run serve
 ```
 
-To learn about Vue UI Kit Integration, please click [here](https://www.cometchat.com/docs/vue-v4-uikit/overview).
+To learn about Vue UI Kit Integration, please click [here](https://www.cometchat.com/docs/vue-v4-uikit/integration).
 
 ## Help
 
