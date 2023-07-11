@@ -80,7 +80,7 @@ Simply clone or fork this repo and run it using the instructions below to see al
 1. Clone the repo
 
    ```sh
-   git clone -b v4 https://github.com/cometchat-pro/cometchat-chat-sample-app-vue.git 
+   git clone https://github.com/cometchat-pro/cometchat-chat-sample-app-vue.git -b v4 
    ```
 
 2. Change to the working directory
@@ -103,7 +103,7 @@ Simply clone or fork this repo and run it using the instructions below to see al
 
 ## Usage
 
-To learn about Vue UI Kit Integration, please click [here](https://www.cometchat.com/docs/vue-uikit-beta/integration).
+This app contains all features offered by CometChat through its UI Kit. [Read more about the Vue UI Kit here.](https://www.cometchat.com/docs/vue-v4-uikit/overview)
 
 ### Run project locally
 
@@ -111,11 +111,11 @@ To learn about Vue UI Kit Integration, please click [here](https://www.cometchat
 npm run serve
 ```
 
-For more on UI Kits, please refer to the [documentation](https://www.cometchat.com/docs/beta-uikits).
+To learn about Vue UI Kit Integration, please click [here](https://www.cometchat.com/docs/vue-v4-uikit/integration).
 
 ## Help
 
-To learn more about our UI kits, visit our [documentation](https://www.cometchat.com/docs/vue-uikit-beta/overview).
+To learn more about our UI kits, visit our [documentation](https://www.cometchat.com/docs/v4-uikits).
 
 If you are still facing issues while running this project or integrating with our UI Kits, please connect with our real-time support via the [CometChat Dashboard](https://app.cometchat.com/).
 
