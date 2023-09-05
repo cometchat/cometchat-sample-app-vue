@@ -28,7 +28,6 @@ export default defineComponent({
   },
 });
 </script>
-<style src="@cometchat/chat-uikit-vue/dist/style.css"></style>
 <style>
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;

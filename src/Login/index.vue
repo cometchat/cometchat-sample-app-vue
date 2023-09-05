@@ -6,7 +6,7 @@
           comet<b>chat</b>
         </div>
         <div class="release-tag" :style="styles.headerSubtitleStyle()">
-          3.0.10-pluto.beta.2
+          4.0.0
         </div>
       </div>
       <div class="content__section">
@@ -124,7 +124,7 @@
 import { defineComponent, inject, ref } from "vue";
 import "@cometchat/uikit-elements";
 import { fontHelper } from "@cometchat/uikit-resources";
-import { CometChat } from "@cometchat-pro/chat";
+import { CometChat } from "@cometchat/chat-sdk-javascript";
 import { COMETCHAT_CONSTANTS } from "../consts";
 import { useRouter } from "vue-router";
 import { AvatarStyle } from "@cometchat/uikit-elements";
@@ -179,7 +179,6 @@ export default defineComponent({
         nameTextColor: theme.value.palette.getAccent900(),
         backgroundSize: "cover",
         nameTextFont: fontHelper(theme.value.typography.subtitle1),
-        outerViewBorder: "",
         outerViewBorderSpacing: "",
       });
       avatarStyle = { ...defaultStyle, ...avatarStyle };

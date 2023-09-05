@@ -1,12 +1,15 @@
+import "@cometchat/chat-uikit-vue/dist/style.css";
+
+import { CometChatTheme, CometChatUIKit } from "@cometchat/chat-uikit-vue";
 import { createApp, ref } from "vue";
+
 import App from "./App.vue";
-import getRouter from "./router";
 import { COMETCHAT_CONSTANTS } from "./consts";
 import CardComponent from "../src/Card/index.vue";
-import { CometChatTheme, CometChatUIKit } from "@cometchat/chat-uikit-vue";
 import { CometChatConversations } from "@cometchat/chat-uikit-vue";
 import { UIKitSettingsBuilder } from "@cometchat/uikit-shared";
 import { Utils } from "./utils/Utils";
+import getRouter from "./router";
 
 const uiKitSettings = new UIKitSettingsBuilder()
   .setAppId(COMETCHAT_CONSTANTS.APP_ID)

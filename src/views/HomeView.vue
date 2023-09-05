@@ -32,6 +32,7 @@
         @open-audio-bubble="toggleAudioBubbleVisibility()"
         @open-video-bubble="toggleVideoBubbleVisibility()"
         @open-file-bubble="toggleFileBubbleVisibility()"
+        @open-media-recorder="toggleMediaRecorderVisibility()"
       ></router-view>
       <CometChatSoundManager
         @close-sound-manager="toggleSoundManagerVisibility()"
@@ -81,13 +82,17 @@
         @close-File-bubble="toggleFileBubbleVisibility()"
         v-if="showFileBubble"
       ></FileBubble>
+      <MediaRecorder
+        @close-media-recorder="toggleMediaRecorderVisibility()"
+        v-if="showMediaRecorder"
+      ></MediaRecorder>
     </div>
   </div>
   <!-- </div> -->
 </template>
 
 <script lang="ts">
-import { CometChat } from "@cometchat-pro/chat";
+import { CometChat } from "@cometchat/chat-sdk-javascript";
 import {
   computed,
   defineComponent,
@@ -113,6 +118,7 @@ import ImageBubble from "../ImageBubble/index.vue";
 import VideoBubble from "../VideoBubble/index.vue";
 import AudioBubble from "../AudioBubble/index.vue";
 import FileBubble from "../FileBubble/index.vue";
+import MediaRecorder from "../MediaRecorder/index.vue";
 
 export default defineComponent({
   name: "HomeView",
@@ -130,6 +136,7 @@ export default defineComponent({
     VideoBubble,
     AudioBubble,
     FileBubble,
+    MediaRecorder,
   },
   props: {},
   setup(props) {
@@ -155,6 +162,7 @@ export default defineComponent({
     let showAudioBubble = ref(false);
     let showVideoBubble = ref(false);
     let showFileBubble = ref(false);
+    let showMediaRecorder = ref(false);
 
     const getThemeMode = () => {
       return theme.value.palette.mode;
@@ -376,6 +384,9 @@ export default defineComponent({
     const toggleFileBubbleVisibility = () => {
       showFileBubble.value = !showFileBubble.value;
     };
+    const toggleMediaRecorderVisibility = () => {
+      showMediaRecorder.value = !showMediaRecorder.value;
+    };
 
     return {
       logout,
@@ -414,6 +425,8 @@ export default defineComponent({
       toggleVideoBubbleVisibility,
       showFileBubble,
       toggleFileBubbleVisibility,
+      showMediaRecorder,
+      toggleMediaRecorderVisibility,
       computedStyles,
     };
   },

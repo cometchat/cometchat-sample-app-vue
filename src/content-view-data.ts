@@ -1,5 +1,7 @@
 import * as Assets from "./assets";
 
+import { MicIcon } from "@cometchat/chat-uikit-vue";
+
 export default {
   chats: [
     {
@@ -36,6 +38,20 @@ export default {
       onClick: (router: any, context?: any) => {
         return () => {
           router.push({ path: "/conversationwithmessages" });
+        };
+      },
+    },
+    {
+      id: "contacts",
+      componentName: "CardComponent",
+      title: "Contacts",
+      description:
+        "CometChatContacts is an independent component used to set up a screen that displays the list of contacts available in your app and gives you the ability to search for a specific contact.",
+      imageUrl: Assets.ConversationWithMessages,
+      imageAltText: "Image Unavailable",
+      onClick: (router: any) => {
+        return () => {
+          router.push({ path: "/contacts" });
         };
       },
     },
@@ -403,6 +419,20 @@ export default {
         };
       },
     },
+    {
+      id: "media_recorder",
+      componentName: "CardComponent",
+      title: "Media Recorder",
+      description:
+        "CometChatMediaRecorder component is used to record audio and video messages. To learn more about this component tap here.",
+      imageUrl: MicIcon,
+      imageAltText: "Image Unavailable",
+      onClick: (router: any, context?: any) => {
+        return () => {
+          context.emit("open-media-recorder", {});
+        };
+      },
+    },
   ],
   messages: [
     {
@@ -466,6 +496,20 @@ export default {
       onClick: (router: any) => {
         return () => {
           router.push({ path: "/CometChatMessageComposer" });
+        };
+      },
+    },
+    {
+      id: "messages",
+      componentName: "CardComponent",
+      title: "Message Information",
+      description:
+        "CometChatMessageInformation component displays the information of a message.",
+      imageUrl: Assets.Message,
+      imageAltText: "Image Unavailable",
+      onClick: (router: any) => {
+        return () => {
+          router.push({ path: "/messageinformation" });
         };
       },
     },

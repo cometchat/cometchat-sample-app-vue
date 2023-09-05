@@ -1,24 +1,24 @@
 import {
+  CometChatAddMembers,
+  CometChatCallButtons,
+  CometChatConversations,
+  CometChatConversationsWithMessages,
+  CometChatGroupMembers,
+  CometChatGroups,
+  CometChatGroupsWithMessages,
+  CometChatMessages,
+  CometChatTheme,
+} from "@cometchat/chat-uikit-vue";
+import {
+  RouteRecordRaw,
   createRouter,
   createWebHashHistory,
   createWebHistory,
-  RouteRecordRaw,
 } from "vue-router";
 
-import {
-  CometChatConversationsWithMessages,
-  CometChatConversations,
-  CometChatTheme,
-  CometChatMessages,
-  CometChatCallButtons,
-  CometChatGroups,
-  CometChatGroupsWithMessages,
-  CometChatGroupMembers,
-  CometChatAddMembers,
-} from "@cometchat/chat-uikit-vue";
-import { CometChat } from "@cometchat-pro/chat";
-import { Utils } from "@/utils/Utils";
+import { CometChat } from "@cometchat/chat-sdk-javascript";
 import { CometChatGroupEvents } from "@cometchat/uikit-resources";
+import { Utils } from "@/utils/Utils";
 
 const getRouter = () => {
   const routes: Array<RouteRecordRaw> = [
@@ -262,6 +262,24 @@ const getRouter = () => {
       name: "CometChatUsersWithMessages",
       component: () =>
         import(/* webpackChunkName: "UsersView" */ "../views/UsersView.vue"),
+      meta: { requiresAuth: true },
+    },
+    {
+      path: "/contacts",
+      name: "CometChatContacts",
+      component: () =>
+        import(
+          /* webpackChunkName: "UsersView" */ "../views/CometChatContacts.vue"
+        ),
+      meta: { requiresAuth: true },
+    },
+    {
+      path: "/messageinformation",
+      name: "CometChatMessageInformation",
+      component: () =>
+        import(
+          /* webpackChunkName: "UsersView" */ "../views/MessageInformation.vue"
+        ),
       meta: { requiresAuth: true },
     },
     {

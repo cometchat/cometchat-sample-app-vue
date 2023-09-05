@@ -8,7 +8,7 @@ import * as Assets from "../assets";
 
 import { CometChatTransferOwnership } from "@cometchat/chat-uikit-vue";
 
-import { CometChat } from "@cometchat-pro/chat";
+import { CometChat } from "@cometchat/chat-sdk-javascript";
 
 export default defineComponent({
   name: "TransferOwnershipView",

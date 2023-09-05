@@ -28,7 +28,7 @@
   </div>
 </template>
 <script lang="ts">
-import { CometChat } from "@cometchat-pro/chat";
+import { CometChat } from "@cometchat/chat-sdk-javascript";
 import { defineComponent, onBeforeMount, ref } from "vue";
 import { useRoute, useRouter } from "vue-router";
 

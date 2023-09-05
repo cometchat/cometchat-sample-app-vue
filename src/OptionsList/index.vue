@@ -53,7 +53,7 @@
 </template>
 
 <script lang="ts">
-import { CometChat } from "@cometchat-pro/chat";
+import { CometChat } from "@cometchat/chat-sdk-javascript";
 import { computed, defineComponent, inject, PropType, provide } from "vue";
 import { useRouter } from "vue-router";
 import CardComponent from "../Card/index.vue";

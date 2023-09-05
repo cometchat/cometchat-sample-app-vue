@@ -6,7 +6,7 @@
           comet<b>chat</b>
         </div>
         <div class="release-tag" :style="styles.headerSubtitleStyle()">
-          3.0.10-pluto.beta.2
+          4.0.0
         </div>
       </div>
       <div class="content__section">
@@ -94,7 +94,7 @@
 import { defineComponent, inject, ref } from "vue";
 import "@cometchat/uikit-elements";
 import { fontHelper } from "@cometchat/uikit-resources";
-import { CometChat } from "@cometchat-pro/chat";
+import { CometChat } from "@cometchat/chat-sdk-javascript";
 import { useRouter } from "vue-router";
 
 import {

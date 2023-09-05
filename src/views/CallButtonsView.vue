@@ -21,7 +21,7 @@ import {
 } from "@cometchat/chat-uikit-vue";
 
 import "@cometchat/uikit-elements";
-import { CometChat } from "@cometchat-pro/chat";
+import { CometChat } from "@cometchat/chat-sdk-javascript";
 
 export default defineComponent({
   name: "CallButtonsView",

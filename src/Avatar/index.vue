@@ -110,7 +110,6 @@ export default defineComponent({
         nameTextColor: theme.value.palette.getAccent900(),
         backgroundSize: "cover",
         nameTextFont: fontHelper(theme.value.typography.subtitle1),
-        outerViewBorder: "",
         outerViewBorderSpacing: "",
       });
       avatarStyle.value = { ...defaultStyle, ...avatarStyle.value };
