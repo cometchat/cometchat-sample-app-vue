@@ -1,95 +1,146 @@
-<div style="width:100%">
-    <div style="width:50%;">
-        <div align="center">
-       <a> <img align="center" width="180" height="180" alt="CometChat" src="./Screenshots/logo.png"> </a>
-        </div>
-    </div>
+<!-- readme -->
+<p align="left">
+  <a href="https://cometchat.com">
+    <img src="./Screenshots/logo.png" alt="CometChat logo" width="180" height="180">
+  </a>
+
+  <h2 align="left">Vue Sample Chat App by CometChat</h3>
+
+  <p align="left">
+    CometChat Kitchen Sink Sample App (built using <b>CometChat UI Kits</b>) is a fully functional real-time messaging app capable of private (one-on-one), group messaging, voice & video calling.
+    <br />
+    <a href="https://www.cometchat.com/docs/vue-uikit-beta/overview"><strong>Explore the docs »</strong></a>
+    <br />
+    <br />
+    <a href="https://github.com/cometchat-pro/javascript-vue-chat-app/issues">Report Bug</a>
+  </p>
+</p>
+
+<div align="left">
+    <a href="https://github.com/cometchat-pro/javascript-vue-chat-app/releases" alt="Releases">
+        <img src="https://img.shields.io/github/v/release/cometchat-pro/cometchat-pro-vue-sample-app" />
+    </a>
+    <a href="https://img.shields.io/github/languages/top/cometchat-pro/cometchat-pro-vue-sample-app">
+        <img src="https://img.shields.io/github/languages/top/cometchat-pro/cometchat-pro-vue-sample-app" />
+    </a>
+    <a href="https://github.com/cometchat-pro/cometchat-pro-vue-sample-app/stargazers">
+        <img src="https://img.shields.io/github/stars/cometchat-pro/cometchat-pro-vue-sample-app?style=social" />
+    </a>
+    <a href="https://twitter.com/CometChat">
+        <img src="https://img.shields.io/twitter/follow/CometChat?label=CometChat&style=social" />
+    </a>
 </div>
 
-</br></br>
-> **Note**
+<!-- TABLE OF CONTENTS -->
 
-Version 4 CometChat UI Kits 
+## Table of Contents
 
-We’ve introduced a major update to CometChat UI kits. Version 4 features a modular architecture that gives you enhanced flexibility to build and customize your web and mobile apps. Please switch to the branch [v4](https://github.com/cometchat-pro/cometchat-chat-sample-app-vue/tree/v4) to check out the sample app based on this version. [Visit our documentation](https://www.cometchat.com/docs/vue-v4-uikit/overview) to read more about this.
-<br/><br/>
+- [About the Project](#about-the-project)
+  - [Built With](#built-with)
+- [Getting Started](#getting-started)
+  - [Dependencies](#dependencies)
+  - [Installing](#installing)
+  - [Usage](#usage)
+    - [Run locally](#run-project-locally)
+  - [Help](#help)
+- [Contributing](#contributing)
+- [Support](#support)
+- [License](#license)
+- [About Authors](#about-authors)
 
-# CometChat Kitchen Sink Sample App (Vue)
+<!-- ABOUT THE PROJECT -->
 
-[![Platform](https://img.shields.io/badge/Platform-Javascript-brightgreen)](#)
-![GitHub repo size](https://img.shields.io/github/repo-size/cometchat-pro/javascript-vue-chat-app)
-![GitHub contributors](https://img.shields.io/github/contributors/cometchat-pro/javascript-vue-chat-app)
-![GitHub stars](https://img.shields.io/github/stars/cometchat-pro/javascript-vue-chat-app?style=social)
-![Twitter Follow](https://img.shields.io/twitter/follow/cometchat?style=social)
-</br></br>
-
-![alt text](./Screenshots/main.png "Main")
+## About The Project
 
 CometChat Kitchen Sink Sample App (built using **CometChat UI Kit**) is a fully functional real-time messaging app capable of private (one-on-one), group messaging, voice & video calling.
 
-## Features
+### Built With
 
-- Login
-- Private(1-1) & Group Conversations
-- Voice & video calling & conferencing
-- Rich Media Attachments
-- Typing Indicators
-- Text, Media and Custom messages
-- Read receipts
-- Online Presence Indicators
-- Message History
-- Users & Friends List
-- Groups List
-- Search by users and groups
-- Conversations List
-- Threaded Conversations
+- [Vue](https://vuejs.org/)
+- [CometChat](https://cometchat.com)
 
-## Extensions
+<!-- GETTING STARTED -->
 
-[Thumbnail Generation](https://www.cometchat.com/docs/extensions/thumbnail-generation) | [Link Preview](https://www.cometchat.com/docs/extensions/link-preview) | [Rich Media Preview](https://www.cometchat.com/docs/extensions/rich-media-preview) | [Smart Reply](https://www.cometchat.com/docs/extensions/smart-replies)| [Emojis](https://www.cometchat.com/docs/extensions/emojis) | [Polls](https://www.cometchat.com/docs/extensions/polls) | [Reactions](https://www.cometchat.com/docs/extensions/reactions) | [Stickers](https://www.cometchat.com/docs/extensions/stickers)
+## Getting Started
 
-<hr/>
+Simply clone or fork this repo and run it using the instructions below to see all features in action. Or use it as a starter template/boilerplate and make edits to suit your needs.
 
-# Installation
+## Dependencies
 
-- Clone this repository  `git clone https://github.com/cometchat-pro/javascript-vue-chat-app.git`
-- Please navigate to folder vue2 to run the Vue2 sample app
-- Please navigate to folder vue3 to run the Vue3 sample app
+- CometChat - [Sign up for CometChat](https://app.cometchat.com) and create an app to obtain your keys and other credentials
 
-# Setting up the sample app
+- npm
 
-- Obtain your `APP_ID`, `AUTH_KEY` and `REGION` from [CometChat Dashboard](https://app.cometchat.com/)
-- Navigate to root directory and replace `APP_ID`, `AUTH_KEY` and `REGION` in `src/CONSTS.js`
-
-# Build and run the sample app
-
-- Install dependencies using
-  ```shell
-  npm install
-  ```
-- Run the project using
-  ```shell
-  npm run serve
+  ```sh
+  npm install npm@latest -g
   ```
 
-# Learn more about UI Kit
+## Installing
 
-Learn more about how to integrate [UI Kit](https://github.com/cometchat-pro/cometchat-chat-uikit-vue/) inside your app.
+1. Clone the repo
 
-# Troubleshooting
+   ```sh
+   git clone -b v4 https://github.com/cometchat-pro/javascript-vue-chat-app.git
+   ```
 
-- To read the full documentation on UI Kit integration visit our [Documentation](https://www.cometchat.com/docs/vue-chat-ui-kit/overview).
+2. Change to the working directory
 
-- Facing any issues while integrating or installing the UI Kit please connect with us via real time support present in <a href="https://app.cometchat.com/">CometChat Dashboard.</a>
+   ```sh
+   cd javascript-vue-chat-app
+   ```
 
-# Contact 📪
+3. Install dependencies via NPM
 
-Contact us via real time support present in [CometChat Dashboard](https://app.cometchat.com/).
+   ```sh
+   npm install
+   ```
 
----
+4. Replace `APP_ID`, `REGION` and `AUTH_KEY` with your CometChat `App ID`, `Region` and `Auth Key` in `src/consts.ts` file.
 
-# License
+   ![Replacing constants in src/consts.js](./Screenshots/constants.png "Replacing constants in src/consts.ts")
 
----
+<!-- USAGE EXAMPLES -->
 
-This project uses the following [license](https://github.com/cometchat-pro/javascript-vue-chat-app/blob/master/LICENSE).
+## Usage
+
+To learn about Vue UI Kit Integration, please click [here](https://www.cometchat.com/docs/vue-uikit-beta/integration).
+
+### Run project locally
+
+```sh
+npm run serve
+```
+
+For more on UI Kits, please refer to the [documentation](https://www.cometchat.com/docs/beta-uikits).
+
+## Help
+
+To learn more about our UI kits, visit our [documentation](https://www.cometchat.com/docs/vue-uikit-beta/overview).
+
+If you are still facing issues while running this project or integrating with our UI Kits, please connect with our real time support via the [CometChat Dashboard](https://app.cometchat.com/).
+
+<!-- CONTRIBUTING -->
+
+## Contributing
+
+Contributions are what make the open source community such an amazing place to be learn, inspire, and create. Any contributions you make are **greatly appreciated**. Sincere thanks to all our [contributors](https://github.com/cometchat-pro/javascript-vue-chat-app/graphs/contributors)!
+
+You are requested to follow the contribution guidelines specified in [CONTRIBUTING.md](./CONTRIBUTING.md) while contributing to the project :smile:.
+
+## Support
+
+Please connect with our real time support via the [CometChat Dashboard](https://app.cometchat.com/).
+
+<!-- LICENSE -->
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](./LICENSE) file for details.
+
+## About Authors
+
+`javascript-vue-chat-app` is created & maintained by CometChat.
+
+The names and logos for CometChat are trademarks of CometChat, Inc.
+
+We love open source software! See [our other projects](https://github.com/cometchat-pro) or [sign up with us](https://app.cometchat.com) to start using our product.
