@@ -106,3 +106,5 @@ export { default as AddMembers } from "./assets/add-members.svg";
 export { default as TransferOwnershipIcon } from "./assets/transfer-ownership-icon.svg";
 export { default as BanMember } from "./assets/ban-members.svg";
 export { default as LoginSignupBackgroundImage } from "./assets/login-signup.png";
+export { default as FormBubble } from "./assets/form-bubble.svg";
+export { default as CardBubble } from "./assets/card-bubble.svg";

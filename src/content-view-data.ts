@@ -420,6 +420,35 @@ export default {
       },
     },
     {
+      id: "form_bubble",
+      componentName: "CardComponent",
+
+      title: "Form Bubble",
+      description:
+        "The CometChatFormBubble component is used to render a form within a chat bubble. To learn more about this component tap here",
+      imageUrl: Assets.FormBubble,
+      imageAltText: "Image Unavailable",
+      onClick: (router: any, context?: any) => {
+        return () => {
+          context.emit("open-form-bubble", {});
+        };
+      },
+    },
+    {
+      id: "card_bubble",
+      componentName: "CardComponent",
+      title: "Card Bubble",
+      description:
+        "The CometChatCardBubble component is used to display a card within a chat bubble. To learn more about this component tap here.",
+      imageUrl: Assets.CardBubble,
+      imageAltText: "Image Unavailable",
+      onClick: (router: any, context?: any) => {
+        return () => {
+          context.emit("open-card-bubble", {});
+        };
+      },
+    },
+    {
       id: "media_recorder",
       componentName: "CardComponent",
       title: "Media Recorder",
