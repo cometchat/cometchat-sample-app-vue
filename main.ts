@@ -6,11 +6,11 @@ import { createApp, ref } from "vue";
 import App from "./App.vue";
 import { COMETCHAT_CONSTANTS } from "./consts";
 import CardComponent from "../src/Card/index.vue";
-import { CometChat } from "@cometchat/chat-sdk-javascript";
 import { CometChatConversations } from "@cometchat/chat-uikit-vue";
 import { UIKitSettingsBuilder } from "@cometchat/uikit-shared";
 import { Utils } from "./utils/Utils";
 import getRouter from "./router";
+import {CometChat} from '@cometchat/chat-sdk-javascript'
 import { metaInfo } from "./metaInfo";
 
 const uiKitSettings = new UIKitSettingsBuilder()
@@ -22,11 +22,7 @@ const uiKitSettings = new UIKitSettingsBuilder()
 
 CometChatUIKit.init(uiKitSettings)!
   .then(() => {
-    try {
-      CometChat.setDemoMetaInfo(metaInfo);
-    } catch (err) {
-      console.log("error while setting meta info", err);
-    }
+    try{CometChat.setDemoMetaInfo(metaInfo)}catch(err){}
     const app = createApp(App);
     app.component("CometChatConversations", CometChatConversations);
     //global registration of vue component
