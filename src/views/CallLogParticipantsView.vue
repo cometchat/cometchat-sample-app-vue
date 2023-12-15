@@ -83,8 +83,8 @@ export default defineComponent({
           {
             startTime: 101,
             rid: "Recordings",
-            recordingUrl:
-              "https://cdn-icons-png.flaticon.com/512/1752/1752772.png",
+            recording_url:
+              "https://recordings-us.cometchat.io/236497dcc2cd529b/2023-12-15/v1.us.236497dcc2cd529b.170264141733632a2e3171d8a5dcb1f82b743fbc2730422263_2023-12-15-11-57-16.mp4",
             endTime: 101,
             duration: 100,
           },
