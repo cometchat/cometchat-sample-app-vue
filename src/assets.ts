@@ -108,3 +108,7 @@ export { default as BanMember } from "./assets/ban-members.svg";
 export { default as LoginSignupBackgroundImage } from "./assets/login-signup.png";
 export { default as FormBubble } from "./assets/form-bubble.svg";
 export { default as CardBubble } from "./assets/card-bubble.svg";
+export { default as CallHistory } from "./assets/icons/call-history.svg";
+export { default as CallLogRecording } from "./assets/icons/call-log-recording.svg";
+export { default as CallLogs } from "./assets/icons/call-logs.svg";
+export { default as CallLogsParticipants } from "./assets/icons/call-participants.svg";
