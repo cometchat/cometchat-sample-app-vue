@@ -612,5 +612,89 @@ export default {
         };
       },
     },
+    {
+      id: "call_logs",
+      componentName: "CardComponent",
+      title: "CometChatCallLogs",
+      description:
+        "CometChatCallLogs is a widget which is used to display list of Call Logs",
+      imageUrl: Assets.CallLogs,
+      imageAltText: "Image Unavailable",
+      onClick: (router: any) => {
+        return () => {
+          router.push({ path: "/calllogs" });
+        };
+      },
+    },
+    {
+      id: "call_log_details",
+      componentName: "CardComponent",
+      title: "CometChatCallLogDetails",
+      description:
+        "CometChatCallLogDetails is a widget which is used to display call detail of a particular callLog",
+      imageUrl: Assets.CallLogs,
+      imageAltText: "Image Unavailable",
+      onClick: (router: any) => {
+        return () => {
+          router.push({ path: "/calllogdetails" });
+        };
+      },
+    },
+    {
+      id: "call_logs_with_details",
+      componentName: "CardComponent",
+      title: "CometChatCallLogsWithDetails",
+      description:
+        "CometChatCallLogsWithDetails is a widget which is used to display list of Call Logs with an icon to display call details",
+      imageUrl: Assets.CallLogs,
+      imageAltText: "Image Unavailable",
+      onClick: (router: any) => {
+        return () => {
+          router.push({ path: "/callLogWithDetails" });
+        };
+      },
+    },
+    {
+      id: "call_log_history",
+      componentName: "CardComponent",
+      title: "CometChatCallLogHistory",
+      description:
+        "CometChatCallLogHistory is a widget which is used to display list of call history for a particular user or group.",
+      imageUrl: Assets.CallHistory,
+      imageAltText: "Image Unavailable",
+      onClick: (router: any) => {
+        return () => {
+          router.push({ path: "/callloghistory" });
+        };
+      },
+    },
+    {
+      id: "call_log_participants",
+      componentName: "CardComponent",
+      title: "CometChatCallLogParticipants",
+      description:
+        "CometChatCallLogParticipants is a widget that displays list of participants for a particular Call.",
+      imageUrl: Assets.CallLogsParticipants,
+      imageAltText: "Image Unavailable",
+      onClick: (router: any) => {
+        return () => {
+          router.push({ path: "/calllogparticipants" });
+        };
+      },
+    },
+    {
+      id: "call_log_recordings",
+      componentName: "CardComponent",
+      title: "CometChatCallLogRecordings",
+      description:
+        "CometChatCallLogRecordings is a widget that displays list of recordings for a particular Call.",
+      imageUrl: Assets.CallLogRecording,
+      imageAltText: "Image Unavailable",
+      onClick: (router: any) => {
+        return () => {
+          router.push({ path: "/calllogrecordings" });
+        };
+      },
+    },
   ],
 };

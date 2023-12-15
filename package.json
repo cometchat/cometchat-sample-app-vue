@@ -9,8 +9,8 @@
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
-    "@cometchat/chat-uikit-vue": "4.0.3",
-    "@cometchat/calls-sdk-javascript": "4.0.4",
+    "@cometchat/chat-uikit-vue": "4.1.1",
+    "@cometchat/calls-sdk-javascript": "4.0.5",
     "core-js": "^3.8.3",
     "file-loader": "^6.2.0",
     "vue": "^3.2.13"
