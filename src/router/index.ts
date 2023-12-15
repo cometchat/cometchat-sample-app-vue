@@ -115,6 +115,60 @@ const getRouter = () => {
       meta: { requiresAuth: true },
     },
     {
+      path: "/callLogs",
+      name: "callLogs",
+      component: () =>
+        import(
+          /* webpackChunkName: "ContentView" */ "../views/CallLogsView.vue"
+        ),
+      meta: { requiresAuth: true },
+    },
+    {
+      path: "/callLogDetails",
+      name: "callLogDetails",
+      component: () =>
+        import(
+          /* webpackChunkName: "ContentView" */ "../views/CallLogDetailsView.vue"
+        ),
+      meta: { requiresAuth: true },
+    },
+    {
+      path: "/callLogWithDetails",
+      name: "callLogWithDetails",
+      component: () =>
+        import(
+          /* webpackChunkName: "ContentView" */ "../views/CallLogsWithDetailsView.vue"
+        ),
+      meta: { requiresAuth: true },
+    },
+    {
+      path: "/callLogHistory",
+      name: "callLogHistory",
+      component: () =>
+        import(
+          /* webpackChunkName: "ContentView" */ "../views/CallLogHistoryView.vue"
+        ),
+      meta: { requiresAuth: true },
+    },
+    {
+      path: "/callLogParticipants",
+      name: "callLogParticipants",
+      component: () =>
+        import(
+          /* webpackChunkName: "ContentView" */ "../views/CallLogParticipantsView.vue"
+        ),
+      meta: { requiresAuth: true },
+    },
+    {
+      path: "/callLogRecordings",
+      name: "callLogRecordings",
+      component: () =>
+        import(
+          /* webpackChunkName: "ContentView" */ "../views/CallLogRecordingsView.vue"
+        ),
+      meta: { requiresAuth: true },
+    },
+    {
       path: "/groups",
       name: "groupslist",
       component: CometChatGroups,
