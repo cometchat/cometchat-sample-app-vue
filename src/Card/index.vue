@@ -133,6 +133,7 @@ export default defineComponent({
       return theme.value.palette.mode
         ? {
             WebkitMask: `url(${props.imageUrl})  center center no-repeat`,
+            maskSize: "100%",
             background: theme.value.palette.getAccent(),
             ...props.imageStyle,
           }

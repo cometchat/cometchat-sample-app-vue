@@ -34,6 +34,7 @@
         @open-file-bubble="toggleFileBubbleVisibility()"
         @open-form-bubble="toggleFormBubbleVisibility()"
         @open-card-bubble="toggleCardBubbleVisibility()"
+        @open-scheduler-bubble="toggleSchedulerBubbleVisibility()"
         @open-media-recorder="toggleMediaRecorderVisibility()"
       ></router-view>
       <CometChatSoundManager
@@ -92,6 +93,10 @@
         @close-card-bubble="toggleCardBubbleVisibility()"
         v-if="showCardBubble"
       ></CardBubble>
+      <SchedulerBubble
+        @close-scheduler-bubble="toggleSchedulerBubbleVisibility()"
+        v-if="showSchedulerBubble"
+      ></SchedulerBubble>
       <MediaRecorder
         @close-media-recorder="toggleMediaRecorderVisibility()"
         v-if="showMediaRecorder"
@@ -129,6 +134,7 @@ import VideoBubble from "../VideoBubble/index.vue";
 import AudioBubble from "../AudioBubble/index.vue";
 import FormBubble from "../FormBubble/index.vue";
 import CardBubble from "../CardBubble/index.vue";
+import SchedulerBubble from "../SchedularBubble/index.vue";
 import FileBubble from "../FileBubble/index.vue";
 import MediaRecorder from "../MediaRecorder/index.vue";
 
@@ -151,6 +157,7 @@ export default defineComponent({
     MediaRecorder,
     FormBubble,
     CardBubble,
+    SchedulerBubble,
   },
   props: {},
   setup(props) {
@@ -179,6 +186,7 @@ export default defineComponent({
     let showMediaRecorder = ref(false);
     let showFormBubble = ref(false);
     let showCardBubble = ref(false);
+    let showSchedulerBubble = ref(false);
 
     const getThemeMode = () => {
       return theme.value.palette.mode;
@@ -397,6 +405,10 @@ export default defineComponent({
     const toggleFormBubbleVisibility = () => {
       showFormBubble.value = !showFormBubble.value;
     };
+    const toggleSchedulerBubbleVisibility = () => {
+      console.log("toggleSchedulerBubbleVisibility");
+      showSchedulerBubble.value = !showSchedulerBubble.value;
+    };
     const toggleCardBubbleVisibility = () => {
       showCardBubble.value = !showCardBubble.value;
     };
@@ -446,6 +458,8 @@ export default defineComponent({
       showFormBubble,
       toggleFormBubbleVisibility,
       showCardBubble,
+      toggleSchedulerBubbleVisibility,
+      showSchedulerBubble,
       toggleCardBubbleVisibility,
       showVideoBubble,
       toggleVideoBubbleVisibility,

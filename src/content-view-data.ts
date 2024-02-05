@@ -449,6 +449,20 @@ export default {
       },
     },
     {
+      id: "schedule_bubble",
+      componentName: "CardComponent",
+      title: "Schedule Bubble",
+      description:
+        "The CometChatScheduleBubble component is used to display a schedule within a chat bubble. To learn more about this component tap here.",
+      imageUrl: Assets.ScheduleBubble,
+      imageAltText: "Image Unavailable",
+      onClick: (router: any, context?: any) => {
+        return () => {
+          context.emit("open-scheduler-bubble", {});
+        };
+      },
+    },
+    {
       id: "media_recorder",
       componentName: "CardComponent",
       title: "Media Recorder",
