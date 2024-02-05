@@ -1,29 +1,44 @@
 <!-- PROJECT LOGO -->
-<div>
-    <img alt="CometChat" src="https://avatars2.githubusercontent.com/u/45484907?s=200&v=4" width="180" height="180" alt="CometChat" />
-</div>    
-<h2>CometChat Vue Sample App</h3>
-<p>
-  CometChat Kitchen Sink Sample App (built using <b>CometChat UI Kits</b>) is a fully functional real-time messaging app capable of private (one-on-one), group messaging, voice & video calling.
-  <br />
-  <a href="https://www.cometchat.com/docs/v4/vue-uikit/overview"><strong>Explore the docs »</strong></a>
-  <br />
-  <br />
-  <a href="https://github.com/cometchat-pro/cometchat-chat-sample-app-vue/issues">Report Bug</a>
+
+<div align="center">
+<img  alt="CometChat"  src="https://avatars2.githubusercontent.com/u/45484907?s=200&v=4"  width="180"  height="180"  alt="CometChat"  />
+
+</div>
+
+<h2 align="center" >CometChat Vue Sample App</h2>
+<p align="center">
+CometChat Kitchen Sink Sample App (built using <b>CometChat UI Kits</b>) is a fully functional real-time messaging app capable of private (one-on-one), group messaging, voice & video calling.
+
+<br  />
+
+<a  href="https://www.cometchat.com/docs/v4/vue-uikit/overview"><strong>Explore the docs »</strong></a>
+
+<a  href="https://github.com/cometchat-pro/cometchat-chat-sample-app-vue/issues">Report Bug</a>
+
 </p>
 
 ##
 
 [![Platform](https://img.shields.io/badge/Platform-Vue-blue?logo=vue&color=%235fd3f3)](#) [![Language](https://img.shields.io/badge/Language-Typescript-blue?logo=typescript&color=%232f74c0)](#)
+
 [![Version](https://img.shields.io/badge/Version-4-blue?color=red)](#)
-<a href="https://github.com/cometchat-pro/cometchat-chat-sample-app-vue/releases/" alt="Releases">
-<img src="https://img.shields.io/github/v/release/cometchat-pro/cometchat-chat-sample-app-vue?label=Release&color=brightgreen" />
+
+<a  href="https://github.com/cometchat-pro/cometchat-chat-sample-app-vue/releases/"  alt="Releases">
+
+<img  src="https://img.shields.io/github/v/release/cometchat-pro/cometchat-chat-sample-app-vue?label=Release&color=brightgreen"  />
+
 </a>
-<a href="https://github.com/cometchat-pro/javascript-vue-chat-ui-kit/stargazers">
-<img src="https://img.shields.io/github/stars/cometchat-pro/javascript-vue-chat-ui-kit?style=social" />
+
+<a  href="https://github.com/cometchat-pro/javascript-vue-chat-ui-kit/stargazers">
+
+<img  src="https://img.shields.io/github/stars/cometchat-pro/javascript-vue-chat-ui-kit?style=social"  />
+
 </a>
-<a href="https://twitter.com/CometChat">
-<img src="https://img.shields.io/twitter/follow/CometChat?label=CometChat&style=social" />
+
+<a  href="https://twitter.com/CometChat">
+
+<img  src="https://img.shields.io/twitter/follow/CometChat?label=CometChat&style=social"  />
+
 </a>
 
 <!-- TABLE OF CONTENTS -->
@@ -31,16 +46,27 @@
 ## Table of Contents
 
 - [About the Project](#about-the-project)
-  - [Built With](#built-with)
+
+- [Built With](#built-with)
+
 - [Getting Started](#getting-started)
-  - [Dependencies](#dependencies)
-  - [Installing](#installing)
-  - [Usage](#usage)
-    - [Run locally](#run-project-locally)
-  - [Help](#help)
+
+- [Dependencies](#dependencies)
+
+- [Installing](#installing)
+
+- [Usage](#usage)
+
+- [Run locally](#run-project-locally)
+
+- [Help](#help)
+
 - [Contributing](#contributing)
+
 - [Support](#support)
+
 - [License](#license)
+
 - [About Authors](#about-authors)
 
 <!-- ABOUT THE PROJECT -->
@@ -52,6 +78,7 @@ CometChat Kitchen Sink Sample App (built using **CometChat UI Kit**) is a fully 
 ### Built With
 
 - [Vue](https://vuejs.org/)
+
 - [CometChat](https://cometchat.com)
 
 <!-- GETTING STARTED -->
@@ -66,33 +93,47 @@ Simply clone or fork this repo and run it using the instructions below to see al
 
 - npm
 
-  ```sh
-  npm install npm@latest -g
-  ```
+```sh
+
+npm install npm@latest -g
+
+```
 
 ## Installing
 
 1. Clone the repo
 
-   ```sh
-   git clone https://github.com/cometchat-pro/cometchat-chat-sample-app-vue.git -b v4
-   ```
+```sh
+
+git clone https://github.com/cometchat-pro/cometchat-chat-sample-app-vue.git -b v4
+
+```
 
 2. Change to the working directory
 
-   ```sh
-   cd cometchat-chat-sample-app-vue
-   ```
+```sh
+
+cd cometchat-chat-sample-app-vue
+
+```
 
 3. Install dependencies via NPM
 
-   ```sh
-   npm install
-   ```
+```sh
+
+npm install
+
+```
 
 4. Replace `APP_ID`, `REGION` and `AUTH_KEY` with your CometChat `App ID`, `Region` and `Auth Key` in `src/constants.ts` file.
 
-   ![Replacing constants in src/constants.ts](./Screenshots/constants.png "Replacing constants in src/constants.ts")
+```sh
+export const COMETCHAT_CONSTANTS = {
+		APP_ID: "APP_ID",
+		REGION: "REGION",
+		AUTH_KEY: "AUTH_KEY",
+};
+```
 
 <!-- USAGE EXAMPLES -->
 
@@ -103,7 +144,9 @@ This app contains all features offered by CometChat through its UI Kit. [Read mo
 ### Run project locally
 
 ```sh
-npm start
+
+npm  start
+
 ```
 
 To learn about Vue UI Kit Integration, please [click here](https://www.cometchat.com/docs/v4/vue-uikit/integration).
@@ -135,11 +178,14 @@ This project is licensed under the MIT License - see the [LICENSE](./LICENSE) fi
 ## About Authors
 
 This project is created & maintained by: <br/>
-[⚔️ @nakuljhunjhunwala 🛡](https://github.com/nakul-cometchat) 
-[⚔️ @rajdubey 🛡](https://github.com/raj-dubey1) 
-[⚔️ @mathews 🛡](https://github.com/mathews-cometchat)  
-<br/>
 
+[⚔️ @nakuljhunjhunwala 🛡](https://github.com/nakul-cometchat)
+
+[⚔️ @rajdubey 🛡](https://github.com/raj-dubey1)
+
+[⚔️ @mathews 🛡](https://github.com/mathews-cometchat)
+
+<br/>
 
 The names and logos for CometChat are trademarks of CometChat, Inc.
 

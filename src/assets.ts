@@ -112,3 +112,4 @@ export { default as CallHistory } from "./assets/icons/call-history.svg";
 export { default as CallLogRecording } from "./assets/icons/call-log-recording.svg";
 export { default as CallLogs } from "./assets/icons/call-logs.svg";
 export { default as CallLogsParticipants } from "./assets/icons/call-participants.svg";
+export { default as ScheduleBubble } from "./assets/schedule.svg";
