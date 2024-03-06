@@ -54,7 +54,7 @@
 
 <script lang="ts">
 import { CometChat } from "@cometchat/chat-sdk-javascript";
-import { computed, defineComponent, inject, PropType, provide } from "vue";
+import { computed, defineComponent, inject } from "vue";
 import { useRouter } from "vue-router";
 import CardComponent from "../Card/index.vue";
 import * as Assets from "../assets";
@@ -79,10 +79,7 @@ export default defineComponent({
     },
   },
   setup(props) {
-    let { theme, switchThemeMode }: any = inject(
-      "theme",
-      new CometChatTheme({})
-    );
+    let { theme }: any = inject("theme", new CometChatTheme({}));
     let logOutIcon = Assets.PowerSettingsNew;
     const router = useRouter();
 
@@ -98,9 +95,6 @@ export default defineComponent({
     };
 
     const computedOptionWrapperStyles: any = computed(() => {
-      let borderColor = theme.value.palette.mode
-        ? theme.value.palette.getAccent()
-        : "";
       let backgroundColor = theme.value.palette.mode
         ? theme.value.palette.getBackground()
         : "";

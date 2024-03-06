@@ -117,7 +117,6 @@ import {
   ref,
 } from "vue";
 import { useRoute, useRouter } from "vue-router";
-import CardComponent from "../Card/index.vue";
 import * as Assets from "../assets";
 import { States } from "@cometchat/chat-uikit-vue";
 import OptionsListComponent from "../OptionsList/index.vue";
@@ -160,7 +159,7 @@ export default defineComponent({
     SchedulerBubble,
   },
   props: {},
-  setup(props) {
+  setup() {
     let pathRef: any = ref(null);
 
     const { theme, switchThemeMode }: any = inject("theme");
@@ -218,7 +217,7 @@ export default defineComponent({
     });
 
     // Update matchedRecords and hasContent when navigating to a new route
-    router.beforeEach((to, from) => {
+    router.beforeEach((to) => {
       matchedRecords.value = to.matched;
       pathRef.value = matchedRecords.value.length < 2 ? null : pathRef.value;
       return true;

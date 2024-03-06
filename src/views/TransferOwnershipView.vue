@@ -2,9 +2,7 @@
   <CometChatTransferOwnership :group="group"></CometChatTransferOwnership>
 </template>
 <script lang="ts">
-import { defineComponent, inject, onBeforeMount, ref } from "vue";
-
-import * as Assets from "../assets";
+import { defineComponent, onBeforeMount, ref } from "vue";
 
 import { CometChatTransferOwnership } from "@cometchat/chat-uikit-vue";
 
@@ -18,8 +16,7 @@ export default defineComponent({
       type: String,
     },
   },
-  setup(props, context) {
-    let { theme, switchThemeMode }: any = inject("theme")!;
+  setup() {
     let group: any = ref(null);
     onBeforeMount(async () => {
       group.value = await CometChat.getGroup("supergroup");

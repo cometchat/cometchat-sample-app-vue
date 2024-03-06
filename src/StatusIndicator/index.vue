@@ -59,7 +59,6 @@
 
 <script lang="ts">
 import { computed, defineComponent, inject, ref, Ref } from "vue";
-import { useRouter } from "vue-router";
 
 import {
   CometChatTheme,
@@ -75,10 +74,7 @@ export default defineComponent({
   components: {},
 
   setup(props, context) {
-    let { theme, switchThemeMode }: any = inject(
-      "theme",
-      new CometChatTheme({})
-    );
+    let { theme }: any = inject("theme", new CometChatTheme({}));
 
     let type = ref("");
     let activeTab = ref("Image");
@@ -94,8 +90,6 @@ export default defineComponent({
       width: "18px",
       borderRadius: "50%",
     };
-
-    const router = useRouter();
 
     const computedStyles: any = computed(() => {
       return theme.value.palette.mode || type.value ? getStyles() : {};

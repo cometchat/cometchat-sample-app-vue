@@ -108,8 +108,8 @@ export default defineComponent({
   name: "SignupComponent",
   components: {},
 
-  setup(props) {
-    let { theme, switchThemeMode }: any = inject("theme")!;
+  setup() {
+    let { theme }: any = inject("theme")!;
     const router = useRouter();
 
     let enteredUid!: string;

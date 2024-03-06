@@ -140,28 +140,15 @@ export default defineComponent({
   name: "LoginComponent",
   components: {},
 
-  setup(props) {
+  setup() {
     const router = useRouter();
-    let { theme, switchThemeMode }: any = inject("theme")!;
+    let { theme }: any = inject("theme")!;
     let enableLoginIdFieldRef = ref(true);
     let createUser = ref(false);
     let error = ref(false);
     let enteredUid!: string;
     let enteredName!: string;
     let inProgress = ref(false);
-
-    let some = {
-      "background-color": "black",
-      color: "white",
-      top: "60px",
-      position: "relative",
-      margin: "5px",
-      height: "70px",
-      width: "177px",
-      "border-radius": "10px",
-      buttonIconTint: "transparent",
-      iconBackground: "transparent",
-    };
 
     let avatarStyle: AvatarStyle = {
       height: "32px",

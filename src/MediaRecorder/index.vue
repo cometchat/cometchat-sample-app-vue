@@ -53,10 +53,7 @@ export default defineComponent({
   emits: ["close-media-recorder"],
   components: {},
   setup(props, context) {
-    let { theme, switchThemeMode }: any = inject(
-      "theme",
-      new CometChatTheme({})
-    );
+    let { theme }: any = inject("theme", new CometChatTheme({}));
     let closeIconURL: string = Close2xIcon;
 
     const computedStyles: any = computed(() => {

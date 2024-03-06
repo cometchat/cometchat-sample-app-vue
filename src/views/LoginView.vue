@@ -17,7 +17,7 @@ export default defineComponent({
   components: { LoginSignupParentView },
   props: {},
 
-  setup(props) {
+  setup() {
     let logoURL = "/assets/logo.png";
     return { logoURL };
   },

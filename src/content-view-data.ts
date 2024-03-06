@@ -16,7 +16,7 @@ export default {
       imageUrl: Assets.Conversation,
       imageAltText: "Image Unavailable",
 
-      onClick: (router: any, context?: any) => {
+      onClick: (router: any) => {
         return () => {
           router.push({ path: "/conversationlist" });
         };
@@ -35,7 +35,7 @@ export default {
       imageUrl: Assets.ConversationWithMessages,
       imageAltText: "Image Unavailable",
 
-      onClick: (router: any, context?: any) => {
+      onClick: (router: any) => {
         return () => {
           router.push({ path: "/conversationwithmessages" });
         };
@@ -67,7 +67,7 @@ export default {
 
       imageUrl: Assets.Conversation,
       imageAltText: "Image Unavailable",
-      onClick: (router: any, context?: any) => {
+      onClick: (router: any) => {
         return () => {
           router.push({ path: "/groups" });
         };
@@ -84,7 +84,7 @@ export default {
 
       imageUrl: Assets.CreateGroup,
       imageAltText: "Image Unavailable",
-      onClick: (router: any, context?: any) => {
+      onClick: (router: any) => {
         return () => {
           router.push({ path: "/creategroup" });
         };
@@ -101,7 +101,7 @@ export default {
 
       imageUrl: Assets.ConversationWithMessages,
       imageAltText: "Image Unavailable",
-      onClick: (router: any, context?: any) => {
+      onClick: (router: any) => {
         return () => {
           router.push({ path: "/groupswithmessages" });
         };
@@ -118,7 +118,7 @@ export default {
 
       imageUrl: Assets.PasswordGroup,
       imageAltText: "Image Unavailable",
-      onClick: (router: any, context?: any) => {
+      onClick: (router: any) => {
         return () => {
           router.push({ path: "/joingroup" });
         };
@@ -135,7 +135,7 @@ export default {
 
       imageUrl: Assets.GroupMember,
       imageAltText: "Image Unavailable",
-      onClick: (router: any, context?: any) => {
+      onClick: (router: any) => {
         return () => {
           router.push({ path: "/groupmembers" });
         };
@@ -152,7 +152,7 @@ export default {
 
       imageUrl: Assets.AddMembers,
       imageAltText: "Image Unavailable",
-      onClick: (router: any, context?: any) => {
+      onClick: (router: any) => {
         return () => {
           router.push({ path: "/addmembers" });
         };
@@ -169,7 +169,7 @@ export default {
 
       imageUrl: Assets.TransferOwnershipIcon,
       imageAltText: "Image Unavailable",
-      onClick: (router: any, context?: any) => {
+      onClick: (router: any) => {
         return () => {
           router.push({ path: "/transferownership" });
         };
@@ -186,7 +186,7 @@ export default {
 
       imageUrl: Assets.BanMember,
       imageAltText: "Image Unavailable",
-      onClick: (router: any, context?: any) => {
+      onClick: (router: any) => {
         return () => {
           router.push({ path: "/bannedmembers" });
         };
@@ -203,7 +203,7 @@ export default {
 
       imageUrl: Assets.Details,
       imageAltText: "Image Unavailable",
-      onClick: (router: any, context?: any) => {
+      onClick: (router: any) => {
         return () => {
           router.push({ path: "/groupsdetails" });
         };

@@ -10,7 +10,7 @@
   ></CometChatDetails>
 </template>
 <script lang="ts">
-import { defineComponent, inject, onBeforeMount, ref } from "vue";
+import { defineComponent, onBeforeMount, ref } from "vue";
 
 import { CometChatDetails } from "@cometchat/chat-uikit-vue";
 
@@ -25,8 +25,7 @@ export default defineComponent({
       type: String,
     },
   },
-  setup(props, context) {
-    let { theme, switchThemeMode }: any = inject("theme")!;
+  setup() {
     let group: any = ref(null);
     let user: any = ref(null);
 
