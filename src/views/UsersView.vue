@@ -37,7 +37,7 @@ export default defineComponent({
   setup() {
     const router = useRouter();
     const route: any = useRoute();
-    let { isMobileView }: any = inject("isMobileView")!;
+    let { isMobileView }: any = inject("isMobileView");
 
     let currentUser = ref();
     let users = ref();

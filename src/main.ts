@@ -20,8 +20,8 @@ const uiKitSettings = new UIKitSettingsBuilder()
   .subscribePresenceForFriends()
   .build();
 
-CometChatUIKit.init(uiKitSettings)!
-  .then(() => {
+CometChatUIKit.init(uiKitSettings)
+  ?.then(() => {
     try {
       CometChat.setDemoMetaInfo(metaInfo);
     } catch (err) {

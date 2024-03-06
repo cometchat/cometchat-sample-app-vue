@@ -23,8 +23,8 @@ export default defineComponent({
     },
   },
   setup(props) {
-    let { theme }: any = inject("theme")!;
-    let { isMobileView }: any = inject("isMobileView")!;
+    let { theme }: any = inject("theme");
+    let { isMobileView }: any = inject("isMobileView");
     const route: any = useRoute();
     onBeforeUnmount(() => {
       CometChatLocalize.init("en");

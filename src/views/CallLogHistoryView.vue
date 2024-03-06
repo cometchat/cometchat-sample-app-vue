@@ -26,7 +26,8 @@ export default defineComponent({
     },
   },
   setup() {
-    let { isMobileView }: { isMobileView: boolean } = inject("isMobileView")!;
+    let isMobileView =
+      inject<{ isMobileView: boolean }>("isMobileView")?.isMobileView ?? false;
     const loggedInUser: any = ref(null);
     const call: any = ref(null);
     onBeforeUnmount(() => {

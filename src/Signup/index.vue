@@ -109,7 +109,7 @@ export default defineComponent({
   components: {},
 
   setup() {
-    let { theme }: any = inject("theme")!;
+    let { theme }: any = inject("theme");
     const router = useRouter();
 
     let enteredUid!: string;
@@ -129,7 +129,7 @@ export default defineComponent({
       }
 
       let user = new CometChat.User(UID);
-      user.setName(name!);
+      user.setName(name);
 
       inProgress.value = true;
       // eslint-disable-next-line

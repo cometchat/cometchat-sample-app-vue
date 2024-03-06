@@ -142,7 +142,7 @@ export default defineComponent({
 
   setup() {
     const router = useRouter();
-    let { theme }: any = inject("theme")!;
+    let { theme }: any = inject("theme");
     let enableLoginIdFieldRef = ref(true);
     let createUser = ref(false);
     let error = ref(false);
@@ -195,7 +195,9 @@ export default defineComponent({
       if (newUser) {
         let user = new CometChat.User(uid);
 
-        user.setName(userName!);
+        if (typeof userName === "string") {
+          user.setName(userName);
+        }
         inProgress.value = true;
         await CometChat.createUser(user, COMETCHAT_CONSTANTS.AUTH_KEY).then(
           (user) => {
@@ -211,7 +213,7 @@ export default defineComponent({
       if (CometChatUIKit && CometChatUIKit.login) {
         // eslint-disable-next-line
         //@ts-ignore
-        await CometChatUIKit.login(uid!).then(
+        await CometChatUIKit.login(uid).then(
           (user) => {
             inProgress.value = false;
 

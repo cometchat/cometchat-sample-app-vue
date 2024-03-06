@@ -42,7 +42,7 @@ export default defineComponent({
     },
   },
   setup() {
-    let { isMobileView }: any = inject("isMobileView")!;
+    let { isMobileView }: any = inject("isMobileView");
     const route: any = useRoute();
     let group: any = ref(null);
     onBeforeMount(async () => {
