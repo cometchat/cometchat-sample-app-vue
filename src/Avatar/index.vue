@@ -66,7 +66,6 @@
 
 <script lang="ts">
 import { computed, defineComponent, inject, ref, onBeforeMount } from "vue";
-import { useRouter } from "vue-router";
 
 //import CometChatList from "../../src/components/CometChatList/index.vue";
 import {
@@ -83,10 +82,7 @@ export default defineComponent({
   components: {},
 
   setup(props, context) {
-    let { theme, switchThemeMode }: any = inject(
-      "theme",
-      new CometChatTheme({})
-    );
+    let { theme }: any = inject("theme", new CometChatTheme({}));
 
     onBeforeMount(() => {
       setAvatarStyle();
@@ -129,8 +125,6 @@ export default defineComponent({
         outerViewBorderSpacing: "",
       };
     };
-
-    const router = useRouter();
 
     const computedStyles: any = computed(() => {
       return theme.value.palette.mode || type.value ? getStyles() : {};

@@ -48,7 +48,7 @@ export default defineComponent({
     CometChatMessageComposer,
   },
   props: {},
-  setup(props) {
+  setup() {
     const router = useRouter();
     const route: any = useRoute();
     let currentGroup = ref();

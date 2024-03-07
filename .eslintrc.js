@@ -23,6 +23,7 @@ module.exports = {
       files: ["*.ts", "*.tsx", "*.vue"],
       rules: {
         "no-undef": "off",
+        "@typescript-eslint/no-explicit-any": "off",
       },
     },
   ],

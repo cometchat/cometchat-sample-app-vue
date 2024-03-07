@@ -81,10 +81,7 @@ export default defineComponent({
   components: {},
 
   setup(props, context) {
-    let { theme, switchThemeMode }: any = inject(
-      "theme",
-      new CometChatTheme({})
-    );
+    let { theme }: any = inject("theme", new CometChatTheme({}));
 
     let receipt: typeof Receipts = Receipts;
 

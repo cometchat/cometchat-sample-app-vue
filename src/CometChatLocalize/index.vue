@@ -57,7 +57,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, inject, provide, ref } from "vue";
+import { computed, defineComponent, inject, ref } from "vue";
 import { useRouter } from "vue-router";
 
 import {
@@ -72,10 +72,7 @@ export default defineComponent({
   components: {},
 
   setup(props, context) {
-    let { theme, switchThemeMode }: any = inject(
-      "theme",
-      new CometChatTheme({})
-    );
+    let { theme }: any = inject("theme", new CometChatTheme({}));
     let type = ref("");
     let activeTab = ref("Default");
     let closeIconURL: string = Close2xIcon;
@@ -94,7 +91,7 @@ export default defineComponent({
       type.value = event.type == "mouseenter" ? typePara : "";
     };
 
-    const redirect = (name: string) => {
+    const redirect = () => {
       let language = "en";
       if (activeTab.value == "English") {
         language = "en";

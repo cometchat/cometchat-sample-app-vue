@@ -28,11 +28,8 @@ export default defineComponent({
 
   components: { CometChatCallButtons },
 
-  setup(props, context) {
-    let { theme, switchThemeMode }: any = inject(
-      "theme",
-      new CometChatTheme({})
-    );
+  setup() {
+    let { theme }: any = inject("theme", new CometChatTheme({}));
 
     const computedStyles: any = computed(() => {
       return theme.value.palette.mode

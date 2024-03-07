@@ -93,7 +93,7 @@ export default defineComponent({
     subHeader: { type: String },
   },
 
-  setup(props) {
+  setup() {
     let theme: CometChatTheme = new CometChatTheme({});
 
     return { theme, Assets };

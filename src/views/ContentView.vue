@@ -29,7 +29,7 @@ export default defineComponent({
   components: { OptionsListComponent },
   props: {},
   setup(props, context) {
-    let { theme, switchThemeMode }: any = inject("theme")!;
+    let { theme }: any = inject("theme");
 
     let logOutIcon = Assets.PowerSettingsNew;
     const router = useRouter();

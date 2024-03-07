@@ -10,8 +10,8 @@ import { computed, defineComponent, inject, onBeforeMount } from "vue";
 
 export default defineComponent({
   setup() {
-    let { theme, switchThemeMode }: any = inject("theme")!;
-    let { isMobileView, switchView }: any = inject("isMobileView")!;
+    let { theme }: any = inject("theme");
+    let { switchView }: any = inject("isMobileView");
     onBeforeMount(() => {
       window.addEventListener("resize", switchView);
     });

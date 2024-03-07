@@ -20,7 +20,8 @@ export default defineComponent({
     },
   },
   setup() {
-    let { isMobileView }: { isMobileView: boolean } = inject("isMobileView")!;
+    let isMobileView =
+      inject<{ isMobileView: boolean }>("isMobileView")?.isMobileView ?? false;
     onBeforeUnmount(() => {
       CometChatLocalize.init("en");
     });

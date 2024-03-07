@@ -49,8 +49,6 @@
 
 <script lang="ts">
 import { computed, defineComponent, inject } from "vue";
-import { useRouter } from "vue-router";
-import * as Assets from "../assets";
 import {
   CometChatTheme,
   Close2xIcon,
@@ -64,14 +62,8 @@ export default defineComponent({
   components: {},
 
   setup(props, context) {
-    let { theme, switchThemeMode }: any = inject(
-      "theme",
-      new CometChatTheme({})
-    );
+    let { theme }: any = inject("theme", new CometChatTheme({}));
     let closeIconURL: string = Close2xIcon;
-
-    let logOutIcon = Assets.PowerSettingsNew;
-    const router = useRouter();
 
     const playIncoming = () => {
       CometChatSoundManager.play(CometChatSoundManager.Sound.incomingMessage);

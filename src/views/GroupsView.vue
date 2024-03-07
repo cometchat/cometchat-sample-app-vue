@@ -16,14 +16,7 @@
   ></CometChatGroupsWithMessages>
 </template>
 <script lang="ts">
-import {
-  defineComponent,
-  inject,
-  onBeforeMount,
-  onBeforeUpdate,
-  ref,
-  watch,
-} from "vue";
+import { defineComponent, inject, onBeforeMount, ref } from "vue";
 
 import { CometChatGroupMembers } from "@cometchat/chat-uikit-vue";
 import { CometChatBannedMembers } from "@cometchat/chat-uikit-vue";
@@ -48,9 +41,8 @@ export default defineComponent({
       type: String,
     },
   },
-  setup(props, context) {
-    let { theme, switchThemeMode }: any = inject("theme")!;
-    let { isMobileView, switchView }: any = inject("isMobileView")!;
+  setup() {
+    let { isMobileView }: any = inject("isMobileView");
     const route: any = useRoute();
     let group: any = ref(null);
     onBeforeMount(async () => {

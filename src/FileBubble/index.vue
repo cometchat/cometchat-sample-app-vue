@@ -48,10 +48,7 @@ export default defineComponent({
   components: { CometChatFileBubble },
 
   setup(props, context) {
-    let { theme, switchThemeMode }: any = inject(
-      "theme",
-      new CometChatTheme({})
-    );
+    let { theme }: any = inject("theme", new CometChatTheme({}));
     let closeIconURL: string = Close2xIcon;
     let fileUrl = "/assets/sample.pdf";
 

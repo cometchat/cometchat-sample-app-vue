@@ -76,10 +76,7 @@ export default defineComponent({
   components: {},
 
   setup(props, context) {
-    let { theme, switchThemeMode }: any = inject(
-      "theme",
-      new CometChatTheme({})
-    );
+    let { theme }: any = inject("theme", new CometChatTheme({}));
     let background: Ref<string> = ref("");
 
     let colors: Ref<any[]> = ref([]);

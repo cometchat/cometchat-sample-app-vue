@@ -1,23 +1,11 @@
 import {
-  CometChatAddMembers,
-  CometChatCallButtons,
   CometChatConversations,
-  CometChatConversationsWithMessages,
-  CometChatGroupMembers,
   CometChatGroups,
-  CometChatGroupsWithMessages,
-  CometChatMessages,
   CometChatTheme,
 } from "@cometchat/chat-uikit-vue";
-import {
-  RouteRecordRaw,
-  createRouter,
-  createWebHashHistory,
-  createWebHistory,
-} from "vue-router";
+import { RouteRecordRaw, createRouter, createWebHashHistory } from "vue-router";
 
 import { CometChat } from "@cometchat/chat-sdk-javascript";
-import { CometChatGroupEvents } from "@cometchat/uikit-resources";
 import { Utils } from "@/utils/Utils";
 
 const getRouter = () => {

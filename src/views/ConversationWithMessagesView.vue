@@ -6,8 +6,6 @@
 <script lang="ts">
 import { defineComponent, inject, onBeforeUnmount, provide, ref } from "vue";
 
-import * as Assets from "../assets";
-
 import {
   CometChatConversationsWithMessages,
   CometChatLocalize,
@@ -24,9 +22,9 @@ export default defineComponent({
       type: String,
     },
   },
-  setup(props, context) {
-    let { theme, switchThemeMode }: any = inject("theme")!;
-    let { isMobileView, switchView }: any = inject("isMobileView")!;
+  setup(props) {
+    let { theme }: any = inject("theme");
+    let { isMobileView }: any = inject("isMobileView");
     const route: any = useRoute();
     onBeforeUnmount(() => {
       CometChatLocalize.init("en");

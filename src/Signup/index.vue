@@ -108,8 +108,8 @@ export default defineComponent({
   name: "SignupComponent",
   components: {},
 
-  setup(props) {
-    let { theme, switchThemeMode }: any = inject("theme")!;
+  setup() {
+    let { theme }: any = inject("theme");
     const router = useRouter();
 
     let enteredUid!: string;
@@ -129,7 +129,7 @@ export default defineComponent({
       }
 
       let user = new CometChat.User(UID);
-      user.setName(name!);
+      user.setName(name);
 
       inProgress.value = true;
       // eslint-disable-next-line

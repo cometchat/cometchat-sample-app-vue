@@ -117,7 +117,7 @@ export default defineComponent({
     },
   },
   setup(props) {
-    let { theme, switchThemeMode }: any = inject("theme")!;
+    let { theme }: any = inject("theme");
 
     const computedButtonStyle = computed(() => {
       let backgroundColor = theme.value.palette.mode
