@@ -4,11 +4,16 @@
       <router-view />
     </div>
   </Suspense>
+  <CometChatIncomingCall />
 </template>
 <script lang="ts">
+import { CometChatIncomingCall } from "@cometchat/chat-uikit-vue";
 import { computed, defineComponent, inject, onBeforeMount } from "vue";
 
 export default defineComponent({
+  components: {
+    CometChatIncomingCall,
+  },
   setup() {
     let { theme }: any = inject("theme");
     let { switchView }: any = inject("isMobileView");

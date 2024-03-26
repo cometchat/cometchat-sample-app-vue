@@ -6,7 +6,7 @@
           comet<b>chat</b>
         </div>
         <div class="release-tag" :style="styles.headerSubtitleStyle()">
-          4.0.0
+          <p v-text="`v${metaInfo.version}`"></p>
         </div>
       </div>
       <div class="content__section">
@@ -99,9 +99,7 @@
       </div>
     </div>
   </div>
-  <div class="footer__section" :style="styles.footerStyle()">
-    <footer>2022 &copy; CometChat</footer>
-  </div>
+  <div class="footer__section" :style="styles.footerStyle()"></div>
   <!-- loading banner -->
   <div class="spinner__wheel" v-if="inProgress">
     <div class="spinner__content">
@@ -125,7 +123,7 @@ import { defineComponent, inject, ref } from "vue";
 import "@cometchat/uikit-elements";
 import { fontHelper } from "@cometchat/uikit-resources";
 import { CometChat } from "@cometchat/chat-sdk-javascript";
-import { COMETCHAT_CONSTANTS } from "../consts";
+import { AppConstants } from "../AppConstants";
 import { useRouter } from "vue-router";
 import { AvatarStyle } from "@cometchat/uikit-elements";
 import {
@@ -134,6 +132,7 @@ import {
   CometChatLogo,
 } from "../assets";
 import { CometChatUIKit } from "@cometchat/chat-uikit-vue";
+import { metaInfo } from "../../metaInfo";
 let buttonImage = "assets/button-opc.png";
 
 export default defineComponent({
@@ -199,7 +198,7 @@ export default defineComponent({
           user.setName(userName);
         }
         inProgress.value = true;
-        await CometChat.createUser(user, COMETCHAT_CONSTANTS.AUTH_KEY).then(
+        await CometChat.createUser(user, AppConstants.AUTH_KEY).then(
           (user) => {
             console.log("user created", user);
           },
@@ -402,6 +401,7 @@ export default defineComponent({
       inProgress,
       SpinnerSvg,
       CometChatLogo,
+      metaInfo,
     };
   },
 });

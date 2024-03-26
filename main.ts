@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import "@cometchat/chat-uikit-vue/dist/style.css";
 
 import { CometChatTheme, CometChatUIKit } from "@cometchat/chat-uikit-vue";
@@ -6,11 +7,11 @@ import { createApp, ref } from "vue";
 import App from "./App.vue";
 import { COMETCHAT_CONSTANTS } from "./consts";
 import CardComponent from "../src/Card/index.vue";
+import { CometChat } from "@cometchat/chat-sdk-javascript";
 import { CometChatConversations } from "@cometchat/chat-uikit-vue";
 import { UIKitSettingsBuilder } from "@cometchat/uikit-shared";
 import { Utils } from "./utils/Utils";
 import getRouter from "./router";
-import {CometChat} from '@cometchat/chat-sdk-javascript'
 import { metaInfo } from "./metaInfo";
 
 const uiKitSettings = new UIKitSettingsBuilder()
@@ -20,9 +21,13 @@ const uiKitSettings = new UIKitSettingsBuilder()
   .subscribePresenceForFriends()
   .build();
 
-CometChatUIKit.init(uiKitSettings)!
-  .then(() => {
-    try{CometChat.setDemoMetaInfo(metaInfo)}catch(err){}
+CometChatUIKit.init(uiKitSettings)
+  ?.then(() => {
+    try {
+      CometChat.setDemoMetaInfo(metaInfo);
+    } catch (err) {
+      console.log(err);
+    }
     const app = createApp(App);
     app.component("CometChatConversations", CometChatConversations);
     //global registration of vue component

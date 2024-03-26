@@ -4,7 +4,7 @@ import { CometChatTheme, CometChatUIKit } from "@cometchat/chat-uikit-vue";
 import { createApp, ref } from "vue";
 
 import App from "./App.vue";
-import { COMETCHAT_CONSTANTS } from "./consts";
+import { AppConstants } from "./AppConstants";
 import CardComponent from "../src/Card/index.vue";
 import { CometChat } from "@cometchat/chat-sdk-javascript";
 import { CometChatConversations } from "@cometchat/chat-uikit-vue";
@@ -14,9 +14,9 @@ import getRouter from "./router";
 import { metaInfo } from "./metaInfo";
 
 const uiKitSettings = new UIKitSettingsBuilder()
-  .setAppId(COMETCHAT_CONSTANTS.APP_ID)
-  .setRegion(COMETCHAT_CONSTANTS.REGION)
-  .setAuthKey(COMETCHAT_CONSTANTS.AUTH_KEY)
+  .setAppId(AppConstants.APP_ID)
+  .setRegion(AppConstants.REGION)
+  .setAuthKey(AppConstants.AUTH_KEY)
   .subscribePresenceForFriends()
   .build();
 

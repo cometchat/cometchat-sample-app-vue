@@ -5,7 +5,7 @@ This is a reference application showcasing the integration of [**CometChat's Vue
 ## Prerequisites
 
 - Ensure that you have Node.js and npm installed:
-  
+
     ```sh
     npm install npm@latest -g
     ```
@@ -26,19 +26,19 @@ This is a reference application showcasing the integration of [**CometChat's Vue
     ```
     npm install
     ```
-4. Enter your CometChat _`App ID`_, _`Region`_, and _`Auth Key`_ in the [src/CONSTS.ts](https://github.com/cometchat/cometchat-sample-app-vue/blob/v4/src/consts.ts) file:
+4. Enter your CometChat _`App ID`_, _`Region`_, and _`Auth Key`_ in the [src/AppConstants.ts](https://github.com/cometchat/cometchat-sample-app-vue/blob/v4/src/AppConstants.ts) file:
     ```typescript
-    export const COMETCHAT_CONSTANTS = {
-		APP_ID: "APP_ID",
-		REGION: "REGION",
-		AUTH_KEY: "AUTH_KEY",
-	};
+    export const AppConstants = {
+    APP_ID: "APP_ID",
+    REGION: "REGION",
+    AUTH_KEY: "AUTH_KEY",
+    };
     ```
 5. Run the project locally to see all CometChat features in action:
     ```
     npm run serve
     ```
-![Screenshot 2024-03-15 at 11 37 17 PM](https://github.com/cometchat/cometchat-sample-app-vue/assets/2210730/ac51c426-e7ed-4761-b21a-9f892064aca8)
+![HomeScreen](./Screenshots/HomeScreen.png)
 
 
 ## Help and Support

@@ -48,7 +48,10 @@
         </CometChatList>
       </div>
     </div>
-    <footer :style="computedFooterStyle">3.0.10-pluto.beta.2</footer>
+    <footer
+      :style="computedFooterStyle"
+      v-text="`v${metaInfo.version}`"
+    ></footer>
   </div>
 </template>
 
@@ -64,6 +67,7 @@ import {
   States,
   fontHelper,
 } from "@cometchat/chat-uikit-vue";
+import { metaInfo } from "../../metaInfo";
 
 export default defineComponent({
   name: "OptionsListComponent",
@@ -153,6 +157,7 @@ export default defineComponent({
       computedOptionWrapperStyles,
       computedHeaderStyle,
       computedFooterStyle,
+      metaInfo,
     };
   },
 });

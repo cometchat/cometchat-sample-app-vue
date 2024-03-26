@@ -6,7 +6,7 @@
           comet<b>chat</b>
         </div>
         <div class="release-tag" :style="styles.headerSubtitleStyle()">
-          4.0.0
+          <p v-text="`v${metaInfo.version}`"></p>
         </div>
       </div>
       <div class="content__section">
@@ -68,9 +68,7 @@
         </div>
         <div class="right__content" :style="styles.sectionImageStyle()"></div>
       </div>
-      <div class="footer__section">
-        <footer :style="styles.footerStyle()">2022 &copy; CometChat</footer>
-      </div>
+      <div class="footer__section"></div>
     </div>
   </div>
   <div class="spinner__wheel" v-if="inProgress">
@@ -103,6 +101,7 @@ import {
   CometChatLogo,
 } from "../assets";
 import { CometChatUIKit } from "@cometchat/chat-uikit-vue";
+import { metaInfo } from "../../metaInfo";
 
 export default defineComponent({
   name: "SignupComponent",
@@ -278,6 +277,7 @@ export default defineComponent({
       CometChatLogo,
       SpinnerSvg,
       inProgress,
+      metaInfo,
     };
   },
 });
