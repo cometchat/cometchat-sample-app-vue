@@ -67,7 +67,7 @@ import {
   States,
   fontHelper,
 } from "@cometchat/chat-uikit-vue";
-import { metaInfo } from "../../metaInfo";
+import { metaInfo } from "../metaInfo";
 
 export default defineComponent({
   name: "OptionsListComponent",

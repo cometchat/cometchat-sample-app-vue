@@ -17,7 +17,7 @@ const uiKitSettings = new UIKitSettingsBuilder()
   .setAppId(AppConstants.APP_ID)
   .setRegion(AppConstants.REGION)
   .setAuthKey(AppConstants.AUTH_KEY)
-  .subscribePresenceForFriends()
+  .subscribePresenceForAllUsers()
   .build();
 
 CometChatUIKit.init(uiKitSettings)

@@ -132,7 +132,7 @@ import {
   CometChatLogo,
 } from "../assets";
 import { CometChatUIKit } from "@cometchat/chat-uikit-vue";
-import { metaInfo } from "../../metaInfo";
+import { metaInfo } from "../metaInfo";
 let buttonImage = "assets/button-opc.png";
 
 export default defineComponent({
