@@ -1,6 +1,6 @@
 {
   "name": "cometchat-chat-sample-app-vue",
-  "version": "4.3.2",
+  "version": "4.3.3",
   "license": "SEE LICENSE IN LICENSE.md",
   "private": true,
   "scripts": {
@@ -9,8 +9,8 @@
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
-    "@cometchat/chat-uikit-vue": "4.3.2",
-    "@cometchat/calls-sdk-javascript": "4.0.6",
+    "@cometchat/chat-uikit-vue": "4.3.3",
+    "@cometchat/calls-sdk-javascript": "4.0.7",
     "core-js": "^3.8.3",
     "file-loader": "^6.2.0",
     "vue": "^3.2.13"

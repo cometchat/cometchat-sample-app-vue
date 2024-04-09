@@ -5,7 +5,7 @@
 
 # Vue Sample App by CometChat
 
-This is a reference application showcasing the integration of [**CometChat's Vue UI Kit**](https://www.cometchat.com/docs/v4/vue-uikit/overview) within an Vue framework. It provides developers with examples of implementing real-time messaging and voice and video calling features in their own Vue-based applications.
+This is a reference application showcasing the integration of [**CometChat's Vue UI Kit**](https://www.cometchat.com/docs/v4/vue-uikit/overview) within a Vue framework. It provides developers with examples of implementing real-time messaging and voice and video calling features in their own Vue-based applications.
 
 ## Prerequisites
 
@@ -21,7 +21,7 @@ This is a reference application showcasing the integration of [**CometChat's Vue
 ## Installation
 1. Clone the repository:
     ```
-    git clone https://github.com/cometchat-pro/cometchat-sample-app-vue.git
+    git clone https://github.com/cometchat/cometchat-sample-app-vue.git
     ```
 2. Navigate to the cloned directory:
     ```
@@ -32,13 +32,7 @@ This is a reference application showcasing the integration of [**CometChat's Vue
     npm install
     ```
 4. Enter your CometChat _`App ID`_, _`Region`_, and _`Auth Key`_ in the [src/AppConstants.ts](https://github.com/cometchat/cometchat-sample-app-vue/blob/v4/src/AppConstants.ts) file:
-    ```typescript
-    export const AppConstants = {
-    APP_ID: "APP_ID",
-    REGION: "REGION",
-    AUTH_KEY: "AUTH_KEY",
-    };
-    ```
+    https://github.com/cometchat/cometchat-sample-app-vue/blob/11b9f3dbb3769f9a8f4e3a387c82f0ba778e9a46/src/AppConstants.ts#L1-L5
 5. Run the project locally to see all CometChat features in action:
     ```
     npm run serve
