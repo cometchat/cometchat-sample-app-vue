@@ -5,7 +5,14 @@
 
 # Vue Sample App by CometChat
 
-This is a reference application showcasing the integration of [**CometChat's Vue UI Kit**](https://www.cometchat.com/docs/v4/vue-uikit/overview) within a Vue framework. It provides developers with examples of implementing real-time messaging and voice and video calling features in their own Vue-based applications.
+This is a reference application showcasing the integration of [CometChat's Vue UI Kit](https://www.cometchat.com/docs/v4/vue-uikit/overview) within a Vue framework. It provides developers with examples of implementing real-time messaging and voice and video calling features in their own Vue-based applications.
+
+<div style="
+    display: flex;
+    align-items: center;
+    justify-content: center;">
+   <img src="./Screenshots/overview_cometchat_screens.png" />
+</div>
 
 ## Prerequisites
 
@@ -37,8 +44,7 @@ This is a reference application showcasing the integration of [**CometChat's Vue
     ```
     npm run serve
     ```
-![HomeScreen](./Screenshots/HomeScreen.png)
 
 
 ## Help and Support
-For issues running the project or integrating with our UI Kits, consult our [documentation](https://www.cometchat.com/docs/vue-uikit/integration) or create a [support ticket](https://help.cometchat.com/hc/en-us) or seek real-time support via the [CometChat Dashboard](http://app.cometchat.com/).
+For issues running the project or integrating with our UI Kits, consult our [documentation](https://www.cometchat.com/docs/vue-uikit/integration) or create a [support ticket](https://help.cometchat.com/hc/en-us) or seek real-time support via the [CometChat Dashboard](https://app.cometchat.com/).
