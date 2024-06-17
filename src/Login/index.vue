@@ -119,7 +119,7 @@
 <script lang="ts">
 /*es-lint disabled*/
 
-import { defineComponent, inject, ref } from "vue";
+import { defineComponent, inject, onBeforeMount, ref } from "vue";
 import "@cometchat/uikit-elements";
 import { fontHelper } from "@cometchat/uikit-resources";
 import { CometChat } from "@cometchat/chat-sdk-javascript";
@@ -133,7 +133,14 @@ import {
 } from "../assets";
 import { CometChatUIKit } from "@cometchat/chat-uikit-vue";
 import { metaInfo } from "../metaInfo";
+import { users } from "../sampleApp/sampledata";
 let buttonImage = "assets/button-opc.png";
+
+type User = {
+  name: string;
+  uid: string;
+  avatar: string;
+};
 
 export default defineComponent({
   name: "LoginComponent",
@@ -148,6 +155,7 @@ export default defineComponent({
     let enteredUid!: string;
     let enteredName!: string;
     let inProgress = ref(false);
+    const usersArray = ref<User[]>([]);
 
     let avatarStyle: AvatarStyle = {
       height: "32px",
@@ -236,36 +244,25 @@ export default defineComponent({
       router.push({ path: "/signup" });
     };
 
-    const usersArray = [
-      {
-        name: "Iron Man",
-        UID: "SUPERHERO1",
-        uid: "superhero1",
-        avatar:
-          "https://data-us.cometchat.io/assets/images/avatars/ironman.png",
-      },
-      {
-        name: "Captain America",
-        UID: "SUPERHERO2",
-        uid: "superhero2",
-        avatar:
-          "https://data-us.cometchat.io/assets/images/avatars/captainamerica.png",
-      },
-      {
-        name: "Spiderman",
-        UID: "SUPERHERO3",
-        uid: "superhero3",
-        avatar:
-          "https://data-us.cometchat.io/assets/images/avatars/spiderman.png",
-      },
-      {
-        name: "Wolvorine",
-        UID: "SUPERHERO4",
-        uid: "superhero4",
-        avatar:
-          "https://data-us.cometchat.io/assets/images/avatars/wolverine.png",
-      },
-    ];
+    async function fetchDefaultUsers() {
+      try {
+        const response = await fetch(
+          "https://assets.cometchat.io/sampleapp/sampledata.json"
+        );
+        const data = await response.json();
+        usersArray.value = data.users;
+      } catch (error) {
+        console.log(
+          "fetching default users failed, using fallback data",
+          error
+        );
+        usersArray.value = users.users;
+      }
+    }
+
+    onBeforeMount(() => {
+      fetchDefaultUsers();
+    });
 
     const styles: any = {
       loginWrapperStyle: () => {
