@@ -2,6 +2,8 @@ const fs = require('fs-extra');
 const request = require('request');
 const extract = require('extract-zip')
 const rimraf = require("rimraf");
+const path = require('path');
+
 
 const fileName = "cometchat-uikit-vue";
 const filePath = __dirname + "/src/" + fileName;
@@ -9,7 +11,7 @@ const filePath = __dirname + "/src/" + fileName;
 const zipFileName = "cometchat-uikit-vue-2";
 
 const zipName = zipFileName + ".zip";
-const source = __dirname + "/" + zipFileName;
+const source = "cometchat-uikit-vue";
 const destination = filePath;//__dirname + "/src/cometchat-chat-uikit-vue";
 
 const downloadUrl = "https://github.com/cometchat/cometchat-uikit-vue/archive/v2.zip";
@@ -50,8 +52,20 @@ download(downloadUrl, zipName, (props) => {
     try {
         extract(zipName, { dir: __dirname }).then(response => {
 
-            fs.move(source, destination, error => {
-                if (error) {
+            const extractedDirs = fs.readdirSync(__dirname).filter(file =>
+                fs.statSync(path.join(__dirname, file)).isDirectory() && file.startsWith(source));
+
+            if (extractedDirs.length === 0) {
+                throw new Error('Extracted directory not found');
+            }
+
+            const extractedFolderName = extractedDirs[0]; // Assuming only one folder matches
+            const extractedFolderPath = path.join(__dirname, extractedFolderName);
+
+
+            fs.move(extractedFolderPath, destination, error => {
+
+                if(error) {
                     return console.error('move file error!', error);
                 }
                 const oldFilePath = __dirname + "/src/cometchat-uikit-vue";

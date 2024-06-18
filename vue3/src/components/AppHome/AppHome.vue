@@ -8,11 +8,11 @@
           <div
             :key="i"
             :style="styles.userSelector"
-            @click="login($event, name)"
-            v-for="({ name, image }, i) in users"
+            @click="login($event, uid)"
+            v-for="({ name, avatar, uid }, i) in users"
           >
             <div :style="styles.avatarWrapper">
-              <comet-chat-avatar :image="image" />
+              <comet-chat-avatar :image="avatar" />
             </div>
 
             <p style="margin: auto">
@@ -43,6 +43,7 @@ import { CometChatAvatar } from "../../cometchat-chat-uikit-vue/CometChatWorkspa
 
 import { COMETCHAT_CONSTANTS } from "../../CONSTS";
 import Loader from "../Loader/Loader";
+import { users } from "../../sampleApp/sampledata"
 
 import * as style from "./style";
 
@@ -54,33 +55,7 @@ export default {
   },
   data() {
     return {
-      users: [
-        {
-          name: "superhero1",
-          image:
-            "https://data-us.cometchat.io/assets/images/avatars/ironman.png",
-        },
-        {
-          name: "superhero2",
-          image:
-            "https://data-us.cometchat.io/assets/images/avatars/captainamerica.png",
-        },
-        {
-          name: "superhero3",
-          image:
-            "https://data-us.cometchat.io/assets/images/avatars/spiderman.png",
-        },
-        {
-          name: "superhero4",
-          image:
-            "https://data-us.cometchat.io/assets/images/avatars/wolverine.png",
-        },
-        {
-          name: "superhero5",
-          image:
-            "https://data-us.cometchat.io/assets/images/avatars/cyclops.png",
-        },
-      ],
+      users: [],
       showloader: false,
       uid: null,
     };
@@ -126,6 +101,18 @@ export default {
           this.showloader = false;
         });
     },
+    async fetchDefaultUsers() {
+    try {
+      const response = await fetch(
+        "https://assets.cometchat.io/sampleapp/sampledata.json"
+      );
+      const data = await response.json();
+      this.users = data.users;
+    } catch (error) {
+      console.log("fetching default users failed, using fallback data", error);
+      this.users = users.users;
+    }
+    }
   },
   created() {
     this.showloader = true;
@@ -135,7 +122,9 @@ export default {
           location.href = "/menu";
           this.uid = user.getUid();
         } else {
-          this.showloader = false;
+          this.fetchDefaultUsers().then(()=>{
+            this.showloader = false;
+          });
         }
       },
       (error) => {
