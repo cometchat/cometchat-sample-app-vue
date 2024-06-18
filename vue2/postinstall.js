@@ -14,7 +14,7 @@ const zipName = zipFileName + ".zip";
 const source = "cometchat-uikit-vue";
 const destination = filePath;//__dirname + "/src/cometchat-chat-uikit-vue";
 
-const downloadUrl = "https://github.com/cometchat/cometchat-uikit-vue/archive/v2.zip";
+const downloadUrl = "https://github.com/cometchat/cometchat-uikit-vue/archive/v3.zip";
 
 
 const download = (uri, filename, callback) => {
