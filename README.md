@@ -40,7 +40,7 @@ This is a reference application showcasing the integration of [CometChat's Vue U
     ```
 4. Enter your CometChat _`App ID`_, _`Region`_, and _`Auth Key`_ in the [src/AppConstants.ts](https://github.com/cometchat/cometchat-sample-app-vue/blob/v4/src/AppConstants.ts) file:
     https://github.com/cometchat/cometchat-sample-app-vue/blob/2073befdf46e7eded22dc87f8be195582f71e05e/src/AppConstants.ts#L1-L5
-5. If your app is created before August 12th, 2024 then change the sample data URL to `https://assets.cometchat.io/sampleapp/v1/sampledata.json` in the [src/Login/index.vue](https://github.com/cometchat/cometchat-sample-app-vue/blob/v4/src/Login/index.vue) file: https://github.com/cometchat/cometchat-sample-app-vue/blob/2073befdf46e7eded22dc87f8be195582f71e05e/src/Login/index.vue#L109-L111
+5. If your app is created before August 12th, 2024 then change the sample data URL to `https://assets.cometchat.io/sampleapp/v1/sampledata.json` in the [src/Login/index.vue](https://github.com/cometchat/cometchat-sample-app-vue/blob/v4/src/Login/index.vue) file: https://github.com/cometchat/cometchat-sample-app-vue/blob/2073befdf46e7eded22dc87f8be195582f71e05e/src/Login/index.vue#L249-L251
 6. Run the project locally to see all CometChat features in action:
     ```
     npm run serve
