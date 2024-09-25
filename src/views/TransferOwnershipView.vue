@@ -1,5 +1,8 @@
 <template>
-  <CometChatTransferOwnership :group="group"></CometChatTransferOwnership>
+  <CometChatTransferOwnership
+    v-if="group"
+    :group="group"
+  ></CometChatTransferOwnership>
 </template>
 <script lang="ts">
 import { defineComponent, onBeforeMount, ref } from "vue";
@@ -17,9 +20,20 @@ export default defineComponent({
     },
   },
   setup() {
-    let group: any = ref(null);
+    const group = ref<CometChat.Group>();
     onBeforeMount(async () => {
-      group.value = await CometChat.getGroup("supergroup");
+      try {
+        const groupsRequest = new CometChat.GroupsRequestBuilder()
+          .setLimit(1)
+          .joinedOnly(true)
+          .build();
+        const fetchedGroups = await groupsRequest.fetchNext();
+        if (fetchedGroups && fetchedGroups.length > 0) {
+          group.value = fetchedGroups[0];
+        }
+      } catch (error) {
+        console.error("Error fetching groups:", error);
+      }
     });
 
     return { group };

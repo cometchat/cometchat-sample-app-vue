@@ -26,17 +26,38 @@ export default defineComponent({
     },
   },
   setup() {
-    let group: any = ref(null);
-    let user: any = ref(null);
+    const group = ref<CometChat.Group>();
+    const user = ref<CometChat.User>();
 
     const route: any = useRoute();
     onBeforeMount(async () => {
       if (route.name == "groupsdetails") {
-        group.value = await CometChat.getGroup("supergroup");
+        try {
+          const groupsRequest = new CometChat.GroupsRequestBuilder()
+            .setLimit(1)
+            .joinedOnly(true)
+            .build();
+          const fetchedGroups = await groupsRequest.fetchNext();
+          if (fetchedGroups && fetchedGroups.length > 0) {
+            group.value = fetchedGroups[0];
+          }
+        } catch (error) {
+          console.error("Error fetching groups:", error);
+        }
       }
 
       if (route.name == "usersdetails") {
-        user.value = await CometChat.getUser("superhero2");
+        try {
+          const usersRequest = new CometChat.UsersRequestBuilder()
+            .setLimit(1)
+            .build();
+          const fetchedUsers = await usersRequest.fetchNext();
+          if (fetchedUsers && fetchedUsers.length > 0) {
+            user.value = fetchedUsers[0];
+          }
+        } catch (error) {
+          console.error("Error fetching users:", error);
+        }
       }
     });
 

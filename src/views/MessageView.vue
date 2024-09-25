@@ -51,40 +51,24 @@ export default defineComponent({
   setup() {
     const router = useRouter();
     const route: any = useRoute();
-    let currentGroup = ref();
-    let currentUser = ref();
-    let users = ref();
+    let currentGroup = ref<CometChat.Group>();
 
-    var GUID = "supergroup";
-    CometChat.getGroup(GUID).then(
-      (group) => {
-        currentGroup.value = group;
-      },
-      (error) => {
-        console.log("Group details fetching failed with exception:", error);
-      }
-    );
-
-    var limit = 30;
-    var usersRequest = new CometChat.UsersRequestBuilder()
-      .setLimit(limit)
-      .build();
-
-    usersRequest.fetchNext().then(
-      (userList) => {
-        users.value = userList;
-        currentUser.value = userList[0];
-      },
-      (error) => {
-        console.log("User list fetching failed with error:", error);
-      }
-    );
     onBeforeMount(async () => {
-      currentUser.value = await CometChat.getUser("superhero2");
-      currentGroup.value = await CometChat.getGroup("supergroup");
+      try {
+        const groupsRequest = new CometChat.GroupsRequestBuilder()
+          .setLimit(1)
+          .joinedOnly(true)
+          .build();
+        const fetchedGroups = await groupsRequest.fetchNext();
+        if (fetchedGroups && fetchedGroups.length > 0) {
+          currentGroup.value = fetchedGroups[0];
+        }
+      } catch (error) {
+        console.error("Error fetching groups:", error);
+      }
     });
 
-    return { router, route, currentGroup, users, currentUser };
+    return { router, route, currentGroup };
   },
 });
 </script>

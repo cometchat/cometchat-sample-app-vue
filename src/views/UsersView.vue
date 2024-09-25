@@ -2,7 +2,7 @@
   <div class="user-view__wrapper">
     <div v-if="route.name == 'CometChatUsers'" class="cc__users">
       <div class="cc__users-child">
-        <CometChatUsers :list="users"></CometChatUsers>
+        <CometChatUsers></CometChatUsers>
       </div>
     </div>
     <div
@@ -38,29 +38,7 @@ export default defineComponent({
     const router = useRouter();
     const route: any = useRoute();
     let { isMobileView }: any = inject("isMobileView");
-
-    let currentUser = ref();
-    let users = ref();
-
-    var limit = 30;
-    var usersRequest = new CometChat.UsersRequestBuilder()
-      .setLimit(limit)
-      .build();
-
-    usersRequest.fetchNext().then(
-      (userList) => {
-        users.value = userList;
-        currentUser.value = userList[0];
-      },
-      (error) => {
-        console.log("User list fetching failed with error:", error);
-      }
-    );
-    onBeforeMount(async () => {
-      currentUser.value = await CometChat.getUser("superhero2");
-    });
-
-    return { router, route, users, currentUser, isMobileView };
+    return { router, route, isMobileView };
   },
 });
 </script>

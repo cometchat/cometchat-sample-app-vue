@@ -46,10 +46,20 @@ export default defineComponent({
           }
         : {};
     });
-    let user: any = ref(null);
+    let user: any = ref<CometChat.User>();
 
     onBeforeMount(async () => {
-      user.value = await CometChat.getUser("superhero2");
+      try {
+        const usersRequest = new CometChat.UsersRequestBuilder()
+          .setLimit(1)
+          .build();
+        const fetchedUsers = await usersRequest.fetchNext();
+        if (fetchedUsers && fetchedUsers.length > 0) {
+          user.value = fetchedUsers[0];
+        }
+      } catch (error) {
+        console.error("Error fetching users:", error);
+      }
     });
 
     const getCallButtonStyle = () => {

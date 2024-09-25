@@ -134,15 +134,9 @@ export default defineComponent({
           }
         : {};
     });
-    let user: any = ref(null);
-
-    onBeforeMount(async () => {
-      user.value = await CometChat.getUser("superhero2");
-    });
 
     return {
       computedStyles,
-      user,
       route,
     };
   },
