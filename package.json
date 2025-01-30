@@ -1,6 +1,6 @@
 {
   "name": "cometchat-chat-sample-app-vue",
-  "version": "4.3.9",
+  "version": "4.3.10",
   "license": "https://www.cometchat.com/legal-terms-of-service",
   "private": true,
   "scripts": {
@@ -9,19 +9,36 @@
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
-    "@cometchat/chat-uikit-vue": "^4.3.17",
-    "@cometchat/calls-sdk-javascript": "^4.0.10",
+    "@cometchat/chat-uikit-vue": "^4.3.21",
+    "@cometchat/calls-sdk-javascript": "^4.0.11",
     "core-js": "^3.8.3",
     "file-loader": "^6.2.0",
     "vue": "^3.2.13"
+  },
+  "overrides": {
+    "body-parser": "~1.20.3",
+    "braces": "~3.0.3",
+    "cookie": "~0.7.0",
+    "cross-spawn": "~7.0.5",
+    "express": "~4.20.0",
+    "path-to-regexp": "~0.1.12",
+    "ws": "~7.5.10",
+    "http-proxy-middleware": "~2.0.7",
+    "rollup": "~4.22.4",
+    "micromatch": "~4.0.8",
+    "postcss": "~8.4.30",
+    "nanoid": "~3.3.8",
+    "webpack": "~5.94.0",
+    "vite": "~5.4.6",
+    "send": "~0.19.0"
   },
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^5.4.0",
     "@typescript-eslint/parser": "^5.4.0",
     "@vue/cli-plugin-babel": "~5.0.0",
-    "@vue/cli-plugin-eslint": "~5.0.0",
+    "@vue/cli-plugin-eslint": "~5.0.8",
     "@vue/cli-plugin-typescript": "~5.0.0",
-    "@vue/cli-service": "~5.0.0",
+    "@vue/cli-service": "~5.0.8",
     "@vue/eslint-config-typescript": "^9.1.0",
     "eslint": "^7.32.0",
     "eslint-config-prettier": "^8.3.0",
